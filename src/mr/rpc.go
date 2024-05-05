@@ -9,21 +9,56 @@ package mr
 import "os"
 import "strconv"
 
+type TaskType int
 //
 // example to show how to declare the arguments
 // and reply for an RPC.
 //
+const (
+	MapTask TaskType = 1
+	ReduceTask TaskType = 2
+	Done TaskType = 3
+)
 
-type ExampleArgs struct {
-	X int
+/*
+ *Workers向Master请求任务的RPC
+*/
+type TaskGetArgs struct {
+	
 }
 
-type ExampleReply struct {
-	Y int
+type TaskGetReply struct {
+	//什么类型的任务
+	TaskType TaskType
+
+	//map或reduce的任务总数目
+	TaskNum int
+
+	//Map任务需要去读取哪一个文件
+	MapFiles string
+
+	//Map任务需要将中间结果写入到哪一个文件
+	NReduceTasks int
+
+	//need for reduce task(to know how many intermediate files to read)
+	NMapTasks int 
 }
 
-// Add your RPC definitions here.
+/*
+ *Workers完成任务后，向Master发送结果的RPC
+ */
 
+type TaskFinishArgs struct {
+	//任务类型
+	TaskType TaskType
+
+	//哪一个任务完成
+	TaskNum int 
+}
+
+type TaskFinishReply struct {
+
+}
 
 // Cook up a unique-ish UNIX-domain socket name
 // in /var/tmp, for the coordinator.

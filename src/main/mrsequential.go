@@ -6,8 +6,8 @@ package main
 // go run mrsequential.go wc.so pg*.txt
 //
 
-import "fmt"
 import "6.5840/mr"
+import "fmt"
 import "plugin"
 import "os"
 import "log"
