@@ -1,12 +1,11 @@
 package kvsrv
 
-import "os"
-import "strconv"
-
 // Put or Append
 type PutAppendArgs struct {
 	Key   string
 	Value string
+	Id int64  //为每一个client 设置一个随机id
+	Ver int64 //请求的版本
 	// You'll have to add definitions here.
 	// Field names must start with capital letters,
 	// otherwise RPC will break.
@@ -23,10 +22,4 @@ type GetArgs struct {
 
 type GetReply struct {
 	Value string
-}
-
-func kvServerSock() string {
-	s := "/var/tmp/5840-kv-sever-"
-	s += strconv.Itoa(os.Getuid())
-	return s
 }

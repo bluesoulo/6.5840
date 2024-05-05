@@ -1,14 +1,20 @@
 package kvsrv
 
-import "6.5840/labrpc"
-import "crypto/rand"
-import "math/big"
-import "log"
+import (
+	"crypto/rand"
+	"math/big"
+	"6.5840/labrpc"
+)
+
+// import "time"
 
 
 type Clerk struct {
 	server *labrpc.ClientEnd
 	// You will have to modify this struct.
+	retryTimes int
+	id int64
+	ver int64
 }
 
 func nrand() int64 {
@@ -21,7 +27,9 @@ func nrand() int64 {
 func MakeClerk(server *labrpc.ClientEnd) *Clerk {
 	ck := new(Clerk)
 	ck.server = server
-	// You'll have to add code here.
+	ck.retryTimes = 100
+	ck.id = nrand()
+	ck.ver = 0
 	return ck
 }
 
@@ -39,9 +47,15 @@ func (ck *Clerk) Get(key string) string {
 
 	args := GetArgs{Key: key}
 	reply := GetReply{}
+	isSuccess := false
 
-	ck.server.Call("KVServer.Get", &args, &reply)
-	// You will have to modify this function.
+	for i := 0; i < ck.retryTimes; i++ {
+		isSuccess = ck.server.Call("KVServer.Get", &args, &reply)
+		if isSuccess {
+			break
+		}
+		// time.Sleep(10 * time.Millisecond)
+	}
 	return reply.Value
 }
 
@@ -55,17 +69,20 @@ func (ck *Clerk) Get(key string) string {
 // arguments. and reply must be passed as a pointer.
 func (ck *Clerk) PutAppend(key string, value string, op string) string {
 	args := PutAppendArgs{Key: key,
-						Value: value}
+						Value: value,
+						Id: ck.id,
+						Ver: ck.ver}
 	reply := PutAppendReply{}
+	isSuccess := false
 	
-	switch op {
-	case "Put":
-		ck.server.Call("KVServer.Put", &args, &reply)
-	case "Append":
-		ck.server.Call("KVServer.Append", &args, &reply)
-	default:
-		log.Fatalf("Bad Operate? %v", op)
+	for i := 0; i < ck.retryTimes; i++ {
+		isSuccess = ck.server.Call("KVServer." + op, &args, &reply)
+		if isSuccess {
+			break
+		}
+		// time.Sleep(10 * time.Millisecond)
 	}
+	ck.ver = ck.ver + 1
 	return reply.Value
 }
 
