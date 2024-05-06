@@ -18,7 +18,7 @@ type KVServer struct {
 	mu sync.Mutex
 	// kv
 	dataMap map[string]string
-
+	//保存某一个client 最后一次append前map的结果
 	olDdataMap map[int64]string
 	// client id 和 version 的映射
 	clientMap map[int64]int64
@@ -42,6 +42,7 @@ func (kv *KVServer) Put(args *PutAppendArgs, reply *PutAppendReply) {
 
 	old := kv.dataMap[key]
 	ver2 := kv.clientMap[id]
+	//因为Put不需要返回修改前的结果，所以这里不会修改olDdataMap，以次来节省性能
 	if ver2 == ver {
 		kv.dataMap[key] = val
 		reply.Value = old
@@ -63,6 +64,7 @@ func (kv *KVServer) Append(args *PutAppendArgs, reply *PutAppendReply) {
 	old := kv.dataMap[key]
 	reply.Ver = ver2
 	if ver2 == ver {
+		//olDdataMap保存client 旧的结果，能够在RPC重复时返回正确的结果
 		kv.olDdataMap[id] = old
 		kv.dataMap[key] = old + val
 		reply.Value = old
