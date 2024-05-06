@@ -3,6 +3,7 @@ package kvsrv
 import (
 	"crypto/rand"
 	"math/big"
+
 	"6.5840/labrpc"
 )
 
@@ -27,7 +28,7 @@ func nrand() int64 {
 func MakeClerk(server *labrpc.ClientEnd) *Clerk {
 	ck := new(Clerk)
 	ck.server = server
-	ck.retryTimes = 100
+	ck.retryTimes = 1000
 	ck.id = nrand()
 	ck.ver = 0
 	return ck
@@ -54,7 +55,6 @@ func (ck *Clerk) Get(key string) string {
 		if isSuccess {
 			break
 		}
-		// time.Sleep(10 * time.Millisecond)
 	}
 	return reply.Value
 }
@@ -80,9 +80,15 @@ func (ck *Clerk) PutAppend(key string, value string, op string) string {
 		if isSuccess {
 			break
 		}
-		// time.Sleep(10 * time.Millisecond)
 	}
+
+	// if ck.ver != reply.Ver {
+	// 	fmt.Printf("ck.ver: %d, reply.Ver: %d,\n", ck.ver, reply.Ver)
+	// }
+
+	/*关键的一步，在重复发送的情况也一定要进行version + 1的操作，以确保错误的版本号恢复到正常！*/
 	ck.ver = ck.ver + 1
+
 	return reply.Value
 }
 

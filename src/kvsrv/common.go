@@ -13,6 +13,7 @@ type PutAppendArgs struct {
 
 type PutAppendReply struct {
 	Value string
+	Ver int64
 }
 
 type GetArgs struct {
