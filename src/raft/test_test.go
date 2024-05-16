@@ -115,14 +115,20 @@ func TestManyElections3A(t *testing.T) {
 		cfg.disconnect(i1)
 		cfg.disconnect(i2)
 		cfg.disconnect(i3)
-
+		Log(dInfo,"iter=%d, disconnect servers = %d,%d,%d \n", ii, i1, i2, i3)
 		// either the current leader should still be alive,
 		// or the remaining four should elect a new one.
 		cfg.checkOneLeader()
 
 		cfg.connect(i1)
+		Log(dInfo,"iter=%d, connect server = %d,\n", ii, i1)
 		cfg.connect(i2)
+		Log(dInfo,"iter=%d, connect server = %d,\n", ii, i2)
 		cfg.connect(i3)
+		Log(dInfo,"iter=%d, connect server = %d,\n", ii, i3)
+
+
+		Log(dInfo,"iter=%d end",ii)
 	}
 
 	cfg.checkOneLeader()
