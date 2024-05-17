@@ -112,6 +112,7 @@ func TestManyElections3A(t *testing.T) {
 		i1 := rand.Int() % servers
 		i2 := rand.Int() % servers
 		i3 := rand.Int() % servers
+		
 		cfg.disconnect(i1)
 		cfg.disconnect(i2)
 		cfg.disconnect(i3)
@@ -121,14 +122,14 @@ func TestManyElections3A(t *testing.T) {
 		cfg.checkOneLeader()
 
 		cfg.connect(i1)
-		Log(dInfo,"iter=%d, connect server = %d,\n", ii, i1)
+		// Log(dInfo,"iter=%d, connect server = %d,\n", ii, i1)
 		cfg.connect(i2)
-		Log(dInfo,"iter=%d, connect server = %d,\n", ii, i2)
+		// Log(dInfo,"iter=%d, connect server = %d,\n", ii, i2)
 		cfg.connect(i3)
-		Log(dInfo,"iter=%d, connect server = %d,\n", ii, i3)
+		// Log(dInfo,"iter=%d, connect server = %d,\n", ii, i3)
 
 
-		Log(dInfo,"iter=%d end",ii)
+		Log(dInfo,"iter=%d, connect servers = %d,%d,%d \n", ii, i1, i2, i3)
 	}
 
 	cfg.checkOneLeader()

@@ -416,62 +416,72 @@ func (rf *Raft) sendLog2Server(server int) {
 			return
 		}
 
-		// nextSendIndex := rf.nextIndex[server]
-		// if nextSendIndex < rf.nextIndex[rf.me] {
-		// 	prevLogIndex := nextSendIndex - 1
-		// 	prevLogTerm := 0
-		// 	if nextSendIndex != 0  {
-		// 		prevLogTerm = rf.log[prevLogIndex].Term
-		// 	}
-		// 	entries := make([]LogItem, 1)
-		// 	entries[0] = rf.log[nextSendIndex]
+		nextSendIndex := rf.nextIndex[server]
+		if nextSendIndex < rf.nextIndex[rf.me] {
+			prevLogIndex := nextSendIndex - 1
+			prevLogTerm := 0
+			if nextSendIndex != 0  {
+				prevLogTerm = rf.log[prevLogIndex].Term
+			}
+			entries := make([]LogItem, 1)
+			entries[0] = rf.log[nextSendIndex]
 
-		// 	args := AppendEntriesArgs{Term: rf.currentTerm,
-		// 							LearderId: rf.me,
-		// 							PrevLogIndex: prevLogIndex,
-		// 							PrevLogTerm: prevLogTerm,
-		// 							Entries: entries,
-		// 							LeaderCommit: rf.commitIndex,
-		// 							}
-		// 	rf.mu.Unlock()
-		// 	reply := AppendEntriesReply{}
-		// 	ok := rf.sendAppendEntries(server, &args, &reply)
+			args := AppendEntriesArgs{Term: rf.currentTerm,
+									LearderId: rf.me,
+									PrevLogIndex: prevLogIndex,
+									PrevLogTerm: prevLogTerm,
+									Entries: entries,
+									LeaderCommit: rf.commitIndex,
+									}
+			rf.mu.Unlock()
+			reply := AppendEntriesReply{}
+			ok := rf.sendAppendEntries(server, &args, &reply)
 			
-		// 	rf.mu.Lock()
+			rf.mu.Lock()
 
-		// 	if rf.serverState == Leader && rf.currentTerm == args.Term && ok && reply.Success{
-		// 		//该条日志票数+1
-		// 		logIndex := rf.nextIndex[server]
-		// 		rf.logTickets[logIndex]++
+			if rf.serverState == Leader && rf.currentTerm == args.Term && ok && reply.Success{
+				//该条日志票数+1
+				logIndex := rf.nextIndex[server]
+				rf.logTickets[logIndex]++
 
-		// 		//有超过1/2的servers收到了某条日志，则Leader服务器调教这条日志
-		// 		if rf.logTickets[logIndex] > len(rf.peers) / 2 && rf.commitIndex < logIndex{
+				//有超过1/2的servers收到了某条日志，则Leader服务器调教这条日志
+				if rf.logTickets[logIndex] > len(rf.peers) / 2 && rf.commitIndex < logIndex{
 
-		// 			applyMsg := ApplyMsg{CommandValid: true,
-		// 								Command: rf.log[logIndex],
-		// 								CommandIndex: logIndex,}
-		// 			//发送消息到上层应用
-		// 			rf.applyCh <- applyMsg
-		// 			rf.commitIndex++
-		// 		}
-		// 		rf.matchIndex[server]++
-		// 		rf.nextIndex[server]++
+					applyMsg := ApplyMsg{CommandValid: true,
+										Command: rf.log[logIndex],
+										CommandIndex: logIndex,}
+					//发送消息到上层应用
+					rf.applyCh <- applyMsg
+					rf.commitIndex++
+				}
+				rf.matchIndex[server]++
+				rf.nextIndex[server]++
 				
-		// 	}
+			}
 
-		// 	rf.mu.Unlock()
-		// 	time.Sleep(50 * time.Microsecond)
-		// } else {
+			rf.mu.Unlock()
+		} else {
 			//不发送log，发送心跳
+			// Log(dLeader, "S%d: send a heartbeat to S%d", rf.me, server)
 			args := AppendEntriesArgs{Term: rf.currentTerm,
 									LearderId: rf.me,}
 			rf.mu.Unlock()
 			go func ()  {
 				reply := AppendEntriesReply{}
-				rf.peers[server].Call("Raft.AppendEntries", &args, &reply)
+				ok := rf.peers[server].Call("Raft.AppendEntries", &args, &reply)
+				if ok {
+					rf.mu.Lock()
+					defer rf.mu.Unlock()
+					
+					if reply.Term > rf.currentTerm {
+						rf.serverState = Follower
+						rf.currentTerm = reply.Term
+						rf.votedFor = -1
+					}
+				}
 			}()
-			time.Sleep(150 * time.Microsecond)
-	// 	}
+		}
+		time.Sleep(100 * time.Millisecond)
 	}
 }
 
@@ -496,116 +506,103 @@ func (rf *Raft) killed() bool {
 	return z == 1
 }
 
+func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) {
+	reply := RequestVoteReply{}
+	Log(dVote, "S%d: S%d -> S%d request to vote! rf.term=%d", rf.me, rf.me, server, args.Term)
+	ok := rf.peers[server].Call("Raft.RequestVote", args, &reply)
+
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+
+		//需要再次检查一下Server的role和Term是否已经改变
+	if rf.contextLostLocked(Candidate, args.Term) {
+		return
+	}
+
+	//RPC请求成功后计票
+	if ok {
+		if reply.VoteGranted {
+
+			if *sumTickets > int(len(rf.peers) / 2) {
+				return
+			}
+
+			*sumTickets = *sumTickets + 1
+			//查票
+
+			if *sumTickets > int(len(rf.peers) / 2) {
+
+				Log(dLeader, "S%d: S%d(%d tickets)will be a leader!", rf.me, rf.me, *sumTickets)
+		
+				rf.serverState = Leader
+		
+				//成为Leader后重置nextIndex
+				for i := 0; i < len(rf.nextIndex); i++ {
+					if i == rf.me {
+						continue
+					}
+					rf.nextIndex[i] = rf.nextIndex[rf.me]
+				}
+		
+				/*
+				成为leader后立马发送一次心跳，重置其他Server的状态
+				*/
+				// go rf.sendHeartbeat()
+		
+				//开始发送日志（包含了发送心跳的程序）
+				go rf.sendLog2AllServers()
+			}
+		} else if reply.Term > rf.currentTerm {
+			//重置为Follower状态
+			rf.currentTerm = reply.Term
+			rf.votedFor = -1
+			rf.serverState = Follower
+		}
+	} else {
+		Log(dVote, "S%d: S%d -> S%d RequestVote rpc fail!", rf.me, rf.me, server)
+	}
+}
+
+func (rf *Raft) sendRequestVoteToAll() {
+
+	lastLogIndex := rf.nextIndex[rf.me]
+	lastLogTerm := 0
+	if lastLogIndex > 0 {
+		lastLogTerm = rf.log[lastLogIndex].Term
+	}
+
+	args := RequestVoteArgs{
+		Term : rf.currentTerm,
+		CandidateId: rf.me,
+		LastLogIndex: lastLogIndex,
+		LastLogTerm: lastLogTerm}
+
+	var sumTickets int = 1
+
+	//请求其他人投票
+	for i := 0; i < len(rf.peers); i++ {
+		if i != rf.me {
+			go rf.requestVote(i, &args, &sumTickets)
+		}
+	}
+}
+
 
 func (rf *Raft) ticker() {
 	for rf.killed() == false {
-
 		// Your code here (3A)
 		// Check if a leader election should be started.
-		
-
 		rf.mu.Lock()
-		// Log(dClient,"S%d: heartbeatTime:%d, electionTimeout: %d, timeOut: %b", rf.me, rf.heartbeatTime, rf.electionTimeout, time.Since(rf.heartbeatTime) > rf.electionTimeout)
 		if rf.serverState != Leader && time.Since(rf.heartbeatTime) > rf.electionTimeout {
-			Log(dClient,"S%d: S%d will be a candidate", rf.me, rf.me)
 
-			
+			Log(dClient,"S%d: S%d will be a candidate", rf.me, rf.me)
 			rf.serverState = Candidate
 			rf.currentTerm += 1
 			rf.votedFor = rf.me
-			lastLogIndex := len(rf.log) - 1
-			lastLogTerm := 0
-			if lastLogIndex > 0 {
-				lastLogTerm = rf.log[lastLogIndex].Term
-			}
 
-			args := RequestVoteArgs{
-				Term : rf.currentTerm,
-				CandidateId: rf.me,
-				LastLogIndex: lastLogIndex,
-				LastLogTerm: lastLogTerm}
-
-			var sumTickets int32 = 1 
-			
-			//查票函数
-			checkTickets := func() {
-				rf.mu.Lock()
-				defer rf.mu.Unlock()
-				if rf.serverState == Candidate && sumTickets > int32(len(rf.peers) / 2) {
-
-					Log(dLeader, "S%d: S%d(%d tickets)will be a leader!", rf.me, rf.me, sumTickets)
-	
-					rf.serverState = Leader
-
-					//成为Leader后重置nextIndex
-					for i := 0; i < len(rf.nextIndex); i++ {
-						if i == rf.me {
-							continue
-						}
-						rf.nextIndex[i] = rf.nextIndex[rf.me]
-					}
-	
-					/*
-					成为leader后立马发送一次心跳，重置其他Server的状态
-					go rf.sendHeartbeat()
-					*/
-					go rf.sendHeartbeat()
-
-					//开始发送日志（包含了发送心跳的程序）
-					// go rf.sendLog2AllServers()
-				}
-			}
-
-			//请求其他人投票
-			for i := 0; i < len(rf.peers); i++ {
-				if i == rf.me {
-					rf.resetElectionTimerLocked()
-					continue
-				} else {
-					index := i
-					//使用协程发送投票请求
-					go func () {
-						reply := RequestVoteReply{}
-						Log(dVote, "S%d: S%d -> S%d request to vote! rf.term=%d", rf.me, rf.me, index, args.Term)
-						ok := rf.peers[index].Call("Raft.RequestVote", &args, &reply)
-						if !ok {
-							Log(dVote, "S%d: S%d -> S%d RequestVote rpc fail!", rf.me, rf.me, index)
-						}
-
-						rf.mu.Lock()
-						// Log(dClient, "S%d: check context, role=%d, args.term=%d, current term=%d", rf.me, rf.serverState, args.Term, rf.currentTerm)	
-
-							//需要再次检查一下Server的role和Term是否已经改变
-						if rf.contextLostLocked(Candidate, args.Term) {
-	
-							rf.mu.Unlock()
-							return
-						}
-
-						//RPC请求成功后计票
-						if ok {
-							if reply.VoteGranted {
-
-								if sumTickets > int32(len(rf.peers) / 2) {
-									return
-								}
-
-								atomic.AddInt32(&sumTickets, 1)
-								//查票
-								go checkTickets()
-							} else if reply.Term > rf.currentTerm {
-								rf.currentTerm = reply.Term
-								rf.votedFor = -1
-								rf.serverState = Follower
-							}
-						}
-
-						rf.mu.Unlock()
-					}()
-				}
-			}
-			
+			rf.sendRequestVoteToAll()
 		}
+		rf.resetElectionTimerLocked()
 		rf.mu.Unlock()
 		// pause for a random amount of time between 50 and 350
 		// milliseconds.
