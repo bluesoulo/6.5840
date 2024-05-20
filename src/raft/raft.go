@@ -471,7 +471,12 @@ func (rf *Raft) sendLog2Server(server int) {
 		}
 		entries := make([]LogItem, 0)
 		if nextSendIndex < rf.nextIndex[rf.me] {
-			entries = append(entries, rf.log[nextSendIndex])
+			endLogIndex := nextSendIndex
+			for endLogIndex < rf.nextIndex[rf.me] && rf.log[endLogIndex].Term == rf.log[nextSendIndex].Term {
+				entries = append(entries, rf.log[endLogIndex])				
+				endLogIndex++
+			}
+			// entries = append(entries, rf.log[nextSendIndex])
 		}
 		args := AppendEntriesArgs{Term: rf.currentTerm,
 			LearderId: rf.me,
@@ -510,7 +515,7 @@ func (rf *Raft) sendLog2Server(server int) {
 				}
 				
 				if reply.Success {
-					rf.dealHasEntryLogLocked(server)
+					rf.dealHaveEntryLogLocked(server, &args)
 				} else {
 					//根据不同冲突情况重置rf.nextIndex[server]
 					if reply.XLen != 0 {
@@ -550,31 +555,32 @@ func (rf *Raft) sendLog2Server(server int) {
 }
 
 
-func (rf *Raft) dealHasEntryLogLocked(server int) {
-	//该条日志票数+1
-	logIndex := rf.nextIndex[server]
-	if rf.log[logIndex].LogTicket <= len(rf.peers) / 2 {
-		rf.log[logIndex].LogTicket++
+func (rf *Raft) dealHaveEntryLogLocked(server int, args *AppendEntriesArgs) {
+	for i := 0; i < len(args.Entries); i++ {
+		logIndex := rf.nextIndex[server] + i
+		if rf.log[logIndex].LogTicket <= len(rf.peers) / 2 {
+			rf.log[logIndex].LogTicket++
 
-		//有超过1/2的servers收到了某条日志，则Leader服务器 提交 日志上层服务器（避免重复提交日志）
-		if rf.log[logIndex].LogTicket > len(rf.peers) / 2 {
-
-			index := rf.commitIndex + 1
-			for index <= logIndex && rf.log[index].LogTicket > len(rf.peers) / 2 {
-				applyMsg := ApplyMsg{CommandValid: true,
-								Command: rf.log[index].Command,
-								CommandIndex: index,}
-				//发送消息到上层应用
-				rf.applyCh <- applyMsg
-				Log(dClient, "S%d: apply logindex=%d", rf.me, index)
-				index++
+			//commitIndex是单调增的，如果i不能被提交，但是i+1不能被提交，那么仍然会停在i
+			if rf.log[logIndex].LogTicket > len(rf.peers) / 2 {
+				index := rf.commitIndex + 1
+				for index <= logIndex && rf.log[index].LogTicket > len(rf.peers) / 2 {
+					applyMsg := ApplyMsg{CommandValid: true,
+									Command: rf.log[index].Command,
+									CommandIndex: index,}
+					//发送消息到上层应用
+					rf.applyCh <- applyMsg
+					Log(dClient, "S%d: apply logindex=%d", rf.me, index)
+					index++
+				}
+				rf.commitIndex = index - 1
+				rf.lastApplied = index - 1
 			}
-			rf.commitIndex = index - 1
-			rf.lastApplied = index - 1
-		}
+		}	
 	}
-	rf.matchIndex[server]++
-	rf.nextIndex[server]++
+	//修改nextIndex和matchIndex
+	rf.nextIndex[server] = rf.nextIndex[server] + len(args.Entries)
+	rf.matchIndex[server] = rf.nextIndex[server]
 }
 
 

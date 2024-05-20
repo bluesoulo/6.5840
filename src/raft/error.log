@@ -1,140 +1,22 @@
+Test (3B): basic agreement ...
+  ... Passed --   1.8  3   16    4754    3
+Test (3B): RPC byte count ...
+  ... Passed --   3.2  3   48  115134   11
+Test (3B): test progressive failure of followers ...
+  ... Passed --   6.0  3   42   11804    3
+Test (3B): test failure of leaders ...
+  ... Passed --   5.5  3   96   24177    3
+Test (3B): agreement after follower reconnects ...
+  ... Passed --   6.6  3   76   22923    8
+Test (3B): no agreement if too many followers disconnect ...
+  ... Passed --   3.6  5   87   23971    3
+Test (3B): concurrent Start()s ...
+  ... Passed --   1.2  3   14    4172    6
+Test (3B): rejoin of partitioned leader ...
+  ... Passed --   5.8  3   98   26143    4
+Test (3B): leader backs up quickly over incorrect follower logs ...
+  ... Passed --  23.8  5  842  272894  103
 Test (3B): RPC counts aren't too high ...
-013210 CLNT S1: S1 will be a candidate
-013213 VOTE S1: S1 -> S2 request to vote! rf.term=1
-013213 VOTE S1: S1 -> S0 request to vote! rf.term=1
-013234 VOTE S0:processing vote from S1! args.Term=1, rf.currentTerm=0
-013235 VOTE S0: S0 vote to S1!
-013234 VOTE S2:processing vote from S1! args.Term=1, rf.currentTerm=0
-013236 VOTE S2: S2 vote to S1!
-013242 LEAD S1: S1(2 tickets)will be a leader!
-013263 CLNT S0: S0 receive a heartbeate from S1.
-013265 CLNT S2: S2 receive a heartbeate from S1.
-014269 CLNT S2: S2 receive a heartbeate from S1.
-014272 CLNT S0: S0 receive a heartbeate from S1.
-015282 CLNT S2: S2 receive a heartbeate from S1.
-015283 CLNT S0: S0 receive a heartbeate from S1.
-016292 CLNT S0: S0 receive a heartbeate from S1.
-016292 CLNT S2: S2 receive a heartbeate from S1.
-017304 CLNT S2: S2 receive a heartbeate from S1.
-017307 CLNT S0: S0 receive a heartbeate from S1.
-018313 CLNT S2: S2 receive a heartbeate from S1.
-018313 CLNT S0: S0 receive a heartbeate from S1.
-019274 LEAD S1 has saved a log entry. command = 1
-019275 LEAD S1 has saved a log entry. command = 1339372060
-019276 LEAD S1 has saved a log entry. command = 726563463
-019277 LEAD S1 has saved a log entry. command = 1711915368
-019278 LEAD S1 has saved a log entry. command = 1220469003
-019278 LEAD S1 has saved a log entry. command = 1887422577
-019279 LEAD S1 has saved a log entry. command = 2082309167
-019279 LEAD S1 has saved a log entry. command = 900238744
-019280 LEAD S1 has saved a log entry. command = 1339738003
-019280 LEAD S1 has saved a log entry. command = 1920043405
-019281 LEAD S1 has saved a log entry. command = 1582937497
-019281 LEAD S1 has saved a log entry. command = 598906936
-019320 LEAD S1: send a entry to S0, log index = 1, PrevLogIndex =0
-019322 LEAD S1: send a entry to S2, log index = 1, PrevLogIndex =0
-019333 CLNT S0: receive logindex=1
-019334 CLNT S2: receive logindex=1
-019339 CLNT S1: apply logindex=1
-019841 LEAD S1: send a entry to S0, log index = 2, PrevLogIndex =1
-019846 LEAD S1: send a entry to S2, log index = 2, PrevLogIndex =1
-019854 CLNT S0: apply logindex=1
-019855 CLNT S0: receive logindex=2
-019856 CLNT S2: apply logindex=1
-019857 CLNT S2: receive logindex=2
-019862 CLNT S1: apply logindex=2
-020370 LEAD S1: send a entry to S0, log index = 3, PrevLogIndex =2
-020372 LEAD S1: send a entry to S2, log index = 3, PrevLogIndex =2
-020383 CLNT S0: apply logindex=2
-020384 CLNT S0: receive logindex=3
-020384 CLNT S2: apply logindex=2
-020385 CLNT S2: receive logindex=3
-020391 CLNT S1: apply logindex=3
-020897 LEAD S1: send a entry to S2, log index = 4, PrevLogIndex =3
-020899 LEAD S1: send a entry to S0, log index = 4, PrevLogIndex =3
-020910 CLNT S2: apply logindex=3
-020911 CLNT S2: receive logindex=4
-020912 CLNT S0: apply logindex=3
-020913 CLNT S0: receive logindex=4
-020918 CLNT S1: apply logindex=4
-021422 LEAD S1: send a entry to S0, log index = 5, PrevLogIndex =4
-021425 LEAD S1: send a entry to S2, log index = 5, PrevLogIndex =4
-021435 CLNT S0: apply logindex=4
-021436 CLNT S0: receive logindex=5
-021438 CLNT S2: apply logindex=4
-021439 CLNT S2: receive logindex=5
-021443 CLNT S1: apply logindex=5
-021947 LEAD S1: send a entry to S0, log index = 6, PrevLogIndex =5
-021948 LEAD S1: send a entry to S2, log index = 6, PrevLogIndex =5
-021960 CLNT S0: apply logindex=5
-021961 CLNT S0: receive logindex=6
-021962 CLNT S2: apply logindex=5
-021962 CLNT S2: receive logindex=6
-021968 CLNT S1: apply logindex=6
-022479 LEAD S1: send a entry to S0, log index = 7, PrevLogIndex =6
-022481 LEAD S1: send a entry to S2, log index = 7, PrevLogIndex =6
-022492 CLNT S0: apply logindex=6
-022493 CLNT S0: receive logindex=7
-022494 CLNT S2: apply logindex=6
-022495 CLNT S2: receive logindex=7
-022502 CLNT S1: apply logindex=7
-023011 LEAD S1: send a entry to S0, log index = 8, PrevLogIndex =7
-023013 LEAD S1: send a entry to S2, log index = 8, PrevLogIndex =7
-023024 CLNT S0: apply logindex=7
-023025 CLNT S0: receive logindex=8
-023026 CLNT S2: apply logindex=7
-023027 CLNT S2: receive logindex=8
-023032 CLNT S1: apply logindex=8
-023538 LEAD S1: send a entry to S2, log index = 9, PrevLogIndex =8
-023539 LEAD S1: send a entry to S0, log index = 9, PrevLogIndex =8
-023550 CLNT S2: apply logindex=8
-023551 CLNT S2: receive logindex=9
-023551 CLNT S0: apply logindex=8
-023552 CLNT S0: receive logindex=9
-023558 CLNT S1: apply logindex=9
-024070 LEAD S1: send a entry to S0, log index = 10, PrevLogIndex =9
-024072 LEAD S1: send a entry to S2, log index = 10, PrevLogIndex =9
-024082 CLNT S0: apply logindex=9
-024083 CLNT S0: receive logindex=10
-024085 CLNT S2: apply logindex=9
-024086 CLNT S2: receive logindex=10
-024090 CLNT S1: apply logindex=10
-024600 LEAD S1: send a entry to S2, log index = 11, PrevLogIndex =10
-024602 LEAD S1: send a entry to S0, log index = 11, PrevLogIndex =10
-024612 CLNT S2: apply logindex=10
-024612 CLNT S2: receive logindex=11
-024615 CLNT S0: apply logindex=10
-024615 CLNT S0: receive logindex=11
-024621 CLNT S1: apply logindex=11
-025127 LEAD S1: send a entry to S2, log index = 12, PrevLogIndex =11
-025129 LEAD S1: send a entry to S0, log index = 12, PrevLogIndex =11
-025139 CLNT S2: apply logindex=11
-025140 CLNT S2: receive logindex=12
-025141 CLNT S0: apply logindex=11
-025142 CLNT S0: receive logindex=12
-025146 CLNT S1: apply logindex=12
-025661 CLNT S2: apply logindex=12
-025662 CLNT S2: S2 receive a heartbeate from S1.
-025661 CLNT S0: apply logindex=12
-025663 CLNT S0: S0 receive a heartbeate from S1.
-026676 CLNT S0: S0 receive a heartbeate from S1.
-026677 CLNT S2: S2 receive a heartbeate from S1.
-027683 CLNT S0: S0 receive a heartbeate from S1.
-027684 CLNT S2: S2 receive a heartbeate from S1.
-028697 CLNT S2: S2 receive a heartbeate from S1.
-028698 CLNT S0: S0 receive a heartbeate from S1.
-029707 CLNT S0: S0 receive a heartbeate from S1.
-029707 CLNT S2: S2 receive a heartbeate from S1.
-030714 CLNT S2: S2 receive a heartbeate from S1.
-030715 CLNT S0: S0 receive a heartbeate from S1.
-031730 CLNT S2: S2 receive a heartbeate from S1.
-031730 CLNT S0: S0 receive a heartbeate from S1.
-032741 CLNT S2: S2 receive a heartbeate from S1.
-032742 CLNT S0: S0 receive a heartbeate from S1.
-033755 CLNT S0: S0 receive a heartbeate from S1.
-033756 CLNT S2: S2 receive a heartbeate from S1.
-034767 CLNT S0: S0 receive a heartbeate from S1.
-034769 CLNT S2: S2 receive a heartbeate from S1.
-  ... Passed --   3.5  3   58   18122   12
+  ... Passed --   2.5  3   40   12378   12
 PASS
-ok  	6.5840/raft	4.550s
+ok  	6.5840/raft	61.056s
