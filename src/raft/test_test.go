@@ -85,7 +85,7 @@ func TestReElection3A(t *testing.T) {
 
 	// if a quorum arises, it should elect a leader.
 	cfg.connect((leader2 + 1) % servers)
-	Log(dInfo, "S%d: test %d: connect=%d,%d", 4, 4, (leader2 + 1) % servers, (leader2 + 2) % servers)
+	Log(dInfo, "S%d: test %d: connect=%d,%d", 4, 4, (leader2 + 1) % servers, leader2)
 	cfg.checkOneLeader()
 	Log(dInfo, "S%d: test %d has completed!", 4, 5)
 

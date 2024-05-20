@@ -1,468 +1,140 @@
-Test (3A): initial election ...
-007114 CLNT S1: S1 will be a candidate
-007118 VOTE S1: S1 -> S0 request to vote! rf.term=1
-007118 VOTE S1: S1 -> S2 request to vote! rf.term=1
-007137 VOTE S0: S0 is processing vote from S1!
-007137 VOTE S2: S2 is processing vote from S1!
-007138 VOTE S2: S2 vote to S1!
-007137 VOTE S0: S0 vote to S1!
-007147 LEAD S1: S1(2 tickets)will be a leader!
-007165 CLNT S2: S2 receive a heartbeate from S1.
-007165 CLNT S0: S0 receive a heartbeate from S1.
-008162 CLNT S0: S0 receive a heartbeate from S1.
-008163 CLNT S2: S2 receive a heartbeate from S1.
-009172 CLNT S0: S0 receive a heartbeate from S1.
-009174 CLNT S2: S2 receive a heartbeate from S1.
-010183 CLNT S0: S0 receive a heartbeate from S1.
-010184 CLNT S2: S2 receive a heartbeate from S1.
-011188 CLNT S2: S2 receive a heartbeate from S1.
-011188 CLNT S0: S0 receive a heartbeate from S1.
-012195 CLNT S0: S0 receive a heartbeate from S1.
-012195 CLNT S2: S2 receive a heartbeate from S1.
-013205 CLNT S0: S0 receive a heartbeate from S1.
-013206 CLNT S2: S2 receive a heartbeate from S1.
-014208 CLNT S0: S0 receive a heartbeate from S1.
-014209 CLNT S2: S2 receive a heartbeate from S1.
-015214 CLNT S2: S2 receive a heartbeate from S1.
-015216 CLNT S0: S0 receive a heartbeate from S1.
-016216 CLNT S0: S0 receive a heartbeate from S1.
-016216 CLNT S2: S2 receive a heartbeate from S1.
-017224 CLNT S2: S2 receive a heartbeate from S1.
-017224 CLNT S0: S0 receive a heartbeate from S1.
-018234 CLNT S2: S2 receive a heartbeate from S1.
-018234 CLNT S0: S0 receive a heartbeate from S1.
-019241 CLNT S2: S2 receive a heartbeate from S1.
-019242 CLNT S0: S0 receive a heartbeate from S1.
-020250 CLNT S0: S0 receive a heartbeate from S1.
-020252 CLNT S2: S2 receive a heartbeate from S1.
-021262 CLNT S0: S0 receive a heartbeate from S1.
-021263 CLNT S2: S2 receive a heartbeate from S1.
-022270 CLNT S0: S0 receive a heartbeate from S1.
-022272 CLNT S2: S2 receive a heartbeate from S1.
-023274 CLNT S2: S2 receive a heartbeate from S1.
-023275 CLNT S0: S0 receive a heartbeate from S1.
-024284 CLNT S0: S0 receive a heartbeate from S1.
-024285 CLNT S2: S2 receive a heartbeate from S1.
-025291 CLNT S2: S2 receive a heartbeate from S1.
-025292 CLNT S0: S0 receive a heartbeate from S1.
-026300 CLNT S0: S0 receive a heartbeate from S1.
-026301 CLNT S2: S2 receive a heartbeate from S1.
-027310 CLNT S2: S2 receive a heartbeate from S1.
-027311 CLNT S0: S0 receive a heartbeate from S1.
-028321 CLNT S2: S2 receive a heartbeate from S1.
-028323 CLNT S0: S0 receive a heartbeate from S1.
-029325 CLNT S2: S2 receive a heartbeate from S1.
-029327 CLNT S0: S0 receive a heartbeate from S1.
-030336 CLNT S2: S2 receive a heartbeate from S1.
-030337 CLNT S0: S0 receive a heartbeate from S1.
-031339 CLNT S2: S2 receive a heartbeate from S1.
-031340 CLNT S0: S0 receive a heartbeate from S1.
-032350 CLNT S0: S0 receive a heartbeate from S1.
-032351 CLNT S2: S2 receive a heartbeate from S1.
-033356 CLNT S0: S0 receive a heartbeate from S1.
-033357 CLNT S2: S2 receive a heartbeate from S1.
-034365 CLNT S2: S2 receive a heartbeate from S1.
-034366 CLNT S0: S0 receive a heartbeate from S1.
-  ... Passed --   3.5  3   58   14822    0
-Test (3A): election after network failure ...
-039824 CLNT S0: S0 will be a candidate
-039825 VOTE S0: S0 -> S1 request to vote! rf.term=1
-039826 VOTE S0: S0 -> S2 request to vote! rf.term=1
-039834 VOTE S1: S1 is processing vote from S0!
-039835 VOTE S1: S1 vote to S0!
-039836 VOTE S2: S2 is processing vote from S0!
-039837 VOTE S2: S2 vote to S0!
-039840 LEAD S0: S0(2 tickets)will be a leader!
-045487 CLNT S2: S2 will be a candidate
-045489 VOTE S2: S2 -> S0 request to vote! rf.term=2
-045490 VOTE S2: S2 -> S1 request to vote! rf.term=2
-045499 VOTE S1: S1 is processing vote from S2!
-045499 VOTE S1: S1 vote to S2!
-045507 LEAD S2: S2(2 tickets)will be a leader!
-045515 CLNT S1: S1 receive a heartbeate from S2.
-046524 CLNT S1: S1 receive a heartbeate from S2.
-047525 CLNT S1: S1 receive a heartbeate from S2.
-048529 CLNT S1: S1 receive a heartbeate from S2.
-049540 CLNT S1: S1 receive a heartbeate from S2.
-049822 INFO S4: test 1 has completed!
-049904 CLNT S1: S1 receive a heartbeate from S0.
-049905 CLNT S2: S2 receive a heartbeate from S0.
-050545 CLNT S0: S0 receive a heartbeate from S2.
-050546 CLNT S1: S1 receive a heartbeate from S2.
-051549 CLNT S1: S1 receive a heartbeate from S2.
-051556 CLNT S0: S0 receive a heartbeate from S2.
-052558 CLNT S0: S0 receive a heartbeate from S2.
-052560 CLNT S1: S1 receive a heartbeate from S2.
-053563 CLNT S0: S0 receive a heartbeate from S2.
-053569 CLNT S1: S1 receive a heartbeate from S2.
-054577 CLNT S1: S1 receive a heartbeate from S2.
-054578 CLNT S0: S0 receive a heartbeate from S2.
-054621 INFO S4: test 2 has completed!
-074634 INFO S4: test 3 has completed!
-074635 INFO S4: test 4 has completed!
-074636 INFO S4: test 4: connect=0,1
-090761 CLNT S1: S1 will be a candidate
-090763 VOTE S1: S1 -> S0 request to vote! rf.term=3
-090763 VOTE S1: S1 -> S2 request to vote! rf.term=3
-090771 VOTE S0: S0 is processing vote from S1!
-090772 VOTE S0: S0 vote to S1!
-090778 LEAD S1: S1(2 tickets)will be a leader!
-090789 CLNT S0: S0 receive a heartbeate from S1.
-091794 CLNT S0: S0 receive a heartbeate from S1.
-092800 CLNT S0: S0 receive a heartbeate from S1.
-093811 CLNT S0: S0 receive a heartbeate from S1.
-094380 INFO S4: test 5 has completed!
-094812 CLNT S2: S2 receive a heartbeate from S1.
-094811 CLNT S0: S0 receive a heartbeate from S1.
-095812 CLNT S2: S2 receive a heartbeate from S1.
-095813 CLNT S0: S0 receive a heartbeate from S1.
-096815 CLNT S2: S2 receive a heartbeate from S1.
-096816 CLNT S0: S0 receive a heartbeate from S1.
-097823 CLNT S0: S0 receive a heartbeate from S1.
-097825 CLNT S2: S2 receive a heartbeate from S1.
-098833 CLNT S2: S2 receive a heartbeate from S1.
-098834 CLNT S0: S0 receive a heartbeate from S1.
-099550 CLNT S4: test 6 has completed!
-  ... Passed --   6.4  3  144   30100    0
-Test (3A): multiple elections ...
-103824 CLNT S1: S1 will be a candidate
-103826 VOTE S1: S1 -> S4 request to vote! rf.term=1
-103826 VOTE S1: S1 -> S3 request to vote! rf.term=1
-103827 VOTE S1: S1 -> S0 request to vote! rf.term=1
-103827 VOTE S1: S1 -> S5 request to vote! rf.term=1
-103828 VOTE S1: S1 -> S6 request to vote! rf.term=1
-103829 VOTE S1: S1 -> S2 request to vote! rf.term=1
-103834 VOTE S3: S3 is processing vote from S1!
-103835 VOTE S3: S3 vote to S1!
-103835 VOTE S4: S4 is processing vote from S1!
-103836 VOTE S4: S4 vote to S1!
-103836 VOTE S2: S2 is processing vote from S1!
-103835 VOTE S5: S5 is processing vote from S1!
-103837 VOTE S2: S2 vote to S1!
-103837 VOTE S5: S5 vote to S1!
-103840 VOTE S6: S6 is processing vote from S1!
-103841 VOTE S6: S6 vote to S1!
-103843 LEAD S1: S1(4 tickets)will be a leader!
-103846 VOTE S0: S0 is processing vote from S1!
-103846 VOTE S0: S0 vote to S1!
-103853 CLNT S0: S0 receive a heartbeate from S1.
-103855 CLNT S4: S4 receive a heartbeate from S1.
-103857 CLNT S6: S6 receive a heartbeate from S1.
-103862 CLNT S5: S5 receive a heartbeate from S1.
-103863 CLNT S3: S3 receive a heartbeate from S1.
-103864 CLNT S2: S2 receive a heartbeate from S1.
-104854 CLNT S6: S6 receive a heartbeate from S1.
-104855 CLNT S0: S0 receive a heartbeate from S1.
-104859 CLNT S4: S4 receive a heartbeate from S1.
-104859 CLNT S5: S5 receive a heartbeate from S1.
-104866 CLNT S3: S3 receive a heartbeate from S1.
-104869 CLNT S2: S2 receive a heartbeate from S1.
-105081 INFO iter=1, disconnect servers = 2,6,6 
-105864 CLNT S0: S0 receive a heartbeate from S1.
-105865 CLNT S5: S5 receive a heartbeate from S1.
-105866 CLNT S4: S4 receive a heartbeate from S1.
-105869 CLNT S3: S3 receive a heartbeate from S1.
-106864 CLNT S0: S0 receive a heartbeate from S1.
-106867 CLNT S4: S4 receive a heartbeate from S1.
-106867 CLNT S5: S5 receive a heartbeate from S1.
-106868 CLNT S3: S3 receive a heartbeate from S1.
-107865 CLNT S4: S4 receive a heartbeate from S1.
-107868 CLNT S0: S0 receive a heartbeate from S1.
-107869 CLNT S5: S5 receive a heartbeate from S1.
-107874 CLNT S3: S3 receive a heartbeate from S1.
-108877 CLNT S5: S5 receive a heartbeate from S1.
-108877 CLNT S4: S4 receive a heartbeate from S1.
-108879 CLNT S0: S0 receive a heartbeate from S1.
-108880 CLNT S3: S3 receive a heartbeate from S1.
-109887 CLNT S5: S5 receive a heartbeate from S1.
-109888 CLNT S0: S0 receive a heartbeate from S1.
-109889 CLNT S4: S4 receive a heartbeate from S1.
-109887 CLNT S3: S3 receive a heartbeate from S1.
-110520 INFO iter=1, connect servers = 2,6,6 
-110522 INFO iter=2, disconnect servers = 0,3,2 
-110891 CLNT S6: S6 receive a heartbeate from S1.
-110892 CLNT S4: S4 receive a heartbeate from S1.
-110893 CLNT S5: S5 receive a heartbeate from S1.
-111894 CLNT S5: S5 receive a heartbeate from S1.
-111895 CLNT S6: S6 receive a heartbeate from S1.
-111895 CLNT S4: S4 receive a heartbeate from S1.
-112895 CLNT S4: S4 receive a heartbeate from S1.
-112895 CLNT S5: S5 receive a heartbeate from S1.
-112896 CLNT S6: S6 receive a heartbeate from S1.
-113903 CLNT S6: S6 receive a heartbeate from S1.
-113904 CLNT S4: S4 receive a heartbeate from S1.
-113904 CLNT S5: S5 receive a heartbeate from S1.
-114913 CLNT S5: S5 receive a heartbeate from S1.
-114913 CLNT S4: S4 receive a heartbeate from S1.
-114914 CLNT S6: S6 receive a heartbeate from S1.
-115388 INFO iter=2, connect servers = 0,3,2 
-115390 INFO iter=3, disconnect servers = 2,0,3 
-115915 CLNT S6: S6 receive a heartbeate from S1.
-115915 CLNT S5: S5 receive a heartbeate from S1.
-115915 CLNT S4: S4 receive a heartbeate from S1.
-116924 CLNT S4: S4 receive a heartbeate from S1.
-116925 CLNT S6: S6 receive a heartbeate from S1.
-116926 CLNT S5: S5 receive a heartbeate from S1.
-117932 CLNT S6: S6 receive a heartbeate from S1.
-117934 CLNT S4: S4 receive a heartbeate from S1.
-117934 CLNT S5: S5 receive a heartbeate from S1.
-118760 CLNT S0: S0 will be a candidate
-118762 VOTE S0: S0 -> S6 request to vote! rf.term=2
-118762 VOTE S0: S0 -> S3 request to vote! rf.term=2
-118763 VOTE S0: S0 -> S1 request to vote! rf.term=2
-118763 VOTE S0: S0 -> S5 request to vote! rf.term=2
-118765 VOTE S0: S0 -> S4 request to vote! rf.term=2
-118765 VOTE S0: S0 -> S2 request to vote! rf.term=2
-118943 CLNT S5: S5 receive a heartbeate from S1.
-118944 CLNT S4: S4 receive a heartbeate from S1.
-118944 CLNT S6: S6 receive a heartbeate from S1.
-119944 CLNT S4: S4 receive a heartbeate from S1.
-119944 CLNT S5: S5 receive a heartbeate from S1.
-119946 CLNT S6: S6 receive a heartbeate from S1.
-120185 INFO iter=3, connect servers = 2,0,3 
-120187 INFO iter=4, disconnect servers = 6,2,3 
-120956 CLNT S4: S4 receive a heartbeate from S1.
-120957 CLNT S5: S5 receive a heartbeate from S1.
-120957 CLNT S0: S0 receive a heartbeate from S1.
-122019 CLNT S3: S3 will be a candidate
-122021 VOTE S3: S3 -> S5 request to vote! rf.term=2
-122021 VOTE S3: S3 -> S2 request to vote! rf.term=2
-122022 VOTE S3: S3 -> S0 request to vote! rf.term=2
-122022 VOTE S3: S3 -> S1 request to vote! rf.term=2
-122023 VOTE S3: S3 -> S4 request to vote! rf.term=2
-122024 VOTE S3: S3 -> S6 request to vote! rf.term=2
-124449 VOTE S3: S3 -> S5 RequestVote rpc fail!
-124576 CLNT S5: S5 will be a candidate
-124577 VOTE S5: S5 -> S6 request to vote! rf.term=2
-124577 VOTE S5: S5 -> S2 request to vote! rf.term=2
-124578 VOTE S5: S5 -> S0 request to vote! rf.term=2
-124579 VOTE S5: S5 -> S1 request to vote! rf.term=2
-124580 VOTE S5: S5 -> S3 request to vote! rf.term=2
-124581 VOTE S5: S5 -> S4 request to vote! rf.term=2
-124586 VOTE S0: S0 is processing vote from S5!
-124587 VOTE S0: S0 can't vote to S5! reaseon: serverState=1, votedFor=0
-124587 VOTE S1: S1 is processing vote from S5!
-124588 VOTE S1: S1 vote to S5!
-124588 VOTE S4: S4 is processing vote from S5!
-124589 VOTE S4: S4 vote to S5!
-125355 CLNT S3: S3 will be a candidate
-125356 VOTE S3: S3 -> S6 request to vote! rf.term=3
-125357 VOTE S3: S3 -> S4 request to vote! rf.term=3
-125357 VOTE S3: S3 -> S0 request to vote! rf.term=3
-125358 VOTE S3: S3 -> S5 request to vote! rf.term=3
-125359 VOTE S3: S3 -> S1 request to vote! rf.term=3
-125360 VOTE S3: S3 -> S2 request to vote! rf.term=3
-130867 CLNT S4: S4 will be a candidate
-130870 VOTE S4: S4 -> S1 request to vote! rf.term=3
-130870 VOTE S4: S4 -> S5 request to vote! rf.term=3
-130870 VOTE S4: S4 -> S3 request to vote! rf.term=3
-130871 VOTE S4: S4 -> S6 request to vote! rf.term=3
-130870 VOTE S4: S4 -> S2 request to vote! rf.term=3
-130873 VOTE S4: S4 -> S0 request to vote! rf.term=3
-130878 VOTE S5: S5 is processing vote from S4!
-130879 VOTE S5: S5 vote to S4!
-130879 VOTE S1: S1 is processing vote from S4!
-130879 VOTE S0: S0 is processing vote from S4!
-130880 VOTE S1: S1 vote to S4!
-130880 VOTE S0: S0 vote to S4!
-130886 LEAD S4: S4(4 tickets)will be a leader!
-130895 CLNT S0: S0 receive a heartbeate from S4.
-130896 CLNT S1: S1 receive a heartbeate from S4.
-130898 CLNT S5: S5 receive a heartbeate from S4.
-131895 CLNT S0: S0 receive a heartbeate from S4.
-131903 CLNT S1: S1 receive a heartbeate from S4.
-131903 CLNT S5: S5 receive a heartbeate from S4.
-132901 CLNT S1: S1 receive a heartbeate from S4.
-132904 CLNT S0: S0 receive a heartbeate from S4.
-132906 CLNT S5: S5 receive a heartbeate from S4.
-133911 CLNT S5: S5 receive a heartbeate from S4.
-133914 CLNT S1: S1 receive a heartbeate from S4.
-133914 CLNT S0: S0 receive a heartbeate from S4.
-134922 CLNT S0: S0 receive a heartbeate from S4.
-134925 CLNT S1: S1 receive a heartbeate from S4.
-134927 CLNT S5: S5 receive a heartbeate from S4.
-135929 CLNT S5: S5 receive a heartbeate from S4.
-135934 CLNT S0: S0 receive a heartbeate from S4.
-135938 CLNT S1: S1 receive a heartbeate from S4.
-136169 INFO iter=4, connect servers = 6,2,3 
-136171 INFO iter=5, disconnect servers = 2,4,2 
-136351 CLNT S6: S6 will be a candidate
-136352 VOTE S6: S6 -> S5 request to vote! rf.term=2
-136353 VOTE S6: S6 -> S3 request to vote! rf.term=2
-136354 VOTE S6: S6 -> S0 request to vote! rf.term=2
-136354 VOTE S6: S6 -> S2 request to vote! rf.term=2
-136355 VOTE S6: S6 -> S4 request to vote! rf.term=2
-136357 VOTE S6: S6 -> S1 request to vote! rf.term=2
-136359 VOTE S3: S3 is processing vote from S6!
-136364 VOTE S0: S0 is processing vote from S6!
-136367 VOTE S5: S5 is processing vote from S6!
-136380 VOTE S1: S1 is processing vote from S6!
-145891 CLNT S2: S2 will be a candidate
-145893 VOTE S2: S2 -> S6 request to vote! rf.term=2
-145893 VOTE S2: S2 -> S3 request to vote! rf.term=2
-145894 VOTE S2: S2 -> S1 request to vote! rf.term=2
-145895 VOTE S2: S2 -> S4 request to vote! rf.term=2
-145896 VOTE S2: S2 -> S5 request to vote! rf.term=2
-145894 VOTE S2: S2 -> S0 request to vote! rf.term=2
-146366 VOTE S2: S2 -> S3 RequestVote rpc fail!
-153883 VOTE S3: S3 -> S6 RequestVote rpc fail!
-155057 VOTE S2: S2 -> S0 RequestVote rpc fail!
-162694 CLNT S3: S3 will be a candidate
-162697 VOTE S3: S3 -> S4 request to vote! rf.term=4
-162697 VOTE S3: S3 -> S2 request to vote! rf.term=4
-162697 VOTE S3: S3 -> S0 request to vote! rf.term=4
-162698 VOTE S3: S3 -> S1 request to vote! rf.term=4
-162699 VOTE S3: S3 -> S5 request to vote! rf.term=4
-162700 VOTE S3: S3 -> S6 request to vote! rf.term=4
-162706 VOTE S1: S1 is processing vote from S3!
-162707 VOTE S0: S0 is processing vote from S3!
-162708 VOTE S0: S0 vote to S3!
-162708 VOTE S5: S5 is processing vote from S3!
-162707 VOTE S1: S1 vote to S3!
-162709 VOTE S6: S6 is processing vote from S3!
-162709 VOTE S5: S5 vote to S3!
-162709 VOTE S6: S6 vote to S3!
-162716 LEAD S3: S3(4 tickets)will be a leader!
-162727 CLNT S6: S6 receive a heartbeate from S3.
-162727 CLNT S5: S5 receive a heartbeate from S3.
-162730 CLNT S0: S0 receive a heartbeate from S3.
-162730 CLNT S1: S1 receive a heartbeate from S3.
-163729 CLNT S6: S6 receive a heartbeate from S3.
-163731 CLNT S0: S0 receive a heartbeate from S3.
-163733 CLNT S5: S5 receive a heartbeate from S3.
-163737 CLNT S1: S1 receive a heartbeate from S3.
-164734 CLNT S6: S6 receive a heartbeate from S3.
-164734 CLNT S5: S5 receive a heartbeate from S3.
-164737 CLNT S1: S1 receive a heartbeate from S3.
-164738 CLNT S0: S0 receive a heartbeate from S3.
-165738 CLNT S0: S0 receive a heartbeate from S3.
-165740 CLNT S6: S6 receive a heartbeate from S3.
-165741 CLNT S5: S5 receive a heartbeate from S3.
-165745 CLNT S1: S1 receive a heartbeate from S3.
-165985 INFO iter=5, connect servers = 2,4,2 
-165987 INFO iter=6, disconnect servers = 5,2,6 
-166131 CLNT S3: S3 receive a heartbeate from S4.
-166133 CLNT S1: S1 receive a heartbeate from S4.
-166134 CLNT S0: S0 receive a heartbeate from S4.
-166742 CLNT S4: S4 receive a heartbeate from S3.
-166745 CLNT S1: S1 receive a heartbeate from S3.
-166745 CLNT S0: S0 receive a heartbeate from S3.
-167747 CLNT S4: S4 receive a heartbeate from S3.
-167748 CLNT S1: S1 receive a heartbeate from S3.
-167749 CLNT S0: S0 receive a heartbeate from S3.
-168753 CLNT S1: S1 receive a heartbeate from S3.
-168754 CLNT S0: S0 receive a heartbeate from S3.
-168755 CLNT S4: S4 receive a heartbeate from S3.
-169757 CLNT S1: S1 receive a heartbeate from S3.
-169758 CLNT S4: S4 receive a heartbeate from S3.
-169759 CLNT S0: S0 receive a heartbeate from S3.
-170758 CLNT S4: S4 receive a heartbeate from S3.
-170761 CLNT S1: S1 receive a heartbeate from S3.
-170762 CLNT S0: S0 receive a heartbeate from S3.
-170954 INFO iter=6, connect servers = 5,2,6 
-170956 INFO iter=7, disconnect servers = 2,5,2 
-171760 CLNT S4: S4 receive a heartbeate from S3.
-171761 CLNT S0: S0 receive a heartbeate from S3.
-171761 CLNT S1: S1 receive a heartbeate from S3.
-171766 CLNT S6: S6 receive a heartbeate from S3.
-171930 VOTE S2: S2 -> S5 RequestVote rpc fail!
-172176 VOTE S2: S2 -> S6 RequestVote rpc fail!
-172771 CLNT S1: S1 receive a heartbeate from S3.
-172772 CLNT S0: S0 receive a heartbeate from S3.
-172772 CLNT S4: S4 receive a heartbeate from S3.
-172772 CLNT S6: S6 receive a heartbeate from S3.
-173778 CLNT S4: S4 receive a heartbeate from S3.
-173781 CLNT S0: S0 receive a heartbeate from S3.
-173781 CLNT S1: S1 receive a heartbeate from S3.
-173783 CLNT S6: S6 receive a heartbeate from S3.
-174784 CLNT S1: S1 receive a heartbeate from S3.
-174789 CLNT S4: S4 receive a heartbeate from S3.
-174790 CLNT S6: S6 receive a heartbeate from S3.
-174791 CLNT S0: S0 receive a heartbeate from S3.
-175232 VOTE S2: S2 -> S4 RequestVote rpc fail!
-175709 CLNT S5: S5 will be a candidate
-175711 VOTE S5: S5 -> S2 request to vote! rf.term=5
-175711 VOTE S5: S5 -> S3 request to vote! rf.term=5
-175712 VOTE S5: S5 -> S0 request to vote! rf.term=5
-175713 VOTE S5: S5 -> S4 request to vote! rf.term=5
-175712 VOTE S5: S5 -> S1 request to vote! rf.term=5
-175711 VOTE S5: S5 -> S6 request to vote! rf.term=5
-175790 CLNT S1: S1 receive a heartbeate from S3.
-175797 CLNT S4: S4 receive a heartbeate from S3.
-175797 CLNT S0: S0 receive a heartbeate from S3.
-175799 CLNT S6: S6 receive a heartbeate from S3.
-176139 INFO iter=7, connect servers = 2,5,2 
-176140 INFO iter=8, disconnect servers = 4,4,4 
-176791 CLNT S1: S1 receive a heartbeate from S3.
-176797 CLNT S0: S0 receive a heartbeate from S3.
-176797 CLNT S2: S2 receive a heartbeate from S3.
-176797 CLNT S6: S6 receive a heartbeate from S3.
-176799 CLNT S5: S5 receive a heartbeate from S3.
-180570 CLNT S0: S0 will be a candidate
-180572 VOTE S0: S0 -> S2 request to vote! rf.term=5
-180572 VOTE S0: S0 -> S4 request to vote! rf.term=5
-180573 VOTE S0: S0 -> S1 request to vote! rf.term=5
-180573 VOTE S0: S0 -> S5 request to vote! rf.term=5
-180574 VOTE S0: S0 -> S6 request to vote! rf.term=5
-180575 VOTE S0: S0 -> S3 request to vote! rf.term=5
-180581 VOTE S5: S5 is processing vote from S0!
-180582 VOTE S6: S6 is processing vote from S0!
-180582 VOTE S3: S3 is processing vote from S0!
-180583 VOTE S6: S6 vote to S0!
-180582 VOTE S5: S5 can't vote to S0! reaseon: serverState=1, votedFor=5
-180583 VOTE S3: S3 vote to S0!
-180581 VOTE S2: S2 is processing vote from S0!
-180585 VOTE S2: S2 vote to S0!
-180587 VOTE S1: S1 is processing vote from S0!
-180587 VOTE S1: S1 vote to S0!
-180591 LEAD S0: S0(4 tickets)will be a leader!
-180601 CLNT S1: S1 receive a heartbeate from S0.
-180601 CLNT S2: S2 receive a heartbeate from S0.
-180601 CLNT S6: S6 receive a heartbeate from S0.
-180604 CLNT S5: S5 receive a heartbeate from S0.
-180610 CLNT S3: S3 receive a heartbeate from S0.
-180696 INFO iter=8, connect servers = 4,4,4 
-180698 INFO iter=9, disconnect servers = 3,1,5 
-181607 CLNT S4: S4 receive a heartbeate from S0.
-181607 CLNT S6: S6 receive a heartbeate from S0.
-181608 CLNT S2: S2 receive a heartbeate from S0.
-182610 CLNT S4: S4 receive a heartbeate from S0.
-182611 CLNT S2: S2 receive a heartbeate from S0.
-182612 CLNT S6: S6 receive a heartbeate from S0.
-183618 CLNT S2: S2 receive a heartbeate from S0.
-183620 CLNT S4: S4 receive a heartbeate from S0.
-183624 CLNT S6: S6 receive a heartbeate from S0.
-184624 CLNT S2: S2 receive a heartbeate from S0.
-184624 CLNT S4: S4 receive a heartbeate from S0.
-184625 CLNT S6: S6 receive a heartbeate from S0.
-185628 CLNT S2: S2 receive a heartbeate from S0.
-185630 CLNT S4: S4 receive a heartbeate from S0.
-185632 CLNT S6: S6 receive a heartbeate from S0.
-185792 INFO iter=9, connect servers = 3,1,5 
-186634 CLNT S4: S4 receive a heartbeate from S0.
-186634 CLNT S6: S6 receive a heartbeate from S0.
-186635 CLNT S2: S2 receive a heartbeate from S0.
-186639 CLNT S3: S3 receive a heartbeate from S0.
-186644 CLNT S5: S5 receive a heartbeate from S0.
-186646 CLNT S1: S1 receive a heartbeate from S0.
-187643 CLNT S2: S2 receive a heartbeate from S0.
-187645 CLNT S4: S4 receive a heartbeate from S0.
-187646 CLNT S3: S3 receive a heartbeate from S0.
-187649 CLNT S5: S5 receive a heartbeate from S0.
-187656 CLNT S6: S6 receive a heartbeate from S0.
-187656 CLNT S1: S1 receive a heartbeate from S0.
-188650 CLNT S4: S4 receive a heartbeate from S0.
-188652 CLNT S2: S2 receive a heartbeate from S0.
-188654 CLNT S1: S1 receive a heartbeate from S0.
-188655 CLNT S6: S6 receive a heartbeate from S0.
-188661 CLNT S3: S3 receive a heartbeate from S0.
-188662 CLNT S5: S5 receive a heartbeate from S0.
-189659 CLNT S2: S2 receive a heartbeate from S0.
-189661 CLNT S4: S4 receive a heartbeate from S0.
-189662 CLNT S1: S1 receive a heartbeate from S0.
-189663 CLNT S6: S6 receive a heartbeate from S0.
-189670 CLNT S5: S5 receive a heartbeate from S0.
-189672 CLNT S3: S3 receive a heartbeate from S0.
-  ... Passed --   9.1  7  540  113200    0
+Test (3B): RPC counts aren't too high ...
+013210 CLNT S1: S1 will be a candidate
+013213 VOTE S1: S1 -> S2 request to vote! rf.term=1
+013213 VOTE S1: S1 -> S0 request to vote! rf.term=1
+013234 VOTE S0:processing vote from S1! args.Term=1, rf.currentTerm=0
+013235 VOTE S0: S0 vote to S1!
+013234 VOTE S2:processing vote from S1! args.Term=1, rf.currentTerm=0
+013236 VOTE S2: S2 vote to S1!
+013242 LEAD S1: S1(2 tickets)will be a leader!
+013263 CLNT S0: S0 receive a heartbeate from S1.
+013265 CLNT S2: S2 receive a heartbeate from S1.
+014269 CLNT S2: S2 receive a heartbeate from S1.
+014272 CLNT S0: S0 receive a heartbeate from S1.
+015282 CLNT S2: S2 receive a heartbeate from S1.
+015283 CLNT S0: S0 receive a heartbeate from S1.
+016292 CLNT S0: S0 receive a heartbeate from S1.
+016292 CLNT S2: S2 receive a heartbeate from S1.
+017304 CLNT S2: S2 receive a heartbeate from S1.
+017307 CLNT S0: S0 receive a heartbeate from S1.
+018313 CLNT S2: S2 receive a heartbeate from S1.
+018313 CLNT S0: S0 receive a heartbeate from S1.
+019274 LEAD S1 has saved a log entry. command = 1
+019275 LEAD S1 has saved a log entry. command = 1339372060
+019276 LEAD S1 has saved a log entry. command = 726563463
+019277 LEAD S1 has saved a log entry. command = 1711915368
+019278 LEAD S1 has saved a log entry. command = 1220469003
+019278 LEAD S1 has saved a log entry. command = 1887422577
+019279 LEAD S1 has saved a log entry. command = 2082309167
+019279 LEAD S1 has saved a log entry. command = 900238744
+019280 LEAD S1 has saved a log entry. command = 1339738003
+019280 LEAD S1 has saved a log entry. command = 1920043405
+019281 LEAD S1 has saved a log entry. command = 1582937497
+019281 LEAD S1 has saved a log entry. command = 598906936
+019320 LEAD S1: send a entry to S0, log index = 1, PrevLogIndex =0
+019322 LEAD S1: send a entry to S2, log index = 1, PrevLogIndex =0
+019333 CLNT S0: receive logindex=1
+019334 CLNT S2: receive logindex=1
+019339 CLNT S1: apply logindex=1
+019841 LEAD S1: send a entry to S0, log index = 2, PrevLogIndex =1
+019846 LEAD S1: send a entry to S2, log index = 2, PrevLogIndex =1
+019854 CLNT S0: apply logindex=1
+019855 CLNT S0: receive logindex=2
+019856 CLNT S2: apply logindex=1
+019857 CLNT S2: receive logindex=2
+019862 CLNT S1: apply logindex=2
+020370 LEAD S1: send a entry to S0, log index = 3, PrevLogIndex =2
+020372 LEAD S1: send a entry to S2, log index = 3, PrevLogIndex =2
+020383 CLNT S0: apply logindex=2
+020384 CLNT S0: receive logindex=3
+020384 CLNT S2: apply logindex=2
+020385 CLNT S2: receive logindex=3
+020391 CLNT S1: apply logindex=3
+020897 LEAD S1: send a entry to S2, log index = 4, PrevLogIndex =3
+020899 LEAD S1: send a entry to S0, log index = 4, PrevLogIndex =3
+020910 CLNT S2: apply logindex=3
+020911 CLNT S2: receive logindex=4
+020912 CLNT S0: apply logindex=3
+020913 CLNT S0: receive logindex=4
+020918 CLNT S1: apply logindex=4
+021422 LEAD S1: send a entry to S0, log index = 5, PrevLogIndex =4
+021425 LEAD S1: send a entry to S2, log index = 5, PrevLogIndex =4
+021435 CLNT S0: apply logindex=4
+021436 CLNT S0: receive logindex=5
+021438 CLNT S2: apply logindex=4
+021439 CLNT S2: receive logindex=5
+021443 CLNT S1: apply logindex=5
+021947 LEAD S1: send a entry to S0, log index = 6, PrevLogIndex =5
+021948 LEAD S1: send a entry to S2, log index = 6, PrevLogIndex =5
+021960 CLNT S0: apply logindex=5
+021961 CLNT S0: receive logindex=6
+021962 CLNT S2: apply logindex=5
+021962 CLNT S2: receive logindex=6
+021968 CLNT S1: apply logindex=6
+022479 LEAD S1: send a entry to S0, log index = 7, PrevLogIndex =6
+022481 LEAD S1: send a entry to S2, log index = 7, PrevLogIndex =6
+022492 CLNT S0: apply logindex=6
+022493 CLNT S0: receive logindex=7
+022494 CLNT S2: apply logindex=6
+022495 CLNT S2: receive logindex=7
+022502 CLNT S1: apply logindex=7
+023011 LEAD S1: send a entry to S0, log index = 8, PrevLogIndex =7
+023013 LEAD S1: send a entry to S2, log index = 8, PrevLogIndex =7
+023024 CLNT S0: apply logindex=7
+023025 CLNT S0: receive logindex=8
+023026 CLNT S2: apply logindex=7
+023027 CLNT S2: receive logindex=8
+023032 CLNT S1: apply logindex=8
+023538 LEAD S1: send a entry to S2, log index = 9, PrevLogIndex =8
+023539 LEAD S1: send a entry to S0, log index = 9, PrevLogIndex =8
+023550 CLNT S2: apply logindex=8
+023551 CLNT S2: receive logindex=9
+023551 CLNT S0: apply logindex=8
+023552 CLNT S0: receive logindex=9
+023558 CLNT S1: apply logindex=9
+024070 LEAD S1: send a entry to S0, log index = 10, PrevLogIndex =9
+024072 LEAD S1: send a entry to S2, log index = 10, PrevLogIndex =9
+024082 CLNT S0: apply logindex=9
+024083 CLNT S0: receive logindex=10
+024085 CLNT S2: apply logindex=9
+024086 CLNT S2: receive logindex=10
+024090 CLNT S1: apply logindex=10
+024600 LEAD S1: send a entry to S2, log index = 11, PrevLogIndex =10
+024602 LEAD S1: send a entry to S0, log index = 11, PrevLogIndex =10
+024612 CLNT S2: apply logindex=10
+024612 CLNT S2: receive logindex=11
+024615 CLNT S0: apply logindex=10
+024615 CLNT S0: receive logindex=11
+024621 CLNT S1: apply logindex=11
+025127 LEAD S1: send a entry to S2, log index = 12, PrevLogIndex =11
+025129 LEAD S1: send a entry to S0, log index = 12, PrevLogIndex =11
+025139 CLNT S2: apply logindex=11
+025140 CLNT S2: receive logindex=12
+025141 CLNT S0: apply logindex=11
+025142 CLNT S0: receive logindex=12
+025146 CLNT S1: apply logindex=12
+025661 CLNT S2: apply logindex=12
+025662 CLNT S2: S2 receive a heartbeate from S1.
+025661 CLNT S0: apply logindex=12
+025663 CLNT S0: S0 receive a heartbeate from S1.
+026676 CLNT S0: S0 receive a heartbeate from S1.
+026677 CLNT S2: S2 receive a heartbeate from S1.
+027683 CLNT S0: S0 receive a heartbeate from S1.
+027684 CLNT S2: S2 receive a heartbeate from S1.
+028697 CLNT S2: S2 receive a heartbeate from S1.
+028698 CLNT S0: S0 receive a heartbeate from S1.
+029707 CLNT S0: S0 receive a heartbeate from S1.
+029707 CLNT S2: S2 receive a heartbeate from S1.
+030714 CLNT S2: S2 receive a heartbeate from S1.
+030715 CLNT S0: S0 receive a heartbeate from S1.
+031730 CLNT S2: S2 receive a heartbeate from S1.
+031730 CLNT S0: S0 receive a heartbeate from S1.
+032741 CLNT S2: S2 receive a heartbeate from S1.
+032742 CLNT S0: S0 receive a heartbeate from S1.
+033755 CLNT S0: S0 receive a heartbeate from S1.
+033756 CLNT S2: S2 receive a heartbeate from S1.
+034767 CLNT S0: S0 receive a heartbeate from S1.
+034769 CLNT S2: S2 receive a heartbeate from S1.
+  ... Passed --   3.5  3   58   18122   12
 PASS
-ok  	6.5840/raft	20.087s
+ok  	6.5840/raft	4.550s
