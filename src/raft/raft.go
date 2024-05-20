@@ -344,8 +344,12 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		for i := rf.commitIndex + 1; i <= commitIndex; i++ {
 			applyMsg := ApplyMsg{CommandValid: true,
 								Command: rf.log[i].Command,
-								CommandIndex: i,} 
+								CommandIndex: i,}
+			rf.mu.Unlock()
+
 			rf.applyCh <- applyMsg
+			
+			rf.mu.Lock()
 			Log(dClient, "S%d: apply logindex=%d", rf.me, i)
 		}
 		rf.commitIndex = commitIndex
@@ -548,7 +552,7 @@ func (rf *Raft) sendLog2Server(server int) {
 					}
 				}
 			}()
-			time.Sleep(50 * time.Millisecond)
+			// time.Sleep(50 * time.Millisecond)
 		}
 		time.Sleep(50 * time.Millisecond)
 	}
@@ -569,7 +573,11 @@ func (rf *Raft) dealHaveEntryLogLocked(server int, args *AppendEntriesArgs) {
 									Command: rf.log[index].Command,
 									CommandIndex: index,}
 					//发送消息到上层应用
+					rf.mu.Unlock()
+
 					rf.applyCh <- applyMsg
+				
+					rf.mu.Lock()
 					Log(dClient, "S%d: apply logindex=%d", rf.me, index)
 					index++
 				}

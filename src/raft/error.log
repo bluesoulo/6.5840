@@ -1,22 +1,22 @@
 Test (3B): basic agreement ...
-  ... Passed --   1.8  3   16    4754    3
+  ... Passed --   0.7  3   16    4754    3
 Test (3B): RPC byte count ...
-  ... Passed --   3.2  3   48  115134   11
+  ... Passed --   2.1  3   48  115134   11
 Test (3B): test progressive failure of followers ...
-  ... Passed --   6.0  3   42   11804    3
+  ... Passed --   5.6  3   69   19349    3
 Test (3B): test failure of leaders ...
-  ... Passed --   5.5  3   96   24177    3
+  ... Passed --   5.0  3  153   38143    3
 Test (3B): agreement after follower reconnects ...
-  ... Passed --   6.6  3   76   22923    8
+  ... Passed --   9.8  3  187   56396    9
 Test (3B): no agreement if too many followers disconnect ...
-  ... Passed --   3.6  5   87   23971    3
+  ... Passed --   5.5  5  270   81750    2
 Test (3B): concurrent Start()s ...
-  ... Passed --   1.2  3   14    4172    6
+  ... Passed --   0.5  3   12    3562    6
 Test (3B): rejoin of partitioned leader ...
-  ... Passed --   5.8  3   98   26143    4
+  ... Passed --   5.7  3  140   35105    4
 Test (3B): leader backs up quickly over incorrect follower logs ...
-  ... Passed --  23.8  5  842  272894  103
+  ... Passed --  19.5  5 1141  350278  104
 Test (3B): RPC counts aren't too high ...
-  ... Passed --   2.5  3   40   12378   12
+  ... Passed --   2.7  3   84   26022   12
 PASS
-ok  	6.5840/raft	61.056s
+ok  	6.5840/raft	58.099s
