@@ -1,7 +1,9 @@
 #!/bin/bash
 
-for i in {1..100}
+for i in {1..10}
 do
-  go test -race --run  TestReElection3A >> error.log
+  echo "" >> error2.log
+  VERBOSE=1 go test -race  --run TestFigure83C  >> error2.log
+  echo "" >> error2.log
 done
 

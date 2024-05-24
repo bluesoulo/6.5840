@@ -1,1380 +1,198 @@
-Test (3C): basic persistence ...
-003390 CLNT S0: S0 will be a candidate
-003395 VOTE S0: S0 -> S1 request to vote! rf.term=1
-003395 VOTE S0: S0 -> S2 request to vote! rf.term=1
-003408 VOTE S1:processing vote from S0! args.Term=1, rf.currentTerm=0
-003409 VOTE S2:processing vote from S0! args.Term=1, rf.currentTerm=0
-003410 VOTE S1: S1 vote to S0!
-003411 VOTE S2: S2 vote to S0!
-003415 LEAD S0: S0(2 tickets)will be a leader!
-003417 LEAD S0: send a heartbeat to S1
-003418 LEAD S0: send a heartbeat to S2
-003536 LEAD S0 has saved a log entry. command = 11
-003921 LEAD S0: send a entry to S2, log index = 1, PrevLogIndex =0
-003922 LEAD S0: send a entry to S1, log index = 1, PrevLogIndex =0
-003931 CLNT S1: receive logindex=1
-003934 CLNT S2: receive logindex=1
-003936 LEAD S0: apply logindex=1
-004439 LEAD S0: send a heartbeat to S1
-004445 CLNT S1: apply logindex=1
-004446 LEAD S0: send a heartbeat to S2
-004453 CLNT S2: apply logindex=1
-013585 CLNT S2: S2 will be a candidate
-013588 VOTE S2: S2 -> S1 request to vote! rf.term=2
-013588 VOTE S2: S2 -> S0 request to vote! rf.term=2
-013596 VOTE S1:processing vote from S2! args.Term=2, rf.currentTerm=1
-013597 VOTE S0:processing vote from S2! args.Term=2, rf.currentTerm=1
-013598 VOTE S1: S1 vote to S2!
-013599 VOTE S0: S0 vote to S2!
-013604 LEAD S2: S2(2 tickets)will be a leader!
-013605 LEAD S2: send a heartbeat to S1
-013606 LEAD S2: send a heartbeat to S0
-013650 LEAD S2 has saved a log entry. command = 12
-014117 LEAD S2: send a entry to S1, log index = 2, PrevLogIndex =1
-014119 LEAD S2: send a entry to S0, log index = 2, PrevLogIndex =1
-014130 CLNT S0: receive logindex=2
-014131 CLNT S1: receive logindex=2
-014141 LEAD S2: apply logindex=2
-014646 LEAD S2: send a heartbeat to S1
-014647 LEAD S2: send a heartbeat to S0
-014658 CLNT S1: apply logindex=1
-014659 CLNT S1: apply logindex=2
-014659 CLNT S0: apply logindex=1
-014660 CLNT S0: apply logindex=2
-015152 LEAD S2: send a heartbeat to S1
-015152 LEAD S2: send a heartbeat to S0
-015654 LEAD S2: send a heartbeat to S1
-015655 LEAD S2: send a heartbeat to S0
-016159 LEAD S2: send a heartbeat to S0
-016160 LEAD S2: send a heartbeat to S1
-016661 LEAD S2: send a heartbeat to S1
-016663 LEAD S2: send a heartbeat to S0
-017169 LEAD S2: send a heartbeat to S1
-017171 LEAD S2: send a heartbeat to S0
-017672 LEAD S2: send a heartbeat to S1
-017672 LEAD S2: send a heartbeat to S0
-018174 LEAD S2: send a heartbeat to S1
-018175 LEAD S2: send a heartbeat to S0
-018678 LEAD S2: send a heartbeat to S0
-018679 LEAD S2: send a heartbeat to S1
-019181 LEAD S2: send a heartbeat to S0
-019182 LEAD S2: send a heartbeat to S1
-034727 CLNT S1: S1 will be a candidate
-034729 VOTE S1: S1 -> S2 request to vote! rf.term=3
-034730 VOTE S1: S1 -> S0 request to vote! rf.term=3
-034736 VOTE S2:processing vote from S1! args.Term=3, rf.currentTerm=2
-034737 VOTE S2: S2 vote to S1!
-034738 VOTE S0:processing vote from S1! args.Term=3, rf.currentTerm=2
-034740 VOTE S0: S0 vote to S1!
-034741 LEAD S1: S1(2 tickets)will be a leader!
-034742 LEAD S1: send a heartbeat to S2
-034742 LEAD S1: send a heartbeat to S0
-034749 CLNT S2: apply logindex=1
-034750 CLNT S2: apply logindex=2
-034761 LEAD S1 has saved a log entry. command = 13
-035251 LEAD S1: send a entry to S2, log index = 3, PrevLogIndex =2
-035252 LEAD S1: send a entry to S0, log index = 3, PrevLogIndex =2
-035261 CLNT S2: receive logindex=3
-035262 CLNT S0: receive logindex=3
-035267 LEAD S1: apply logindex=3
-035778 LEAD S1: send a heartbeat to S0
-035779 LEAD S1: send a heartbeat to S2
-035786 CLNT S2: apply logindex=3
-035788 CLNT S0: apply logindex=3
-036283 LEAD S1: send a heartbeat to S2
-036284 LEAD S1: send a heartbeat to S0
-036785 LEAD S1: send a heartbeat to S2
-036787 LEAD S1: send a heartbeat to S0
-037292 LEAD S1: send a heartbeat to S2
-037293 LEAD S1: send a heartbeat to S0
-037796 LEAD S1: send a heartbeat to S2
-037797 LEAD S1: send a heartbeat to S0
-038300 LEAD S1: send a heartbeat to S0
-038301 LEAD S1: send a heartbeat to S2
-038803 LEAD S1: send a heartbeat to S0
-038804 LEAD S1: send a heartbeat to S2
-039306 LEAD S1: send a heartbeat to S0
-039308 LEAD S1: send a heartbeat to S2
-039810 LEAD S1: send a heartbeat to S2
-039812 LEAD S1: send a heartbeat to S0
-040315 LEAD S1: send a heartbeat to S2
-040315 LEAD S1: send a heartbeat to S0
-040820 LEAD S1: send a heartbeat to S2
-040822 LEAD S1: send a heartbeat to S0
-041323 LEAD S1: send a heartbeat to S0
-041325 LEAD S1: send a heartbeat to S2
-041825 LEAD S1: send a heartbeat to S0
-041827 LEAD S1: send a heartbeat to S2
-042327 LEAD S1: send a heartbeat to S0
-042329 LEAD S1: send a heartbeat to S2
-042832 LEAD S1: send a heartbeat to S0
-042834 LEAD S1: send a heartbeat to S2
-043334 LEAD S1: send a heartbeat to S0
-043338 LEAD S1: send a heartbeat to S2
-043837 LEAD S1: send a heartbeat to S0
-043841 LEAD S1: send a heartbeat to S2
-044340 LEAD S1: send a heartbeat to S0
-044344 LEAD S1: send a heartbeat to S2
-044843 LEAD S1: send a heartbeat to S0
-044848 LEAD S1: send a heartbeat to S2
-045350 LEAD S1: send a heartbeat to S2
-045352 LEAD S1: send a heartbeat to S0
-045852 LEAD S1: send a heartbeat to S2
-045856 LEAD S1: send a heartbeat to S0
-046366 LEAD S1: send a heartbeat to S2
-046367 LEAD S1: send a heartbeat to S0
-046871 LEAD S1: send a heartbeat to S2
-046872 LEAD S1: send a heartbeat to S0
-047374 LEAD S1: send a heartbeat to S2
-047376 LEAD S1: send a heartbeat to S0
-047881 LEAD S1: send a heartbeat to S0
-047882 LEAD S1: send a heartbeat to S2
-048385 LEAD S1: send a heartbeat to S0
-048387 LEAD S1: send a heartbeat to S2
-048893 LEAD S1: send a heartbeat to S0
-048895 LEAD S1: send a heartbeat to S2
-049399 LEAD S1: send a heartbeat to S2
-049400 LEAD S1: send a heartbeat to S0
-049902 LEAD S1: send a heartbeat to S0
-049904 LEAD S1: send a heartbeat to S2
-050407 LEAD S1: send a heartbeat to S0
-050409 LEAD S1: send a heartbeat to S2
-050912 LEAD S1: send a heartbeat to S2
-050914 LEAD S1: send a heartbeat to S0
-051418 LEAD S1: send a heartbeat to S0
-051419 LEAD S1: send a heartbeat to S2
-051924 LEAD S1: send a heartbeat to S2
-051926 LEAD S1: send a heartbeat to S0
-052431 LEAD S1: send a heartbeat to S2
-052432 LEAD S1: send a heartbeat to S0
-052935 LEAD S1: send a heartbeat to S2
-052937 LEAD S1: send a heartbeat to S0
-053440 LEAD S1: send a heartbeat to S2
-053442 LEAD S1: send a heartbeat to S0
-053943 LEAD S1: send a heartbeat to S2
-053945 LEAD S1: send a heartbeat to S0
-054447 LEAD S1: send a heartbeat to S2
-054449 LEAD S1: send a heartbeat to S0
-054871 CLNT S0: S0 will be a candidate
-054874 VOTE S0: S0 -> S1 request to vote! rf.term=4
-054874 VOTE S0: S0 -> S2 request to vote! rf.term=4
-054885 VOTE S2:processing vote from S0! args.Term=4, rf.currentTerm=3
-054887 VOTE S2: S2 vote to S0!
-054893 LEAD S0: S0(2 tickets)will be a leader!
-054895 LEAD S0: send a heartbeat to S1
-054896 LEAD S0: send a heartbeat to S2
-054947 LEAD S0 has saved a log entry. command = 14
-054954 LEAD S1: send a heartbeat to S2
-054955 LEAD S1: send a heartbeat to S0
-055402 LEAD S0: send a entry to S1, log index = 4, PrevLogIndex =3
-055404 LEAD S0: send a entry to S2, log index = 4, PrevLogIndex =3
-055417 CLNT S2: receive logindex=4
-055427 LEAD S0: apply logindex=4
-055465 LEAD S1: send a heartbeat to S0
-055466 LEAD S1: send a heartbeat to S2
-055934 LEAD S0: send a heartbeat to S2
-055945 CLNT S2: apply logindex=4
-055976 LEAD S1: send a heartbeat to S2
-056440 LEAD S0: send a heartbeat to S2
-056948 LEAD S0: send a heartbeat to S2
-057455 LEAD S0: send a heartbeat to S2
-057961 LEAD S0: send a heartbeat to S2
-058468 LEAD S0: send a heartbeat to S2
-058973 LEAD S0: send a heartbeat to S2
-059230 CLNT S1: S1 will be a candidate
-059232 VOTE S1: S1 -> S0 request to vote! rf.term=4
-059232 VOTE S1: S1 -> S2 request to vote! rf.term=4
-059237 VOTE S0:processing vote from S1! args.Term=4, rf.currentTerm=4
-059238 VOTE S0: S0 can't vote to S1! reaseon: serverState=2, votedFor=0, term=4
-059241 VOTE S2:processing vote from S1! args.Term=4, rf.currentTerm=4
-059242 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
-059482 LEAD S0: send a heartbeat to S2
-059985 LEAD S0: send a heartbeat to S2
-060489 LEAD S0: send a heartbeat to S2
-060996 LEAD S0: send a heartbeat to S2
-061502 LEAD S0: send a heartbeat to S2
-062007 LEAD S0: send a heartbeat to S2
-062510 LEAD S0: send a heartbeat to S2
-063014 LEAD S0: send a heartbeat to S2
-063521 LEAD S0: send a heartbeat to S2
-064025 LEAD S0: send a heartbeat to S2
-064432 CLNT S1: S1 will be a candidate
-064433 VOTE S1: S1 -> S2 request to vote! rf.term=5
-064434 VOTE S1: S1 -> S0 request to vote! rf.term=5
-064437 VOTE S2:processing vote from S1! args.Term=5, rf.currentTerm=4
-064438 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
-064442 VOTE S0:processing vote from S1! args.Term=5, rf.currentTerm=4
-064444 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
-070758 CLNT S2: S2 will be a candidate
-070761 VOTE S2: S2 -> S0 request to vote! rf.term=6
-070761 VOTE S2: S2 -> S1 request to vote! rf.term=6
-070767 VOTE S1:processing vote from S2! args.Term=6, rf.currentTerm=5
-070768 VOTE S1: S1 vote to S2!
-070769 VOTE S0:processing vote from S2! args.Term=6, rf.currentTerm=5
-070771 VOTE S0: S0 vote to S2!
-070772 LEAD S2: S2(2 tickets)will be a leader!
-070772 LEAD S2: send a heartbeat to S1
-070773 LEAD S2: send a heartbeat to S0
-071275 LEAD S2: send a heartbeat to S0
-071277 LEAD S2: send a heartbeat to S1
-071781 LEAD S2: send a heartbeat to S1
-071783 LEAD S2: send a heartbeat to S0
-072287 LEAD S2: send a heartbeat to S0
-072290 LEAD S2: send a heartbeat to S1
-072792 LEAD S2: send a heartbeat to S1
-072793 LEAD S2: send a heartbeat to S0
-073295 LEAD S2: send a heartbeat to S0
-073297 LEAD S2: send a heartbeat to S1
-073801 LEAD S2: send a heartbeat to S0
-073802 LEAD S2: send a heartbeat to S1
-074304 LEAD S2: send a heartbeat to S0
-074306 LEAD S2: send a heartbeat to S1
-074809 LEAD S2: send a heartbeat to S1
-074811 LEAD S2: send a heartbeat to S0
-075314 LEAD S2: send a heartbeat to S1
-075316 LEAD S2: send a heartbeat to S0
-075819 LEAD S2: send a heartbeat to S0
-075821 LEAD S2: send a heartbeat to S1
-076322 LEAD S2: send a heartbeat to S0
-076323 LEAD S2: send a heartbeat to S1
-076832 LEAD S2: send a heartbeat to S0
-076834 LEAD S2: send a heartbeat to S1
-077335 LEAD S2: send a heartbeat to S0
-077337 LEAD S2: send a heartbeat to S1
-077840 LEAD S2: send a heartbeat to S0
-077841 LEAD S2: send a heartbeat to S1
-078346 LEAD S2: send a heartbeat to S1
-078347 LEAD S2: send a heartbeat to S0
-078848 LEAD S2: send a heartbeat to S0
-078850 LEAD S2: send a heartbeat to S1
-079352 LEAD S2: send a heartbeat to S1
-079352 LEAD S2: send a heartbeat to S0
-079858 LEAD S2: send a heartbeat to S1
-079860 LEAD S2: send a heartbeat to S0
-080361 LEAD S2: send a heartbeat to S1
-080363 LEAD S2: send a heartbeat to S0
-080865 LEAD S2: send a heartbeat to S0
-080866 LEAD S2: send a heartbeat to S1
-081368 LEAD S2: send a heartbeat to S1
-081369 LEAD S2: send a heartbeat to S0
-081872 LEAD S2: send a heartbeat to S0
-081873 LEAD S2: send a heartbeat to S1
-082375 LEAD S2: send a heartbeat to S1
-082376 LEAD S2: send a heartbeat to S0
-082878 LEAD S2: send a heartbeat to S1
-082879 LEAD S2: send a heartbeat to S0
-083383 LEAD S2: send a heartbeat to S0
-083384 LEAD S2: send a heartbeat to S1
-083890 LEAD S2: send a heartbeat to S0
-083891 LEAD S2: send a heartbeat to S1
-084397 LEAD S2: send a heartbeat to S0
-084398 LEAD S2: send a heartbeat to S1
-084900 LEAD S2: send a heartbeat to S1
-084901 LEAD S2: send a heartbeat to S0
-085412 LEAD S2: send a heartbeat to S1
-085413 LEAD S2: send a heartbeat to S0
-085917 LEAD S2: send a heartbeat to S1
-085918 LEAD S2: send a heartbeat to S0
-086422 LEAD S2: send a heartbeat to S0
-086423 LEAD S2: send a heartbeat to S1
-086927 LEAD S2: send a heartbeat to S0
-086928 LEAD S2: send a heartbeat to S1
-087437 LEAD S2: send a heartbeat to S1
-087439 LEAD S2: send a heartbeat to S0
-087940 LEAD S2: send a heartbeat to S0
-087942 LEAD S2: send a heartbeat to S1
-088447 LEAD S2: send a heartbeat to S0
-088448 LEAD S2: send a heartbeat to S1
-088952 LEAD S2: send a heartbeat to S0
-088953 LEAD S2: send a heartbeat to S1
-089455 LEAD S2: send a heartbeat to S0
-089456 LEAD S2: send a heartbeat to S1
-089959 LEAD S2: send a heartbeat to S0
-089961 LEAD S2: send a heartbeat to S1
-090466 LEAD S2: send a heartbeat to S0
-090467 LEAD S2: send a heartbeat to S1
-090972 LEAD S2: send a heartbeat to S1
-090973 LEAD S2: send a heartbeat to S0
-091474 LEAD S2: send a heartbeat to S1
-091475 LEAD S2: send a heartbeat to S0
-091978 LEAD S2: send a heartbeat to S0
-091979 LEAD S2: send a heartbeat to S1
-092483 LEAD S2: send a heartbeat to S0
-092484 LEAD S2: send a heartbeat to S1
-092988 LEAD S2: send a heartbeat to S1
-092989 LEAD S2: send a heartbeat to S0
-093490 LEAD S2: send a heartbeat to S1
-093491 LEAD S2: send a heartbeat to S0
-093996 LEAD S2: send a heartbeat to S1
-093998 LEAD S2: send a heartbeat to S0
-094501 LEAD S2: send a heartbeat to S0
-094503 LEAD S2: send a heartbeat to S1
-095010 LEAD S2: send a heartbeat to S1
-095012 LEAD S2: send a heartbeat to S0
-095515 LEAD S2: send a heartbeat to S0
-095516 LEAD S2: send a heartbeat to S1
-096020 LEAD S2: send a heartbeat to S0
-096022 LEAD S2: send a heartbeat to S1
-096523 LEAD S2: send a heartbeat to S0
-096525 LEAD S2: send a heartbeat to S1
-097027 LEAD S2: send a heartbeat to S1
-097029 LEAD S2: send a heartbeat to S0
-097540 LEAD S2: send a heartbeat to S0
-097542 LEAD S2: send a heartbeat to S1
-098050 LEAD S2: send a heartbeat to S0
-098051 LEAD S2: send a heartbeat to S1
-098554 LEAD S2: send a heartbeat to S0
-098555 LEAD S2: send a heartbeat to S1
-099058 LEAD S2: send a heartbeat to S0
-099059 LEAD S2: send a heartbeat to S1
-099561 LEAD S2: send a heartbeat to S1
-099563 LEAD S2: send a heartbeat to S0
-100064 LEAD S2: send a heartbeat to S1
-100065 LEAD S2: send a heartbeat to S0
-100571 LEAD S2: send a heartbeat to S1
-100572 LEAD S2: send a heartbeat to S0
-101074 LEAD S2: send a heartbeat to S0
-101075 LEAD S2: send a heartbeat to S1
-101580 LEAD S2: send a heartbeat to S0
-101582 LEAD S2: send a heartbeat to S1
-102082 LEAD S2: send a heartbeat to S0
-102084 LEAD S2: send a heartbeat to S1
-102585 LEAD S2: send a heartbeat to S0
-102587 LEAD S2: send a heartbeat to S1
-103093 LEAD S2: send a heartbeat to S0
-103095 LEAD S2: send a heartbeat to S1
-103599 LEAD S2: send a heartbeat to S0
-103601 LEAD S2: send a heartbeat to S1
-104103 LEAD S2: send a heartbeat to S1
-104104 LEAD S2: send a heartbeat to S0
-104607 LEAD S2: send a heartbeat to S0
-104609 LEAD S2: send a heartbeat to S1
-105113 LEAD S2: send a heartbeat to S1
-105115 LEAD S2: send a heartbeat to S0
-105619 LEAD S2: send a heartbeat to S1
-105621 LEAD S2: send a heartbeat to S0
-106122 LEAD S2: send a heartbeat to S1
-106123 LEAD S2: send a heartbeat to S0
-106631 LEAD S2: send a heartbeat to S1
-106632 LEAD S2: send a heartbeat to S0
-107134 LEAD S2: send a heartbeat to S1
-107135 LEAD S2: send a heartbeat to S0
-107637 LEAD S2: send a heartbeat to S1
-107639 LEAD S2: send a heartbeat to S0
-108142 LEAD S2: send a heartbeat to S0
-108144 LEAD S2: send a heartbeat to S1
-108652 LEAD S2: send a heartbeat to S1
-108654 LEAD S2: send a heartbeat to S0
-109155 LEAD S2: send a heartbeat to S1
-109157 LEAD S2: send a heartbeat to S0
-109658 LEAD S2: send a heartbeat to S0
-109659 LEAD S2: send a heartbeat to S1
-110160 LEAD S2: send a heartbeat to S0
-110161 LEAD S2: send a heartbeat to S1
-110662 LEAD S2: send a heartbeat to S0
-110664 LEAD S2: send a heartbeat to S1
-111166 LEAD S2: send a heartbeat to S1
-111167 LEAD S2: send a heartbeat to S0
-111672 LEAD S2: send a heartbeat to S0
-111673 LEAD S2: send a heartbeat to S1
-112178 LEAD S2: send a heartbeat to S0
-112179 LEAD S2: send a heartbeat to S1
-112682 LEAD S2: send a heartbeat to S0
-112684 LEAD S2: send a heartbeat to S1
-113184 LEAD S2: send a heartbeat to S0
-113185 LEAD S2: send a heartbeat to S1
-113691 LEAD S2: send a heartbeat to S0
-113692 LEAD S2: send a heartbeat to S1
-114199 LEAD S2: send a heartbeat to S1
-114200 LEAD S2: send a heartbeat to S0
-114703 LEAD S2: send a heartbeat to S1
-114704 LEAD S2: send a heartbeat to S0
-115207 LEAD S2: send a heartbeat to S0
-115209 LEAD S2: send a heartbeat to S1
-115711 LEAD S2: send a heartbeat to S1
-115712 LEAD S2: send a heartbeat to S0
-116221 LEAD S2: send a heartbeat to S1
-116223 LEAD S2: send a heartbeat to S0
-116724 LEAD S2: send a heartbeat to S1
-116726 LEAD S2: send a heartbeat to S0
-117230 LEAD S2: send a heartbeat to S1
-117232 LEAD S2: send a heartbeat to S0
-117736 LEAD S2: send a heartbeat to S0
-117738 LEAD S2: send a heartbeat to S1
-118239 LEAD S2: send a heartbeat to S0
-118242 LEAD S2: send a heartbeat to S1
-118742 LEAD S2: send a heartbeat to S0
-118746 LEAD S2: send a heartbeat to S1
-119244 LEAD S2: send a heartbeat to S0
-119249 LEAD S2: send a heartbeat to S1
-119751 LEAD S2: send a heartbeat to S1
-119753 LEAD S2: send a heartbeat to S0
-120257 LEAD S2: send a heartbeat to S1
-120259 LEAD S2: send a heartbeat to S0
-120761 LEAD S2: send a heartbeat to S0
-120762 LEAD S2: send a heartbeat to S1
-121272 LEAD S2: send a heartbeat to S1
-121274 LEAD S2: send a heartbeat to S0
-121775 LEAD S2: send a heartbeat to S0
-121776 LEAD S2: send a heartbeat to S1
-122279 LEAD S2: send a heartbeat to S0
-122281 LEAD S2: send a heartbeat to S1
-122782 LEAD S2: send a heartbeat to S0
-122783 LEAD S2: send a heartbeat to S1
-123287 LEAD S2: send a heartbeat to S1
-123289 LEAD S2: send a heartbeat to S0
-123789 LEAD S2: send a heartbeat to S1
-123790 LEAD S2: send a heartbeat to S0
-124293 LEAD S2: send a heartbeat to S0
-124294 LEAD S2: send a heartbeat to S1
-124796 LEAD S2: send a heartbeat to S1
-124798 LEAD S2: send a heartbeat to S0
-125301 LEAD S2: send a heartbeat to S1
-125302 LEAD S2: send a heartbeat to S0
-125808 LEAD S2: send a heartbeat to S1
-125810 LEAD S2: send a heartbeat to S0
-126311 LEAD S2: send a heartbeat to S1
-126312 LEAD S2: send a heartbeat to S0
-126814 LEAD S2: send a heartbeat to S0
-126815 LEAD S2: send a heartbeat to S1
-127317 LEAD S2: send a heartbeat to S1
-127319 LEAD S2: send a heartbeat to S0
-127820 LEAD S2: send a heartbeat to S1
-127822 LEAD S2: send a heartbeat to S0
-128323 LEAD S2: send a heartbeat to S0
-128325 LEAD S2: send a heartbeat to S1
-128828 LEAD S2: send a heartbeat to S0
-128830 LEAD S2: send a heartbeat to S1
-129330 LEAD S2: send a heartbeat to S0
-129331 LEAD S2: send a heartbeat to S1
-129832 LEAD S2: send a heartbeat to S0
-129834 LEAD S2: send a heartbeat to S1
-130336 LEAD S2: send a heartbeat to S0
-130337 LEAD S2: send a heartbeat to S1
-130839 LEAD S2: send a heartbeat to S0
-130841 LEAD S2: send a heartbeat to S1
-131344 LEAD S2: send a heartbeat to S1
-131345 LEAD S2: send a heartbeat to S0
-131846 LEAD S2: send a heartbeat to S1
-131847 LEAD S2: send a heartbeat to S0
-132350 LEAD S2: send a heartbeat to S1
-132351 LEAD S2: send a heartbeat to S0
-132856 LEAD S2: send a heartbeat to S0
-132857 LEAD S2: send a heartbeat to S1
-133360 LEAD S2: send a heartbeat to S1
-133362 LEAD S2: send a heartbeat to S0
-133863 LEAD S2: send a heartbeat to S1
-133865 LEAD S2: send a heartbeat to S0
-134365 LEAD S2: send a heartbeat to S1
-134367 LEAD S2: send a heartbeat to S0
-134872 LEAD S2: send a heartbeat to S1
-134873 LEAD S2: send a heartbeat to S0
-135374 LEAD S2: send a heartbeat to S1
-135376 LEAD S2: send a heartbeat to S0
-135876 LEAD S2: send a heartbeat to S1
-135877 LEAD S2: send a heartbeat to S0
-136380 LEAD S2: send a heartbeat to S1
-136382 LEAD S2: send a heartbeat to S0
-136885 LEAD S2: send a heartbeat to S1
-136886 LEAD S2: send a heartbeat to S0
-137388 LEAD S2: send a heartbeat to S0
-137389 LEAD S2: send a heartbeat to S1
-137891 LEAD S2: send a heartbeat to S0
-137892 LEAD S2: send a heartbeat to S1
-138395 LEAD S2: send a heartbeat to S1
-138396 LEAD S2: send a heartbeat to S0
-138898 LEAD S2: send a heartbeat to S0
-138899 LEAD S2: send a heartbeat to S1
-139403 LEAD S2: send a heartbeat to S1
-139404 LEAD S2: send a heartbeat to S0
-139915 LEAD S2: send a heartbeat to S0
-139916 LEAD S2: send a heartbeat to S1
-140417 LEAD S2: send a heartbeat to S0
-140419 LEAD S2: send a heartbeat to S1
-140922 LEAD S2: send a heartbeat to S1
-140923 LEAD S2: send a heartbeat to S0
-141427 LEAD S2: send a heartbeat to S0
-141430 LEAD S2: send a heartbeat to S1
-141930 LEAD S2: send a heartbeat to S0
-141931 LEAD S2: send a heartbeat to S1
-142433 LEAD S2: send a heartbeat to S1
-142434 LEAD S2: send a heartbeat to S0
-142934 LEAD S2: send a heartbeat to S1
-142936 LEAD S2: send a heartbeat to S0
-143438 LEAD S2: send a heartbeat to S1
-143439 LEAD S2: send a heartbeat to S0
-143944 LEAD S2: send a heartbeat to S0
-143946 LEAD S2: send a heartbeat to S1
-144447 LEAD S2: send a heartbeat to S0
-144447 LEAD S2: send a heartbeat to S1
-144950 LEAD S2: send a heartbeat to S1
-144952 LEAD S2: send a heartbeat to S0
-145453 LEAD S2: send a heartbeat to S1
-145454 LEAD S2: send a heartbeat to S0
-145959 LEAD S2: send a heartbeat to S1
-145961 LEAD S2: send a heartbeat to S0
-146465 LEAD S2: send a heartbeat to S0
-146467 LEAD S2: send a heartbeat to S1
-146967 LEAD S2: send a heartbeat to S0
-146969 LEAD S2: send a heartbeat to S1
-147469 LEAD S2: send a heartbeat to S0
-147471 LEAD S2: send a heartbeat to S1
-147971 LEAD S2: send a heartbeat to S0
-147973 LEAD S2: send a heartbeat to S1
-148476 LEAD S2: send a heartbeat to S1
-148477 LEAD S2: send a heartbeat to S0
-148979 LEAD S2: send a heartbeat to S0
-148981 LEAD S2: send a heartbeat to S1
-149484 LEAD S2: send a heartbeat to S0
-149485 LEAD S2: send a heartbeat to S1
-149987 LEAD S2: send a heartbeat to S1
-149989 LEAD S2: send a heartbeat to S0
-150490 LEAD S2: send a heartbeat to S1
-150491 LEAD S2: send a heartbeat to S0
-150994 LEAD S2: send a heartbeat to S0
-150996 LEAD S2: send a heartbeat to S1
-151499 LEAD S2: send a heartbeat to S1
-151501 LEAD S2: send a heartbeat to S0
-152006 LEAD S2: send a heartbeat to S1
-152007 LEAD S2: send a heartbeat to S0
-152510 LEAD S2: send a heartbeat to S1
-152512 LEAD S2: send a heartbeat to S0
-153013 LEAD S2: send a heartbeat to S0
-153015 LEAD S2: send a heartbeat to S1
-153517 LEAD S2: send a heartbeat to S0
-153518 LEAD S2: send a heartbeat to S1
-154021 LEAD S2: send a heartbeat to S0
-154022 LEAD S2: send a heartbeat to S1
-154533 LEAD S2: send a heartbeat to S1
-154534 LEAD S2: send a heartbeat to S0
-155036 LEAD S2: send a heartbeat to S0
-155037 LEAD S2: send a heartbeat to S1
-155540 LEAD S2: send a heartbeat to S1
-155542 LEAD S2: send a heartbeat to S0
-156043 LEAD S2: send a heartbeat to S0
-156044 LEAD S2: send a heartbeat to S1
-156550 LEAD S2: send a heartbeat to S1
-156551 LEAD S2: send a heartbeat to S0
-157054 LEAD S2: send a heartbeat to S0
-157056 LEAD S2: send a heartbeat to S1
-157557 LEAD S2: send a heartbeat to S0
-157558 LEAD S2: send a heartbeat to S1
-158060 LEAD S2: send a heartbeat to S1
-158061 LEAD S2: send a heartbeat to S0
-158566 LEAD S2: send a heartbeat to S1
-158567 LEAD S2: send a heartbeat to S0
-159069 LEAD S2: send a heartbeat to S1
-159071 LEAD S2: send a heartbeat to S0
-159574 LEAD S2: send a heartbeat to S0
-159575 LEAD S2: send a heartbeat to S1
-160078 LEAD S2: send a heartbeat to S0
-160080 LEAD S2: send a heartbeat to S1
-160581 LEAD S2: send a heartbeat to S0
-160583 LEAD S2: send a heartbeat to S1
-161086 LEAD S2: send a heartbeat to S0
-161087 LEAD S2: send a heartbeat to S1
-161591 LEAD S2: send a heartbeat to S1
-161592 LEAD S2: send a heartbeat to S0
-162103 LEAD S2: send a heartbeat to S0
-162104 LEAD S2: send a heartbeat to S1
-162605 LEAD S2: send a heartbeat to S0
-162606 LEAD S2: send a heartbeat to S1
-163111 LEAD S2: send a heartbeat to S0
-163112 LEAD S2: send a heartbeat to S1
-163613 LEAD S2: send a heartbeat to S0
-163614 LEAD S2: send a heartbeat to S1
-164117 LEAD S2: send a heartbeat to S1
-164118 LEAD S2: send a heartbeat to S0
-164620 LEAD S2: send a heartbeat to S1
-164622 LEAD S2: send a heartbeat to S0
-165124 LEAD S2: send a heartbeat to S0
-165125 LEAD S2: send a heartbeat to S1
-165628 LEAD S2: send a heartbeat to S0
-165629 LEAD S2: send a heartbeat to S1
-166131 LEAD S2: send a heartbeat to S1
-166133 LEAD S2: send a heartbeat to S0
-166634 LEAD S2: send a heartbeat to S1
-166635 LEAD S2: send a heartbeat to S0
-167140 LEAD S2: send a heartbeat to S0
-167142 LEAD S2: send a heartbeat to S1
-167644 LEAD S2: send a heartbeat to S0
-167645 LEAD S2: send a heartbeat to S1
-168148 LEAD S2: send a heartbeat to S1
-168150 LEAD S2: send a heartbeat to S0
-168650 LEAD S2: send a heartbeat to S1
-168652 LEAD S2: send a heartbeat to S0
-169154 LEAD S2: send a heartbeat to S0
-169155 LEAD S2: send a heartbeat to S1
-169659 LEAD S2: send a heartbeat to S0
-169660 LEAD S2: send a heartbeat to S1
-170162 LEAD S2: send a heartbeat to S0
-170163 LEAD S2: send a heartbeat to S1
-170668 LEAD S2: send a heartbeat to S1
-170669 LEAD S2: send a heartbeat to S0
-171171 LEAD S2: send a heartbeat to S0
-171172 LEAD S2: send a heartbeat to S1
-171683 LEAD S2: send a heartbeat to S1
-171685 LEAD S2: send a heartbeat to S0
-172189 LEAD S2: send a heartbeat to S0
-172189 LEAD S2: send a heartbeat to S1
-172691 LEAD S2: send a heartbeat to S0
-172693 LEAD S2: send a heartbeat to S1
-173193 LEAD S2: send a heartbeat to S0
-173195 LEAD S2: send a heartbeat to S1
-173695 LEAD S2: send a heartbeat to S0
-173696 LEAD S2: send a heartbeat to S1
-174200 LEAD S2: send a heartbeat to S0
-174201 LEAD S2: send a heartbeat to S1
-174704 LEAD S2: send a heartbeat to S0
-174705 LEAD S2: send a heartbeat to S1
-175209 LEAD S2: send a heartbeat to S1
-175211 LEAD S2: send a heartbeat to S0
-175711 LEAD S2: send a heartbeat to S1
-175712 LEAD S2: send a heartbeat to S0
-176217 LEAD S2: send a heartbeat to S1
-176218 LEAD S2: send a heartbeat to S0
-176719 LEAD S2: send a heartbeat to S0
-176721 LEAD S2: send a heartbeat to S1
-177224 LEAD S2: send a heartbeat to S0
-177226 LEAD S2: send a heartbeat to S1
-177726 LEAD S2: send a heartbeat to S0
-177727 LEAD S2: send a heartbeat to S1
-178229 LEAD S2: send a heartbeat to S1
-178231 LEAD S2: send a heartbeat to S0
-178741 LEAD S2: send a heartbeat to S1
-178742 LEAD S2: send a heartbeat to S0
-179250 LEAD S2: send a heartbeat to S1
-179251 LEAD S2: send a heartbeat to S0
-179753 LEAD S2: send a heartbeat to S1
-179754 LEAD S2: send a heartbeat to S0
-180256 LEAD S2: send a heartbeat to S0
-180258 LEAD S2: send a heartbeat to S1
-180763 LEAD S2: send a heartbeat to S0
-180765 LEAD S2: send a heartbeat to S1
-181270 LEAD S2: send a heartbeat to S0
-181272 LEAD S2: send a heartbeat to S1
-181774 LEAD S2: send a heartbeat to S0
-181775 LEAD S2: send a heartbeat to S1
-182278 LEAD S2: send a heartbeat to S1
-182279 LEAD S2: send a heartbeat to S0
-182780 LEAD S2: send a heartbeat to S1
-182783 LEAD S2: send a heartbeat to S0
-183282 LEAD S2: send a heartbeat to S1
-183284 LEAD S2: send a heartbeat to S0
-183791 LEAD S2: send a heartbeat to S0
-183792 LEAD S2: send a heartbeat to S1
-184301 LEAD S2: send a heartbeat to S1
-184303 LEAD S2: send a heartbeat to S0
-184804 LEAD S2: send a heartbeat to S1
-184804 LEAD S2: send a heartbeat to S0
-185308 LEAD S2: send a heartbeat to S1
-185309 LEAD S2: send a heartbeat to S0
-185811 LEAD S2: send a heartbeat to S1
-185812 LEAD S2: send a heartbeat to S0
-186315 LEAD S2: send a heartbeat to S0
-186316 LEAD S2: send a heartbeat to S1
-186823 LEAD S2: send a heartbeat to S1
-186824 LEAD S2: send a heartbeat to S0
-187328 LEAD S2: send a heartbeat to S1
-187330 LEAD S2: send a heartbeat to S0
-187830 LEAD S2: send a heartbeat to S1
-187832 LEAD S2: send a heartbeat to S0
-188335 LEAD S2: send a heartbeat to S1
-188337 LEAD S2: send a heartbeat to S0
-188841 LEAD S2: send a heartbeat to S1
-188844 LEAD S2: send a heartbeat to S0
-189347 LEAD S2: send a heartbeat to S1
-189348 LEAD S2: send a heartbeat to S0
-189849 LEAD S2: send a heartbeat to S1
-189851 LEAD S2: send a heartbeat to S0
-190355 LEAD S2: send a heartbeat to S1
-190357 LEAD S2: send a heartbeat to S0
-190859 LEAD S2: send a heartbeat to S1
-190861 LEAD S2: send a heartbeat to S0
-191371 LEAD S2: send a heartbeat to S0
-191372 LEAD S2: send a heartbeat to S1
-191873 LEAD S2: send a heartbeat to S0
-191874 LEAD S2: send a heartbeat to S1
-192376 LEAD S2: send a heartbeat to S0
-192378 LEAD S2: send a heartbeat to S1
-192878 LEAD S2: send a heartbeat to S0
-192881 LEAD S2: send a heartbeat to S1
-193387 LEAD S2: send a heartbeat to S0
-193389 LEAD S2: send a heartbeat to S1
-193891 LEAD S2: send a heartbeat to S1
-193892 LEAD S2: send a heartbeat to S0
-194398 LEAD S2: send a heartbeat to S0
-194399 LEAD S2: send a heartbeat to S1
-194900 LEAD S2: send a heartbeat to S0
-194902 LEAD S2: send a heartbeat to S1
-195405 LEAD S2: send a heartbeat to S1
-195406 LEAD S2: send a heartbeat to S0
-195908 LEAD S2: send a heartbeat to S1
-195910 LEAD S2: send a heartbeat to S0
-196412 LEAD S2: send a heartbeat to S0
-196414 LEAD S2: send a heartbeat to S1
-196922 LEAD S2: send a heartbeat to S0
-196923 LEAD S2: send a heartbeat to S1
-197425 LEAD S2: send a heartbeat to S0
-197427 LEAD S2: send a heartbeat to S1
-197929 LEAD S2: send a heartbeat to S0
-197931 LEAD S2: send a heartbeat to S1
-198431 LEAD S2: send a heartbeat to S0
-198434 LEAD S2: send a heartbeat to S1
-198939 LEAD S2: send a heartbeat to S0
-198940 LEAD S2: send a heartbeat to S1
-199442 LEAD S2: send a heartbeat to S0
-199443 LEAD S2: send a heartbeat to S1
-199951 LEAD S2: send a heartbeat to S1
-199952 LEAD S2: send a heartbeat to S0
-200455 LEAD S2: send a heartbeat to S1
-200456 LEAD S2: send a heartbeat to S0
-200959 LEAD S2: send a heartbeat to S1
-200960 LEAD S2: send a heartbeat to S0
-201463 LEAD S2: send a heartbeat to S1
-201465 LEAD S2: send a heartbeat to S0
-201969 LEAD S2: send a heartbeat to S1
-201970 LEAD S2: send a heartbeat to S0
-202472 LEAD S2: send a heartbeat to S0
-202473 LEAD S2: send a heartbeat to S1
-202975 LEAD S2: send a heartbeat to S1
-202976 LEAD S2: send a heartbeat to S0
-203480 LEAD S2: send a heartbeat to S0
-203481 LEAD S2: send a heartbeat to S1
-203985 LEAD S2: send a heartbeat to S0
-203986 LEAD S2: send a heartbeat to S1
-204487 LEAD S2: send a heartbeat to S0
-204490 LEAD S2: send a heartbeat to S1
-205000 LEAD S2: send a heartbeat to S0
-205001 LEAD S2: send a heartbeat to S1
-205504 LEAD S2: send a heartbeat to S1
-205506 LEAD S2: send a heartbeat to S0
-206009 LEAD S2: send a heartbeat to S1
-206010 LEAD S2: send a heartbeat to S0
-206513 LEAD S2: send a heartbeat to S0
-206514 LEAD S2: send a heartbeat to S1
-207017 LEAD S2: send a heartbeat to S1
-207018 LEAD S2: send a heartbeat to S0
-207518 LEAD S2: send a heartbeat to S1
-207520 LEAD S2: send a heartbeat to S0
-208021 LEAD S2: send a heartbeat to S1
-208023 LEAD S2: send a heartbeat to S0
-208527 LEAD S2: send a heartbeat to S0
-208528 LEAD S2: send a heartbeat to S1
-209033 LEAD S2: send a heartbeat to S0
-209035 LEAD S2: send a heartbeat to S1
-209536 LEAD S2: send a heartbeat to S0
-209537 LEAD S2: send a heartbeat to S1
-210041 LEAD S2: send a heartbeat to S0
-210042 LEAD S2: send a heartbeat to S1
-210543 LEAD S2: send a heartbeat to S0
-210544 LEAD S2: send a heartbeat to S1
-211045 LEAD S2: send a heartbeat to S0
-211047 LEAD S2: send a heartbeat to S1
-211555 LEAD S2: send a heartbeat to S0
-211556 LEAD S2: send a heartbeat to S1
-212058 LEAD S2: send a heartbeat to S1
-212060 LEAD S2: send a heartbeat to S0
-212562 LEAD S2: send a heartbeat to S1
-212564 LEAD S2: send a heartbeat to S0
-213066 LEAD S2: send a heartbeat to S1
-213067 LEAD S2: send a heartbeat to S0
-213569 LEAD S2: send a heartbeat to S0
-213570 LEAD S2: send a heartbeat to S1
-214073 LEAD S2: send a heartbeat to S1
-214074 LEAD S2: send a heartbeat to S0
-214580 LEAD S2: send a heartbeat to S1
-214582 LEAD S2: send a heartbeat to S0
-215083 LEAD S2: send a heartbeat to S1
-215084 LEAD S2: send a heartbeat to S0
-215586 LEAD S2: send a heartbeat to S1
-215587 LEAD S2: send a heartbeat to S0
-216090 LEAD S2: send a heartbeat to S1
-216091 LEAD S2: send a heartbeat to S0
-216595 LEAD S2: send a heartbeat to S0
-216597 LEAD S2: send a heartbeat to S1
-217099 LEAD S2: send a heartbeat to S1
-217100 LEAD S2: send a heartbeat to S0
-217610 LEAD S2: send a heartbeat to S0
-217613 LEAD S2: send a heartbeat to S1
-218113 LEAD S2: send a heartbeat to S0
-218114 LEAD S2: send a heartbeat to S1
-218618 LEAD S2: send a heartbeat to S0
-218619 LEAD S2: send a heartbeat to S1
-219122 LEAD S2: send a heartbeat to S1
-219123 LEAD S2: send a heartbeat to S0
-219625 LEAD S2: send a heartbeat to S1
-219625 LEAD S2: send a heartbeat to S0
-220129 LEAD S2: send a heartbeat to S0
-220131 LEAD S2: send a heartbeat to S1
-220639 LEAD S2: send a heartbeat to S0
-220641 LEAD S2: send a heartbeat to S1
-221142 LEAD S2: send a heartbeat to S0
-221143 LEAD S2: send a heartbeat to S1
-221646 LEAD S2: send a heartbeat to S1
-221646 LEAD S2: send a heartbeat to S0
-222149 LEAD S2: send a heartbeat to S1
-222150 LEAD S2: send a heartbeat to S0
-222658 LEAD S2: send a heartbeat to S1
-222660 LEAD S2: send a heartbeat to S0
-223161 LEAD S2: send a heartbeat to S1
-223162 LEAD S2: send a heartbeat to S0
-223666 LEAD S2: send a heartbeat to S0
-223668 LEAD S2: send a heartbeat to S1
-224168 LEAD S2: send a heartbeat to S0
-224170 LEAD S2: send a heartbeat to S1
-224671 LEAD S2: send a heartbeat to S0
-224673 LEAD S2: send a heartbeat to S1
-225175 LEAD S2: send a heartbeat to S0
-225176 LEAD S2: send a heartbeat to S1
-225678 LEAD S2: send a heartbeat to S0
-225679 LEAD S2: send a heartbeat to S1
-226183 LEAD S2: send a heartbeat to S0
-226184 LEAD S2: send a heartbeat to S1
-226685 LEAD S2: send a heartbeat to S0
-226686 LEAD S2: send a heartbeat to S1
-227189 LEAD S2: send a heartbeat to S1
-227191 LEAD S2: send a heartbeat to S0
-227692 LEAD S2: send a heartbeat to S1
-227693 LEAD S2: send a heartbeat to S0
-228196 LEAD S2: send a heartbeat to S1
-228198 LEAD S2: send a heartbeat to S0
-228699 LEAD S2: send a heartbeat to S1
-228701 LEAD S2: send a heartbeat to S0
-229203 LEAD S2: send a heartbeat to S1
-229205 LEAD S2: send a heartbeat to S0
-229707 LEAD S2: send a heartbeat to S1
-229709 LEAD S2: send a heartbeat to S0
-230209 LEAD S2: send a heartbeat to S1
-230211 LEAD S2: send a heartbeat to S0
-230714 LEAD S2: send a heartbeat to S1
-230715 LEAD S2: send a heartbeat to S0
-231216 LEAD S2: send a heartbeat to S1
-231217 LEAD S2: send a heartbeat to S0
-231720 LEAD S2: send a heartbeat to S1
-231721 LEAD S2: send a heartbeat to S0
-232226 LEAD S2: send a heartbeat to S1
-232227 LEAD S2: send a heartbeat to S0
-232729 LEAD S2: send a heartbeat to S0
-232730 LEAD S2: send a heartbeat to S1
-233230 LEAD S2: send a heartbeat to S0
-233232 LEAD S2: send a heartbeat to S1
-233732 LEAD S2: send a heartbeat to S0
-233734 LEAD S2: send a heartbeat to S1
-234238 LEAD S2: send a heartbeat to S0
-234239 LEAD S2: send a heartbeat to S1
-234741 LEAD S2: send a heartbeat to S0
-234742 LEAD S2: send a heartbeat to S1
-235249 LEAD S2: send a heartbeat to S0
-235250 LEAD S2: send a heartbeat to S1
-235752 LEAD S2: send a heartbeat to S1
-235754 LEAD S2: send a heartbeat to S0
-236256 LEAD S2: send a heartbeat to S1
-236258 LEAD S2: send a heartbeat to S0
-236761 LEAD S2: send a heartbeat to S1
-236762 LEAD S2: send a heartbeat to S0
-237264 LEAD S2: send a heartbeat to S0
-237265 LEAD S2: send a heartbeat to S1
-237767 LEAD S2: send a heartbeat to S0
-237768 LEAD S2: send a heartbeat to S1
-238271 LEAD S2: send a heartbeat to S0
-238273 LEAD S2: send a heartbeat to S1
-238778 LEAD S2: send a heartbeat to S0
-238780 LEAD S2: send a heartbeat to S1
-239282 LEAD S2: send a heartbeat to S0
-239283 LEAD S2: send a heartbeat to S1
-239785 LEAD S2: send a heartbeat to S0
-239787 LEAD S2: send a heartbeat to S1
-240289 LEAD S2: send a heartbeat to S1
-240290 LEAD S2: send a heartbeat to S0
-240792 LEAD S2: send a heartbeat to S1
-240793 LEAD S2: send a heartbeat to S0
-241298 LEAD S2: send a heartbeat to S0
-241299 LEAD S2: send a heartbeat to S1
-241804 LEAD S2: send a heartbeat to S1
-241805 LEAD S2: send a heartbeat to S0
-242306 LEAD S2: send a heartbeat to S1
-242308 LEAD S2: send a heartbeat to S0
-242811 LEAD S2: send a heartbeat to S0
-242813 LEAD S2: send a heartbeat to S1
-243317 LEAD S2: send a heartbeat to S0
-243318 LEAD S2: send a heartbeat to S1
-243821 LEAD S2: send a heartbeat to S1
-243822 LEAD S2: send a heartbeat to S0
-244327 LEAD S2: send a heartbeat to S1
-244329 LEAD S2: send a heartbeat to S0
-244833 LEAD S2: send a heartbeat to S1
-244835 LEAD S2: send a heartbeat to S0
-245336 LEAD S2: send a heartbeat to S1
-245337 LEAD S2: send a heartbeat to S0
-245839 LEAD S2: send a heartbeat to S0
-245840 LEAD S2: send a heartbeat to S1
-246343 LEAD S2: send a heartbeat to S0
-246344 LEAD S2: send a heartbeat to S1
-246848 LEAD S2: send a heartbeat to S0
-246849 LEAD S2: send a heartbeat to S1
-247351 LEAD S2: send a heartbeat to S1
-247352 LEAD S2: send a heartbeat to S0
-247857 LEAD S2: send a heartbeat to S0
-247858 LEAD S2: send a heartbeat to S1
-248363 LEAD S2: send a heartbeat to S1
-248365 LEAD S2: send a heartbeat to S0
-248866 LEAD S2: send a heartbeat to S1
-248868 LEAD S2: send a heartbeat to S0
-249370 LEAD S2: send a heartbeat to S1
-249372 LEAD S2: send a heartbeat to S0
-249876 LEAD S2: send a heartbeat to S1
-249877 LEAD S2: send a heartbeat to S0
-250380 LEAD S2: send a heartbeat to S0
-250382 LEAD S2: send a heartbeat to S1
-250883 LEAD S2: send a heartbeat to S0
-250885 LEAD S2: send a heartbeat to S1
-251388 LEAD S2: send a heartbeat to S1
-251389 LEAD S2: send a heartbeat to S0
-251891 LEAD S2: send a heartbeat to S0
-251893 LEAD S2: send a heartbeat to S1
-252394 LEAD S2: send a heartbeat to S0
-252395 LEAD S2: send a heartbeat to S1
-252898 LEAD S2: send a heartbeat to S1
-252899 LEAD S2: send a heartbeat to S0
-253404 LEAD S2: send a heartbeat to S0
-253406 LEAD S2: send a heartbeat to S1
-253908 LEAD S2: send a heartbeat to S1
-253909 LEAD S2: send a heartbeat to S0
-254412 LEAD S2: send a heartbeat to S1
-254414 LEAD S2: send a heartbeat to S0
-254914 LEAD S2: send a heartbeat to S1
-254915 LEAD S2: send a heartbeat to S0
-255416 LEAD S2: send a heartbeat to S1
-255418 LEAD S2: send a heartbeat to S0
-255920 LEAD S2: send a heartbeat to S0
-255921 LEAD S2: send a heartbeat to S1
-256427 LEAD S2: send a heartbeat to S1
-256428 LEAD S2: send a heartbeat to S0
-256931 LEAD S2: send a heartbeat to S1
-256932 LEAD S2: send a heartbeat to S0
-257434 LEAD S2: send a heartbeat to S1
-257435 LEAD S2: send a heartbeat to S0
-257938 LEAD S2: send a heartbeat to S0
-257939 LEAD S2: send a heartbeat to S1
-258442 LEAD S2: send a heartbeat to S1
-258444 LEAD S2: send a heartbeat to S0
-258948 LEAD S2: send a heartbeat to S1
-258949 LEAD S2: send a heartbeat to S0
-259455 LEAD S2: send a heartbeat to S0
-259457 LEAD S2: send a heartbeat to S1
-259959 LEAD S2: send a heartbeat to S1
-259960 LEAD S2: send a heartbeat to S0
-260466 LEAD S2: send a heartbeat to S0
-260467 LEAD S2: send a heartbeat to S1
-260972 LEAD S2: send a heartbeat to S0
-260973 LEAD S2: send a heartbeat to S1
-261474 LEAD S2: send a heartbeat to S0
-261475 LEAD S2: send a heartbeat to S1
-261977 LEAD S2: send a heartbeat to S1
-261979 LEAD S2: send a heartbeat to S0
-262481 LEAD S2: send a heartbeat to S1
-262482 LEAD S2: send a heartbeat to S0
-262986 LEAD S2: send a heartbeat to S0
-262988 LEAD S2: send a heartbeat to S1
-263490 LEAD S2: send a heartbeat to S1
-263491 LEAD S2: send a heartbeat to S0
-263998 LEAD S2: send a heartbeat to S0
-263999 LEAD S2: send a heartbeat to S1
-264501 LEAD S2: send a heartbeat to S1
-264502 LEAD S2: send a heartbeat to S0
-265005 LEAD S2: send a heartbeat to S0
-265006 LEAD S2: send a heartbeat to S1
-265509 LEAD S2: send a heartbeat to S0
-265511 LEAD S2: send a heartbeat to S1
-266015 LEAD S2: send a heartbeat to S1
-266017 LEAD S2: send a heartbeat to S0
-266518 LEAD S2: send a heartbeat to S0
-266520 LEAD S2: send a heartbeat to S1
-267023 LEAD S2: send a heartbeat to S0
-267025 LEAD S2: send a heartbeat to S1
-267525 LEAD S2: send a heartbeat to S0
-267527 LEAD S2: send a heartbeat to S1
-268030 LEAD S2: send a heartbeat to S1
-268031 LEAD S2: send a heartbeat to S0
-268533 LEAD S2: send a heartbeat to S1
-268535 LEAD S2: send a heartbeat to S0
-269038 LEAD S2: send a heartbeat to S0
-269040 LEAD S2: send a heartbeat to S1
-269542 LEAD S2: send a heartbeat to S1
-269544 LEAD S2: send a heartbeat to S0
-270046 LEAD S2: send a heartbeat to S0
-270047 LEAD S2: send a heartbeat to S1
-270550 LEAD S2: send a heartbeat to S1
-270552 LEAD S2: send a heartbeat to S0
-271055 LEAD S2: send a heartbeat to S0
-271056 LEAD S2: send a heartbeat to S1
-271558 LEAD S2: send a heartbeat to S0
-271559 LEAD S2: send a heartbeat to S1
-272063 LEAD S2: send a heartbeat to S0
-272064 LEAD S2: send a heartbeat to S1
-272567 LEAD S2: send a heartbeat to S0
-272569 LEAD S2: send a heartbeat to S1
-273071 LEAD S2: send a heartbeat to S1
-273072 LEAD S2: send a heartbeat to S0
-273574 LEAD S2: send a heartbeat to S1
-273575 LEAD S2: send a heartbeat to S0
-274083 LEAD S2: send a heartbeat to S1
-274084 LEAD S2: send a heartbeat to S0
-274589 LEAD S2: send a heartbeat to S0
-274591 LEAD S2: send a heartbeat to S1
-275095 LEAD S2: send a heartbeat to S1
-275096 LEAD S2: send a heartbeat to S0
-275598 LEAD S2: send a heartbeat to S0
-275600 LEAD S2: send a heartbeat to S1
-276101 LEAD S2: send a heartbeat to S0
-276103 LEAD S2: send a heartbeat to S1
-276608 LEAD S2: send a heartbeat to S1
-276610 LEAD S2: send a heartbeat to S0
-277111 LEAD S2: send a heartbeat to S1
-277113 LEAD S2: send a heartbeat to S0
-277613 LEAD S2: send a heartbeat to S1
-277615 LEAD S2: send a heartbeat to S0
-278118 LEAD S2: send a heartbeat to S0
-278120 LEAD S2: send a heartbeat to S1
-278622 LEAD S2: send a heartbeat to S1
-278624 LEAD S2: send a heartbeat to S0
-279125 LEAD S2: send a heartbeat to S1
-279127 LEAD S2: send a heartbeat to S0
-279630 LEAD S2: send a heartbeat to S0
-279632 LEAD S2: send a heartbeat to S1
-280132 LEAD S2: send a heartbeat to S0
-280134 LEAD S2: send a heartbeat to S1
-280637 LEAD S2: send a heartbeat to S0
-280638 LEAD S2: send a heartbeat to S1
-281140 LEAD S2: send a heartbeat to S1
-281142 LEAD S2: send a heartbeat to S0
-281644 LEAD S2: send a heartbeat to S0
-281645 LEAD S2: send a heartbeat to S1
-282150 LEAD S2: send a heartbeat to S0
-282151 LEAD S2: send a heartbeat to S1
-282655 LEAD S2: send a heartbeat to S1
-282657 LEAD S2: send a heartbeat to S0
-283160 LEAD S2: send a heartbeat to S0
-283162 LEAD S2: send a heartbeat to S1
-283663 LEAD S2: send a heartbeat to S0
-283665 LEAD S2: send a heartbeat to S1
-284167 LEAD S2: send a heartbeat to S0
-284169 LEAD S2: send a heartbeat to S1
-284672 LEAD S2: send a heartbeat to S1
-284673 LEAD S2: send a heartbeat to S0
-285175 LEAD S2: send a heartbeat to S1
-285177 LEAD S2: send a heartbeat to S0
-285682 LEAD S2: send a heartbeat to S0
-285684 LEAD S2: send a heartbeat to S1
-286185 LEAD S2: send a heartbeat to S0
-286187 LEAD S2: send a heartbeat to S1
-286690 LEAD S2: send a heartbeat to S1
-286691 LEAD S2: send a heartbeat to S0
-287194 LEAD S2: send a heartbeat to S1
-287195 LEAD S2: send a heartbeat to S0
-287703 LEAD S2: send a heartbeat to S1
-287704 LEAD S2: send a heartbeat to S0
-288206 LEAD S2: send a heartbeat to S1
-288208 LEAD S2: send a heartbeat to S0
-288711 LEAD S2: send a heartbeat to S1
-288712 LEAD S2: send a heartbeat to S0
-289214 LEAD S2: send a heartbeat to S0
-289216 LEAD S2: send a heartbeat to S1
-289717 LEAD S2: send a heartbeat to S0
-289719 LEAD S2: send a heartbeat to S1
-290223 LEAD S2: send a heartbeat to S0
-290224 LEAD S2: send a heartbeat to S1
-290731 LEAD S2: send a heartbeat to S1
-290732 LEAD S2: send a heartbeat to S0
-291234 LEAD S2: send a heartbeat to S1
-291235 LEAD S2: send a heartbeat to S0
-291738 LEAD S2: send a heartbeat to S0
-291739 LEAD S2: send a heartbeat to S1
-292241 LEAD S2: send a heartbeat to S0
-292242 LEAD S2: send a heartbeat to S1
-292744 LEAD S2: send a heartbeat to S1
-292746 LEAD S2: send a heartbeat to S0
-293248 LEAD S2: send a heartbeat to S0
-293250 LEAD S2: send a heartbeat to S1
-293755 LEAD S2: send a heartbeat to S1
-293757 LEAD S2: send a heartbeat to S0
-294260 LEAD S2: send a heartbeat to S1
-294261 LEAD S2: send a heartbeat to S0
-294763 LEAD S2: send a heartbeat to S1
-294764 LEAD S2: send a heartbeat to S0
-295267 LEAD S2: send a heartbeat to S0
-295268 LEAD S2: send a heartbeat to S1
-295769 LEAD S2: send a heartbeat to S1
-295770 LEAD S2: send a heartbeat to S0
-296275 LEAD S2: send a heartbeat to S0
-296275 LEAD S2: send a heartbeat to S1
-296782 LEAD S2: send a heartbeat to S0
-296783 LEAD S2: send a heartbeat to S1
-297285 LEAD S2: send a heartbeat to S0
-297286 LEAD S2: send a heartbeat to S1
-297788 LEAD S2: send a heartbeat to S0
-297790 LEAD S2: send a heartbeat to S1
-298292 LEAD S2: send a heartbeat to S0
-298294 LEAD S2: send a heartbeat to S1
-298798 LEAD S2: send a heartbeat to S0
-298799 LEAD S2: send a heartbeat to S1
-299304 LEAD S2: send a heartbeat to S1
-299305 LEAD S2: send a heartbeat to S0
-299812 LEAD S2: send a heartbeat to S0
-299813 LEAD S2: send a heartbeat to S1
-300314 LEAD S2: send a heartbeat to S0
-300316 LEAD S2: send a heartbeat to S1
-300818 LEAD S2: send a heartbeat to S0
-300819 LEAD S2: send a heartbeat to S1
-301323 LEAD S2: send a heartbeat to S0
-301325 LEAD S2: send a heartbeat to S1
-301826 LEAD S2: send a heartbeat to S0
-301827 LEAD S2: send a heartbeat to S1
-302333 LEAD S2: send a heartbeat to S1
-302335 LEAD S2: send a heartbeat to S0
-302838 LEAD S2: send a heartbeat to S1
-302839 LEAD S2: send a heartbeat to S0
-303340 LEAD S2: send a heartbeat to S1
-303341 LEAD S2: send a heartbeat to S0
-303844 LEAD S2: send a heartbeat to S0
-303846 LEAD S2: send a heartbeat to S1
-304346 LEAD S2: send a heartbeat to S0
-304347 LEAD S2: send a heartbeat to S1
-304852 LEAD S2: send a heartbeat to S0
-304854 LEAD S2: send a heartbeat to S1
-305355 LEAD S2: send a heartbeat to S0
-305356 LEAD S2: send a heartbeat to S1
-305858 LEAD S2: send a heartbeat to S1
-305859 LEAD S2: send a heartbeat to S0
-306361 LEAD S2: send a heartbeat to S0
-306362 LEAD S2: send a heartbeat to S1
-306864 LEAD S2: send a heartbeat to S1
-306865 LEAD S2: send a heartbeat to S0
-307375 LEAD S2: send a heartbeat to S1
-307378 LEAD S2: send a heartbeat to S0
-307878 LEAD S2: send a heartbeat to S1
-307880 LEAD S2: send a heartbeat to S0
-308383 LEAD S2: send a heartbeat to S0
-308385 LEAD S2: send a heartbeat to S1
-308887 LEAD S2: send a heartbeat to S0
-308888 LEAD S2: send a heartbeat to S1
-309391 LEAD S2: send a heartbeat to S1
-309392 LEAD S2: send a heartbeat to S0
-309893 LEAD S2: send a heartbeat to S1
-309895 LEAD S2: send a heartbeat to S0
-310399 LEAD S2: send a heartbeat to S1
-310400 LEAD S2: send a heartbeat to S0
-310905 LEAD S2: send a heartbeat to S0
-310907 LEAD S2: send a heartbeat to S1
-311408 LEAD S2: send a heartbeat to S0
-311410 LEAD S2: send a heartbeat to S1
-311911 LEAD S2: send a heartbeat to S0
-311913 LEAD S2: send a heartbeat to S1
-312417 LEAD S2: send a heartbeat to S1
-312419 LEAD S2: send a heartbeat to S0
-312922 LEAD S2: send a heartbeat to S1
-312923 LEAD S2: send a heartbeat to S0
-313427 LEAD S2: send a heartbeat to S0
-313429 LEAD S2: send a heartbeat to S1
-313932 LEAD S2: send a heartbeat to S0
-313934 LEAD S2: send a heartbeat to S1
-314435 LEAD S2: send a heartbeat to S0
-314436 LEAD S2: send a heartbeat to S1
-314940 LEAD S2: send a heartbeat to S1
-314941 LEAD S2: send a heartbeat to S0
-315442 LEAD S2: send a heartbeat to S1
-315444 LEAD S2: send a heartbeat to S0
-315947 LEAD S2: send a heartbeat to S1
-315949 LEAD S2: send a heartbeat to S0
-316450 LEAD S2: send a heartbeat to S1
-316452 LEAD S2: send a heartbeat to S0
-316955 LEAD S2: send a heartbeat to S1
-316957 LEAD S2: send a heartbeat to S0
-317460 LEAD S2: send a heartbeat to S1
-317461 LEAD S2: send a heartbeat to S0
-317964 LEAD S2: send a heartbeat to S1
-317965 LEAD S2: send a heartbeat to S0
-318467 LEAD S2: send a heartbeat to S1
-318469 LEAD S2: send a heartbeat to S0
-318970 LEAD S2: send a heartbeat to S0
-318972 LEAD S2: send a heartbeat to S1
-319473 LEAD S2: send a heartbeat to S0
-319475 LEAD S2: send a heartbeat to S1
-319978 LEAD S2: send a heartbeat to S0
-319980 LEAD S2: send a heartbeat to S1
-320481 LEAD S2: send a heartbeat to S0
-320483 LEAD S2: send a heartbeat to S1
-320985 LEAD S2: send a heartbeat to S0
-320987 LEAD S2: send a heartbeat to S1
-321489 LEAD S2: send a heartbeat to S1
-321490 LEAD S2: send a heartbeat to S0
-321993 LEAD S2: send a heartbeat to S0
-321996 LEAD S2: send a heartbeat to S1
-322499 LEAD S2: send a heartbeat to S1
-322501 LEAD S2: send a heartbeat to S0
-323002 LEAD S2: send a heartbeat to S0
-323004 LEAD S2: send a heartbeat to S1
-323508 LEAD S2: send a heartbeat to S0
-323510 LEAD S2: send a heartbeat to S1
-324014 LEAD S2: send a heartbeat to S0
-324016 LEAD S2: send a heartbeat to S1
-324517 LEAD S2: send a heartbeat to S0
-324519 LEAD S2: send a heartbeat to S1
-325022 LEAD S2: send a heartbeat to S0
-325023 LEAD S2: send a heartbeat to S1
-325528 LEAD S2: send a heartbeat to S0
-325529 LEAD S2: send a heartbeat to S1
-326034 LEAD S2: send a heartbeat to S1
-326035 LEAD S2: send a heartbeat to S0
-326538 LEAD S2: send a heartbeat to S0
-326539 LEAD S2: send a heartbeat to S1
-327041 LEAD S2: send a heartbeat to S1
-327043 LEAD S2: send a heartbeat to S0
-327545 LEAD S2: send a heartbeat to S1
-327546 LEAD S2: send a heartbeat to S0
-328049 LEAD S2: send a heartbeat to S0
-328050 LEAD S2: send a heartbeat to S1
-328555 LEAD S2: send a heartbeat to S0
-328557 LEAD S2: send a heartbeat to S1
-329059 LEAD S2: send a heartbeat to S0
-329060 LEAD S2: send a heartbeat to S1
-329562 LEAD S2: send a heartbeat to S1
-329563 LEAD S2: send a heartbeat to S0
-330065 LEAD S2: send a heartbeat to S0
-330067 LEAD S2: send a heartbeat to S1
-330571 LEAD S2: send a heartbeat to S1
-330573 LEAD S2: send a heartbeat to S0
-331079 LEAD S2: send a heartbeat to S0
-331080 LEAD S2: send a heartbeat to S1
-331582 LEAD S2: send a heartbeat to S0
-331583 LEAD S2: send a heartbeat to S1
-332085 LEAD S2: send a heartbeat to S0
-332087 LEAD S2: send a heartbeat to S1
-332589 LEAD S2: send a heartbeat to S1
-332590 LEAD S2: send a heartbeat to S0
-333094 LEAD S2: send a heartbeat to S1
-333095 LEAD S2: send a heartbeat to S0
-333599 LEAD S2: send a heartbeat to S1
-333601 LEAD S2: send a heartbeat to S0
-334104 LEAD S2: send a heartbeat to S1
-334105 LEAD S2: send a heartbeat to S0
-334607 LEAD S2: send a heartbeat to S1
-334609 LEAD S2: send a heartbeat to S0
-335111 LEAD S2: send a heartbeat to S1
-335112 LEAD S2: send a heartbeat to S0
-335616 LEAD S2: send a heartbeat to S1
-335617 LEAD S2: send a heartbeat to S0
-336119 LEAD S2: send a heartbeat to S1
-336120 LEAD S2: send a heartbeat to S0
-336623 LEAD S2: send a heartbeat to S0
-336625 LEAD S2: send a heartbeat to S1
-337132 LEAD S2: send a heartbeat to S0
-337134 LEAD S2: send a heartbeat to S1
-337645 LEAD S2: send a heartbeat to S0
-337646 LEAD S2: send a heartbeat to S1
-338149 LEAD S2: send a heartbeat to S0
-338151 LEAD S2: send a heartbeat to S1
-338652 LEAD S2: send a heartbeat to S0
-338653 LEAD S2: send a heartbeat to S1
-339158 LEAD S2: send a heartbeat to S1
-339159 LEAD S2: send a heartbeat to S0
-339663 LEAD S2: send a heartbeat to S0
-339665 LEAD S2: send a heartbeat to S1
-340169 LEAD S2: send a heartbeat to S0
-340170 LEAD S2: send a heartbeat to S1
-340671 LEAD S2: send a heartbeat to S0
-340673 LEAD S2: send a heartbeat to S1
-341175 LEAD S2: send a heartbeat to S0
-341177 LEAD S2: send a heartbeat to S1
-341677 LEAD S2: send a heartbeat to S0
-341680 LEAD S2: send a heartbeat to S1
-342182 LEAD S2: send a heartbeat to S1
-342184 LEAD S2: send a heartbeat to S0
-342686 LEAD S2: send a heartbeat to S1
-342687 LEAD S2: send a heartbeat to S0
-343191 LEAD S2: send a heartbeat to S1
-343192 LEAD S2: send a heartbeat to S0
-343693 LEAD S2: send a heartbeat to S1
-343694 LEAD S2: send a heartbeat to S0
-344196 LEAD S2: send a heartbeat to S1
-344198 LEAD S2: send a heartbeat to S0
-344700 LEAD S2: send a heartbeat to S1
-344701 LEAD S2: send a heartbeat to S0
-345207 LEAD S2: send a heartbeat to S0
-345208 LEAD S2: send a heartbeat to S1
-345710 LEAD S2: send a heartbeat to S0
-345711 LEAD S2: send a heartbeat to S1
-346213 LEAD S2: send a heartbeat to S0
-346214 LEAD S2: send a heartbeat to S1
-346715 LEAD S2: send a heartbeat to S0
-346717 LEAD S2: send a heartbeat to S1
-347217 LEAD S2: send a heartbeat to S0
-347219 LEAD S2: send a heartbeat to S1
-347725 LEAD S2: send a heartbeat to S0
-347726 LEAD S2: send a heartbeat to S1
-348228 LEAD S2: send a heartbeat to S1
-348229 LEAD S2: send a heartbeat to S0
-348731 LEAD S2: send a heartbeat to S1
-348732 LEAD S2: send a heartbeat to S0
-349233 LEAD S2: send a heartbeat to S0
-349234 LEAD S2: send a heartbeat to S1
-349736 LEAD S2: send a heartbeat to S0
-349737 LEAD S2: send a heartbeat to S1
-350240 LEAD S2: send a heartbeat to S1
-350242 LEAD S2: send a heartbeat to S0
-350747 LEAD S2: send a heartbeat to S0
-350748 LEAD S2: send a heartbeat to S1
-351253 LEAD S2: send a heartbeat to S1
-351254 LEAD S2: send a heartbeat to S0
-351757 LEAD S2: send a heartbeat to S0
-351758 LEAD S2: send a heartbeat to S1
-352260 LEAD S2: send a heartbeat to S0
-352262 LEAD S2: send a heartbeat to S1
-352764 LEAD S2: send a heartbeat to S0
-352765 LEAD S2: send a heartbeat to S1
-353269 LEAD S2: send a heartbeat to S0
-353270 LEAD S2: send a heartbeat to S1
-353772 LEAD S2: send a heartbeat to S0
-353774 LEAD S2: send a heartbeat to S1
-354274 LEAD S2: send a heartbeat to S0
-354276 LEAD S2: send a heartbeat to S1
-354780 LEAD S2: send a heartbeat to S0
-354782 LEAD S2: send a heartbeat to S1
-355284 LEAD S2: send a heartbeat to S1
-355285 LEAD S2: send a heartbeat to S0
-355786 LEAD S2: send a heartbeat to S1
-355788 LEAD S2: send a heartbeat to S0
-356291 LEAD S2: send a heartbeat to S1
-356293 LEAD S2: send a heartbeat to S0
-356794 LEAD S2: send a heartbeat to S1
-356796 LEAD S2: send a heartbeat to S0
-357299 LEAD S2: send a heartbeat to S0
-357300 LEAD S2: send a heartbeat to S1
-357803 LEAD S2: send a heartbeat to S0
-357804 LEAD S2: send a heartbeat to S1
-358309 LEAD S2: send a heartbeat to S0
-358310 LEAD S2: send a heartbeat to S1
-358812 LEAD S2: send a heartbeat to S0
-358813 LEAD S2: send a heartbeat to S1
-359314 LEAD S2: send a heartbeat to S1
-359316 LEAD S2: send a heartbeat to S0
-359816 LEAD S2: send a heartbeat to S1
-359818 LEAD S2: send a heartbeat to S0
-360321 LEAD S2: send a heartbeat to S1
-360322 LEAD S2: send a heartbeat to S0
-360825 LEAD S2: send a heartbeat to S1
-360826 LEAD S2: send a heartbeat to S0
-361331 LEAD S2: send a heartbeat to S0
-361332 LEAD S2: send a heartbeat to S1
-361833 LEAD S2: send a heartbeat to S1
-361835 LEAD S2: send a heartbeat to S0
-362337 LEAD S2: send a heartbeat to S1
-362337 LEAD S2: send a heartbeat to S0
-362839 LEAD S2: send a heartbeat to S1
-362839 LEAD S2: send a heartbeat to S0
---- FAIL: TestPersist13C (36.32s)
-    config.go:537: only 2 decided for index 4; wanted 3
-FAIL
+Test (3C): Figure 8 ...
+003385 CLNT S2: S2 will be a candidate
+003412 VOTE S3:processing vote from S2! args.Term=1, rf.currentTerm=0
+003413 VOTE S1:processing vote from S2! args.Term=1, rf.currentTerm=0
+003412 VOTE S4:processing vote from S2! args.Term=1, rf.currentTerm=0
+003412 VOTE S0:processing vote from S2! args.Term=1, rf.currentTerm=0
+003417 VOTE S3: S3 vote to S2!
+003418 VOTE S1: S1 vote to S2!
+003418 VOTE S4: S4 vote to S2!
+003420 VOTE S0: S0 vote to S2!
+003427 LEAD S2: S2(3 tickets)will be a leader!
+003551 LEAD S2 has saved a log entry. command = 0
+003958 LEAD S2: send a entry to S3, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
+003959 LEAD S2: send a entry to S4, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
+003961 LEAD S2: send a entry to S1, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
+003964 LEAD S2: send a entry to S0, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
+003985 LEAD S2: apply logindex=1
+003986 LEAD S2: commitLogIndex=1, log=[{<nil> 0} {0 1}]
+004165 LEAD S2 has saved a log entry. command = 1
+004258 INFO crash server 2
+008200 CLNT S0: S0 will be a candidate
+008213 VOTE S3:processing vote from S0! args.Term=2, rf.currentTerm=1
+008213 VOTE S1:processing vote from S0! args.Term=2, rf.currentTerm=1
+008213 VOTE S4:processing vote from S0! args.Term=2, rf.currentTerm=1
+008218 VOTE S3: S3 vote to S0!
+008220 VOTE S1: S1 vote to S0!
+008220 VOTE S4: S4 vote to S0!
+008226 LEAD S0: S0(3 tickets)will be a leader!
+010523 LEAD S0 has saved a log entry. command = 38
+010595 INFO crash server 0
+014455 CLNT S1: S1 will be a candidate
+014469 VOTE S3:processing vote from S1! args.Term=3, rf.currentTerm=2
+014469 VOTE S4:processing vote from S1! args.Term=3, rf.currentTerm=2
+014474 VOTE S3: S3 vote to S1!
+014474 VOTE S4: S4 vote to S1!
+014480 LEAD S1: S1(3 tickets)will be a leader!
+
+014485 LEAD S1 has saved a log entry. command = 71
+014486 LEAD S1: send a entry to S2, log index = 2, PrevLogIndex =1, nextIndex=[2 3 2 2 2]
+014488 LEAD S1: send a entry to S3, log index = 2, PrevLogIndex =1, nextIndex=[2 3 2 2 2]
+
+014538 INFO crash server 1
+014644 INFO restart server 0
+017879 CLNT S0: S0 will be a candidate
+017887 VOTE S4:processing vote from S0! args.Term=3, rf.currentTerm=3
+017889 VOTE S4: S4 vote to S0!
+017892 VOTE S3:processing vote from S0! args.Term=3, rf.currentTerm=3
+017893 VOTE S3: S3 can't vote to S0! reaseon: serverState=0, votedFor=-1
+017898 VOTE S0: S0 -> S2 RequestVote rpc fail!
+022686 CLNT S3: S3 will be a candidate
+022693 VOTE S4:processing vote from S3! args.Term=4, rf.currentTerm=3
+022696 VOTE S4: S4 vote to S3!
+022697 VOTE S0:processing vote from S3! args.Term=4, rf.currentTerm=3
+022704 VOTE S0: S0 vote to S3!
+022710 LEAD S3: S3(3 tickets)will be a leader!
+022727 CLNT S4:args.PrevLogIndex=2, XLen=1
+023242 LEAD S3: send a entry to S0, log index = 2, PrevLogIndex =1, nextIndex=[2 3 3 3 2]
+023244 LEAD S3: send a entry to S4, log index = 2, PrevLogIndex =1, nextIndex=[2 3 3 3 2]
+023929 LEAD S3 has saved a log entry. command = 88
+023983 INFO crash server 3
+023985 INFO restart server 1
+027236 CLNT S1: S1 will be a candidate
+027246 VOTE S4:processing vote from S1! args.Term=4, rf.currentTerm=4
+027248 VOTE S4: S4 vote to S1!
+027250 VOTE S0:processing vote from S1! args.Term=4, rf.currentTerm=4
+027254 VOTE S0: S0 vote to S1!
+027259 LEAD S1: S1(3 tickets)will be a leader!
+028023 LEAD S1 has saved a log entry. command = 101
+028077 INFO crash server 1
+028079 INFO restart server 1
+030787 CLNT S4: S4 will be a candidate
+030800 VOTE S0:processing vote from S4! args.Term=5, rf.currentTerm=4
+030800 VOTE S1:processing vote from S4! args.Term=5, rf.currentTerm=4
+030805 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+030806 VOTE S0: S0 vote to S4!
+033409 VOTE S4: S4 -> S3 RequestVote rpc fail!
+033736 CLNT S4: S4 will be a candidate
+033750 VOTE S0:processing vote from S4! args.Term=6, rf.currentTerm=5
+033750 VOTE S1:processing vote from S4! args.Term=6, rf.currentTerm=5
+033754 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+033756 VOTE S0: S0 vote to S4!
+038291 CLNT S1: S1 will be a candidate
+038305 VOTE S0:processing vote from S1! args.Term=7, rf.currentTerm=6
+038305 VOTE S4:processing vote from S1! args.Term=7, rf.currentTerm=6
+038311 VOTE S0: S0 vote to S1!
+038311 VOTE S4: S4 vote to S1!
+038318 LEAD S1: S1(3 tickets)will be a leader!
+038331 CLNT S4:args.PrevLogIndex=3, XLen=1
+038332 CLNT S0:args.PrevLogIndex=3, XLen=1
+038841 LEAD S1: send a entry to S0, log index = 3, PrevLogIndex =2, nextIndex=[3 4 4 4 3]
+038844 LEAD S1: send a entry to S4, log index = 3, PrevLogIndex =2, nextIndex=[3 4 4 4 3]
+040002 LEAD S1 has saved a log entry. command = 182
+040418 LEAD S1: send a entry to S4, log index = 4, PrevLogIndex =3, nextIndex=[4 5 4 4 4]
+040420 LEAD S1: send a entry to S0, log index = 4, PrevLogIndex =3, nextIndex=[4 5 4 4 4]
+040445 LEAD S1: apply logindex=1
+040446 LEAD S1: apply logindex=2
+040447 LEAD S1: apply logindex=3
+040449 LEAD S1: apply logindex=4
+040449 LEAD S1: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
+040957 CLNT S4: apply logindex=1
+040958 CLNT S4: apply logindex=2
+040959 CLNT S4: apply logindex=3
+040960 CLNT S4: apply logindex=4
+040960 CLNT S4: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
+040968 CLNT S0: apply logindex=1
+040969 CLNT S0: apply logindex=2
+040969 CLNT S0: apply logindex=3
+040970 CLNT S0: apply logindex=4
+040970 CLNT S0: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
+042554 INFO crash server 1
+042556 INFO restart server 1
+047913 CLNT S1: S1 will be a candidate
+047925 VOTE S0:processing vote from S1! args.Term=8, rf.currentTerm=7
+047928 VOTE S4:processing vote from S1! args.Term=8, rf.currentTerm=7
+047933 VOTE S0: S0 vote to S1!
+047935 VOTE S4: S4 vote to S1!
+047941 LEAD S1: S1(3 tickets)will be a leader!
+052171 LEAD S1 has saved a log entry. command = 238
+052173 INFO crash server 1
+052177 INFO restart server 1
+056515 CLNT S4: S4 will be a candidate
+056529 VOTE S1:processing vote from S4! args.Term=9, rf.currentTerm=8
+056530 VOTE S0:processing vote from S4! args.Term=9, rf.currentTerm=8
+056533 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+056536 VOTE S0: S0 vote to S4!
+059781 CLNT S4: S4 will be a candidate
+059792 VOTE S0:processing vote from S4! args.Term=10, rf.currentTerm=9
+059797 VOTE S1:processing vote from S4! args.Term=10, rf.currentTerm=9
+059799 VOTE S0: S0 vote to S4!
+059801 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+064313 CLNT S0: S0 will be a candidate
+064325 VOTE S4:processing vote from S0! args.Term=11, rf.currentTerm=10
+064327 VOTE S1:processing vote from S0! args.Term=11, rf.currentTerm=10
+064331 VOTE S1: S1 can't vote to S0! reaseon: serverState=0, votedFor=-1
+064332 VOTE S4: S4 vote to S0!
+068280 CLNT S4: S4 will be a candidate
+068294 VOTE S1:processing vote from S4! args.Term=12, rf.currentTerm=11
+068295 VOTE S0:processing vote from S4! args.Term=12, rf.currentTerm=11
+068298 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+068303 VOTE S0: S0 vote to S4!
+071971 CLNT S1: S1 will be a candidate
+071985 VOTE S4:processing vote from S1! args.Term=13, rf.currentTerm=12
+071986 VOTE S0:processing vote from S1! args.Term=13, rf.currentTerm=12
+071990 VOTE S4: S4 vote to S1!
+071993 VOTE S0: S0 vote to S1!
+071999 LEAD S1: S1(3 tickets)will be a leader!
+072010 CLNT S4:args.PrevLogIndex=5, XLen=1
+072014 CLNT S0:args.PrevLogIndex=5, XLen=1
+072520 LEAD S1: send a entry to S4, log index = 5, PrevLogIndex =4, nextIndex=[5 6 6 6 5]
+072524 LEAD S1: send a entry to S0, log index = 5, PrevLogIndex =4, nextIndex=[5 6 6 6 5]
+074641 LEAD S1 has saved a log entry. command = 310
+074675 INFO crash server 1
+074677 INFO restart server 2
+078672 CLNT S4: S4 will be a candidate
+078685 VOTE S2:processing vote from S4! args.Term=14, rf.currentTerm=1
+078686 VOTE S0:processing vote from S4! args.Term=14, rf.currentTerm=13
+078690 VOTE S2: S2 vote to S4!
+078695 VOTE S0: S0 vote to S4!
+078701 LEAD S4: S4(3 tickets)will be a leader!
+078715 CLNT S2:args.PrevLogIndex=5, XLen=3
+079225 LEAD S4: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[6 6 3 6 6]
+079745 LEAD S4: send a entry to S2, log index = 2, PrevLogIndex =1, nextIndex=[6 6 2 6 6]
+079760 CLNT S2: apply logindex=1
+079761 CLNT S2: commitLogIndex=1, log=[{<nil> 0} {0 1} {1 1}]
+080277 LEAD S4: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[6 6 3 6 6]
+080291 CLNT S2: apply logindex=2
+080292 CLNT S2: commitLogIndex=2, log=[{<nil> 0} {0 1} {71 3}]
+080803 LEAD S4: send a entry to S2, log index = 4, PrevLogIndex =3, nextIndex=[6 6 4 6 6]
+080817 CLNT S2: apply logindex=3
+080818 CLNT S2: commitLogIndex=3, log=[{<nil> 0} {0 1} {71 3} {101 4}]
+081305 LEAD S4 has saved a log entry. command = 322
+081335 LEAD S4: send a entry to S0, log index = 6, PrevLogIndex =5, nextIndex=[6 6 5 6 7]
+081335 INFO crash server 4
+081337 LEAD S4: send a entry to S2, log index = 5, PrevLogIndex =4, nextIndex=[6 6 5 6 7]
+081338 INFO restart server 3
+086015 CLNT S0: S0 will be a candidate
+086027 VOTE S2:processing vote from S0! args.Term=15, rf.currentTerm=14
+086028 VOTE S3:processing vote from S0! args.Term=15, rf.currentTerm=4
+086034 VOTE S2: S2 vote to S0!
+086035 VOTE S3: S3 vote to S0!
+086042 LEAD S0: S0(3 tickets)will be a leader!
+086056 CLNT S2:args.PrevLogIndex=5, XLen=1
+086057 CLNT S3:args.PrevLogIndex=5, XLen=2
+086566 LEAD S0: send a entry to S3, log index = 4, PrevLogIndex =3, nextIndex=[6 6 5 4 6]
+086567 LEAD S0: send a entry to S2, log index = 5, PrevLogIndex =4, nextIndex=[6 6 5 4 6]
+086578 CLNT S2: apply logindex=4
+086579 CLNT S2: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
+086581 CLNT S3: apply logindex=1
+086582 CLNT S3: apply logindex=2
+086583 CLNT S3: apply logindex=3
+3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
+086583 CLNT S3: commitLogIndex=3, log=[{<nil> 0} {0 1} {71 3} {88 4}]
+3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
+3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
+3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
+apply error: commit index=3 server=3 88 != server=4 101
 exit status 1
-FAIL	6.5840/raft	36.346s
+FAIL	6.5840/raft	8.680s

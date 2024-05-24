@@ -152,20 +152,25 @@ func (rf *Raft) persist(logChange bool) {
 	// rf.persister.Save(raftstate, nil)
 	w := new(bytes.Buffer)
 	e := labgob.NewEncoder(w)
-	raftstate := make([]byte, 0)
-	if !logChange {
-		e.Encode(rf.currentTerm)
-		e.Encode(rf.votedFor)
-		oldRaftState := rf.persister.Copy().raftstate
-		raftstate = append(raftstate, w.Bytes()...)
-		if (len(oldRaftState) >= 8) {
-			raftstate = append(w.Bytes(), oldRaftState[8:]...)
-		}
-	} else {
-		e.Encode(rf.log[0:len(rf.log)])
-		oldRaftState := rf.persister.Copy().raftstate
-		raftstate = append(oldRaftState[0:8], w.Bytes()...)
-	}
+	// raftstate := make([]byte, 0)
+	// if !logChange {
+	// 	e.Encode(rf.currentTerm)
+	// 	e.Encode(rf.votedFor)
+	// 	oldRaftState := rf.persister.Copy().raftstate
+	// 	raftstate = append(raftstate, w.Bytes()...)
+	// 	if (len(oldRaftState) >= 8) {
+	// 		raftstate = append(w.Bytes(), oldRaftState[8:]...)
+	// 	}
+	// } else {
+	// 	e.Encode(rf.log[0:len(rf.log)])
+	// 	oldRaftState := rf.persister.Copy().raftstate
+	// 	raftstate = append(oldRaftState[0:8], w.Bytes()...)
+	// }
+	// rf.persister.Save(raftstate, nil)
+	e.Encode(rf.currentTerm)
+	e.Encode(rf.votedFor)
+	e.Encode(rf.log)
+	raftstate := w.Bytes()
 	rf.persister.Save(raftstate, nil)
 }
 
@@ -238,7 +243,6 @@ func (rf *Raft) RequestVote(args *RequestVoteArgs, reply *RequestVoteReply) {
 
 	if args.Term < rf.currentTerm {
 		reply.Term = rf.currentTerm
-		rf.persist(false)
 		reply.VoteGranted = false
 		return
 	}
@@ -334,6 +338,24 @@ type AppendEntriesReply struct{
 	XLen int
 }
 
+func (rf *Raft) appendFailInfoLocked(args *AppendEntriesArgs, reply *AppendEntriesReply){
+	reply.Success = false
+	if args.PrevLogIndex >= rf.nextIndex[rf.me] {
+		//Follwer中对应PrevLogIndex处的日志是空白，返回空白日志长度
+		reply.XLen = args.PrevLogIndex - rf.nextIndex[rf.me] + 1
+		Log(dClient, "S%d:args.PrevLogIndex=%d, XLen=%d", rf.me,args.PrevLogIndex, reply.XLen)
+	} else {
+		//返回Follower中与Leader冲突的Log对应的任期号，以及log index
+		conflictIndex := args.PrevLogIndex
+		for conflictIndex > 0 && rf.log[conflictIndex].Term == rf.log[args.PrevLogIndex].Term {
+			conflictIndex--
+		} 
+		conflictIndex += 1
+		reply.XIndex = conflictIndex
+		reply.XTerm = rf.log[conflictIndex].Term
+	}
+}
+
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
 	//保存当前心跳的时间
 	
@@ -344,14 +366,14 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 
 	rf.resetElectionTimerLocked()
 
-	//旧leader苏醒后发送心跳到新leader，停止旧的leader
+	//新Leader处理来自旧Leader的消息
 	if rf.currentTerm > args.Term {
 		// Log(dClient, "S%d: serverstate change %d -> %d", rf.me, rf.serverState, Follower)
 		reply.Term = rf.currentTerm
 		return
 	}
-
-	if rf.serverState != Follower && rf.currentTerm <= args.Term {
+	//旧Leader处理来自新Leader的消息，Candidate处理来自新Leader的消息
+	if rf.serverState != Follower {
 		rf.serverState = Follower	
 	}
 
@@ -383,25 +405,23 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		}
 		rf.commitIndex = commitIndex
 		rf.lastApplied = commitIndex
+		Log(dClient, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex, rf.log)
 	}
 
 
-
+	//处理消息时心跳的情况
 	if len(args.Entries) == 0 {
-		reply.Success = true
+		if args.PrevLogIndex == 0 || (args.PrevLogIndex < rf.nextIndex[rf.me] && rf.log[args.PrevLogIndex].Term == args.PrevLogTerm) {
+			reply.Success = true
+		} else {
+			rf.appendFailInfoLocked(args, reply)
+		}
 		// Log(dClient,"S%d: S%d receive a heartbeate from S%d.", rf.me, rf.me, args.LearderId)
 		return
 	}
 
 
-	//Leader发送日志的PrevLogIndex大于Follower最长日志index
-	if args.PrevLogIndex >= rf.nextIndex[rf.me] {
-		reply.Success = false
-		return
-	}
-
-
-	//Leader发送日志的PrevLogIndex的Term与rf.log[args.PrevLogIndex].Term相同，可以增加日志
+	//处理消息中包含日志的情况
 	if args.PrevLogIndex == 0 || (args.PrevLogIndex < rf.nextIndex[rf.me] && rf.log[args.PrevLogIndex].Term == args.PrevLogTerm)  {
 		// Log(dClient,"S%d: receive a entry from S%d. PrevLogIndex=%d PrevLogTerm=%d, args.Term = %d", rf.me, args.LearderId, args.PrevLogIndex ,rf.log[args.PrevLogIndex].Term, args.Term)
 		
@@ -414,26 +434,13 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 				rf.log = append(rf.log, args.Entries[i])
 			}
 			
-			Log(dClient, "S%d: receive logindex=%d", rf.me, logIndex + i)
+			// Log(dClient, "S%d: receive logindex=%d", rf.me, logIndex + i)
 		}
 		rf.persist(true)
 		rf.nextIndex[rf.me] = logIndex + len(args.Entries)
 		reply.Success = true
 	} else {
-		reply.Success = false
-		if args.PrevLogIndex >= rf.nextIndex[rf.me] {
-			//Follwer中对应PrevLogIndex处的日志是空白，返回空白日志长度
-			reply.XLen = args.PrevLogIndex - rf.nextIndex[rf.me] + 1
-		} else {
-			//返回Follower中与Leader冲突的Log对应的任期号，以及log index
-			conflictIndex := args.PrevLogIndex
-			for conflictIndex > 0 && rf.log[conflictIndex].Term == rf.log[args.PrevLogIndex].Term {
-				conflictIndex--
-			} 
-			conflictIndex += 1
-			reply.XIndex = conflictIndex
-			reply.XTerm = rf.log[conflictIndex].Term
-		}
+		rf.appendFailInfoLocked(args, reply)
 	}
 }
 
@@ -504,6 +511,9 @@ func (rf *Raft) sendLog2Server(server int) {
 		prevLogIndex := nextSendIndex - 1
 		prevLogTerm := 0
 		if prevLogIndex != 0  {
+			if prevLogIndex >= len(rf.log) {
+				Log(dError, "S%d: send to S%d. rf.nextIndex=%d, prevLogIndex=%d,rf.log=%d",rf.me, server, rf.nextIndex, prevLogIndex, rf.log)
+			}
 			prevLogTerm = rf.log[prevLogIndex].Term
 		}
 		entries := make([]LogItem, 0)
@@ -523,11 +533,10 @@ func (rf *Raft) sendLog2Server(server int) {
 			LeaderCommit: rf.commitIndex,
 		}
 		if len(entries) != 0 {
-			Log(dLeader, "S%d: send a entry to S%d, log index = %d, PrevLogIndex =%d", rf.me, server, nextSendIndex, args.PrevLogIndex)
-		} 
-		// else {
-		// 	Log(dLeader, "S%d: send a heartbeat to S%d", rf.me, server)
-
+			Log(dLeader, "S%d: send a entry to S%d, log index = %d, PrevLogIndex =%d, nextIndex=%d", rf.me, server, nextSendIndex, args.PrevLogIndex, rf.nextIndex)
+		}
+		//  else {
+		// 	Log(dLeader, "S%d: send a heartbeat to S%d, nextIndex=%d.", rf.me, server, rf.nextIndex)
 		// }
 		rf.mu.Unlock()
 
@@ -548,15 +557,15 @@ func (rf *Raft) sendLog2Server(server int) {
 					Log(dClient, "S%d: serverstate change %d -> %d", rf.me, rf.serverState, Follower)
 					rf.newTermLocked(reply.Term)
 				}
-				
+				// Log(dLeader, "S%d: send log to S%d, args.PrevLogIndex=%d", rf.me, server, args.PrevLogIndex)
 				if reply.Success {
 					rf.dealHaveEntryLogLocked(server, &args)
 				} else {
 					//根据不同冲突情况重置rf.nextIndex[server]
 					if reply.XLen != 0 {
-						rf.nextIndex[server] = rf.nextIndex[server] - reply.XLen + 1
+						rf.nextIndex[server] = args.PrevLogIndex - reply.XLen + 1
 					} else {
-						newLogIndex := rf.nextIndex[server] - 1
+						newLogIndex := args.PrevLogIndex
 						for rf.log[newLogIndex].Term != reply.XTerm && newLogIndex >= reply.XIndex {
 							newLogIndex--
 						}
@@ -569,18 +578,31 @@ func (rf *Raft) sendLog2Server(server int) {
 			rf.mu.Unlock()
 		} else {
 			//发送心跳
-			go func ()  {
 				reply := AppendEntriesReply{}
 				ok := rf.peers[server].Call("Raft.AppendEntries", &args, &reply)
 				if ok {
 					rf.mu.Lock()
-					defer rf.mu.Unlock()
-					
+
 					if reply.Term > rf.currentTerm {
 						rf.newTermLocked(reply.Term)
+						rf.mu.Unlock()
+						return
 					}
-				}
-			}()
+					if !reply.Success {
+						if reply.XLen != 0 {
+							rf.nextIndex[server] = args.PrevLogIndex - reply.XLen + 1
+						} else {
+							newLogIndex := args.PrevLogIndex
+							for rf.log[newLogIndex].Term != reply.XTerm && newLogIndex >= reply.XIndex {
+								newLogIndex--
+							}
+							rf.nextIndex[server] = newLogIndex + 1
+						}
+					} else {
+						rf.dealHaveEntryLogLocked(server, &args)
+					}
+					rf.mu.Unlock()
+				}			
 			// time.Sleep(50 * time.Millisecond)
 		}
 		time.Sleep(50 * time.Millisecond)
@@ -597,12 +619,15 @@ func maxIndexBeyondOneHalf(origin []int) int {
 
 
 func (rf *Raft) dealHaveEntryLogLocked(server int, args *AppendEntriesArgs) {
-	rf.nextIndex[server] = rf.nextIndex[server] + len(args.Entries)
+	// rf.nextIndex[server] = rf.nextIndex[server] + len(args.Entries)
+	rf.nextIndex[server] = args.PrevLogIndex + len(args.Entries) + 1
 	rf.matchIndex[server] = args.PrevLogIndex + len(args.Entries)
 	
 	targetIndex := maxIndexBeyondOneHalf(rf.matchIndex)
-	if targetIndex > rf.commitIndex {
-		index := args.PrevLogIndex + 1
+	//Leader不能直接提交任期不等于Current Term的日志
+	if targetIndex > rf.commitIndex && rf.log[targetIndex].Term == rf.currentTerm{
+		//注意这里不选择index := args.PrevLogIndex + 1的原因
+		index := rf.commitIndex + 1
 		rf.commitIndex = targetIndex
 		rf.lastApplied = targetIndex
 		for index <= targetIndex {
@@ -618,6 +643,7 @@ func (rf *Raft) dealHaveEntryLogLocked(server int, args *AppendEntriesArgs) {
 			Log(dLeader, "S%d: apply logindex=%d", rf.me, index)
 			index++
 		}
+		Log(dLeader, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex, rf.log)
 	}
 }
 
@@ -645,7 +671,7 @@ func (rf *Raft) killed() bool {
 
 func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) {
 	reply := RequestVoteReply{}
-	Log(dVote, "S%d: S%d -> S%d request to vote! rf.term=%d", rf.me, rf.me, server, args.Term)
+	// Log(dVote, "S%d: S%d -> S%d request to vote! rf.term=%d", rf.me, rf.me, server, args.Term)
 	ok := rf.peers[server].Call("Raft.RequestVote", args, &reply)
 
 	rf.mu.Lock()
@@ -669,7 +695,7 @@ func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) 
 
 			if *sumTickets > int(len(rf.peers) / 2) {
 
-				Log(dLeader, "S%d: S%d(%d tickets)will be a leader!", rf.me, rf.me, *sumTickets)
+				Log(dLeader, "S%d: S%d(%d tickets)will be a leader! log=%d", rf.me, rf.me, *sumTickets, rf.log)
 		
 				rf.serverState = Leader
 		
@@ -682,10 +708,7 @@ func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) 
 
 				}
 				
-				rf.matchIndex[rf.me] = rf.commitIndex
-				// for i := 0; i < len(rf.matchIndex);i++ {
-				// 	rf.matchIndex[i] = rf.commitIndex
-				// }
+				rf.matchIndex[rf.me] = rf.nextIndex[rf.me] - 1
 		
 				//开始发送日志（包含了发送心跳的程序）
 				go rf.sendLog2AllServers()
@@ -738,8 +761,9 @@ func (rf *Raft) ticker() {
 			rf.persist(false)
 
 			rf.sendRequestVoteToAll()
+			
+			rf.resetElectionTimerLocked()
 		}
-		rf.resetElectionTimerLocked()
 		rf.mu.Unlock()
 		// pause for a random amount of time between 50 and 350
 		// milliseconds.

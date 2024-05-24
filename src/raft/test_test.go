@@ -303,6 +303,7 @@ func TestFailAgree3B(t *testing.T) {
 
 	// re-connect
 	cfg.connect((leader + 1) % servers)
+	Log(dInfo,"client=%d reconnect.", (leader + 1) % servers)
 
 	// the full set of servers should preserve
 	// previous agreements, and be able to agree
@@ -823,19 +824,22 @@ func TestFigure83C(t *testing.T) {
 
 	cfg.begin("Test (3C): Figure 8")
 
-	cfg.one(rand.Int(), 1, true)
+	num := 0
+	cfg.one(num, 1, true)
+	num++
 
 	nup := servers
 	for iters := 0; iters < 1000; iters++ {
 		leader := -1
 		for i := 0; i < servers; i++ {
 			if cfg.rafts[i] != nil {
-				_, _, ok := cfg.rafts[i].Start(rand.Int())
+				_, _, ok := cfg.rafts[i].Start(num)
 				if ok {
 					leader = i
 				}
 			}
 		}
+		num++
 
 		if (rand.Int() % 1000) < 100 {
 			ms := rand.Int63() % (int64(RaftElectionTimeout/time.Millisecond) / 2)
@@ -846,6 +850,7 @@ func TestFigure83C(t *testing.T) {
 		}
 
 		if leader != -1 {
+			Log(dInfo, "crash server %d", leader)
 			cfg.crash1(leader)
 			nup -= 1
 		}
@@ -853,6 +858,7 @@ func TestFigure83C(t *testing.T) {
 		if nup < 3 {
 			s := rand.Int() % servers
 			if cfg.rafts[s] == nil {
+				Log(dInfo, "restart server %d", s)
 				cfg.start1(s, cfg.applier)
 				cfg.connect(s)
 				nup += 1
