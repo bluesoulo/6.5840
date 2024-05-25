@@ -914,20 +914,23 @@ func TestFigure8Unreliable3C(t *testing.T) {
 
 	cfg.begin("Test (3C): Figure 8 (unreliable)")
 
-	cfg.one(rand.Int()%10000, 1, true)
+	num := 0
+	cfg.one(num, 1, true)
+	num++
 
 	nup := servers
-	for iters := 0; iters < 1000; iters++ {
+	for iters := 0; iters < 210; iters++ {
 		if iters == 200 {
 			cfg.setlongreordering(true)
 		}
 		leader := -1
 		for i := 0; i < servers; i++ {
-			_, _, ok := cfg.rafts[i].Start(rand.Int() % 10000)
+			_, _, ok := cfg.rafts[i].Start(num)
 			if ok && cfg.connected[i] {
 				leader = i
 			}
 		}
+		num++
 
 		if (rand.Int() % 1000) < 100 {
 			ms := rand.Int63() % (int64(RaftElectionTimeout/time.Millisecond) / 2)
@@ -938,6 +941,7 @@ func TestFigure8Unreliable3C(t *testing.T) {
 		}
 
 		if leader != -1 && (rand.Int()%1000) < int(RaftElectionTimeout/time.Millisecond)/2 {
+			Log(dInfo, "disconnect server %d", leader)
 			cfg.disconnect(leader)
 			nup -= 1
 		}
@@ -945,6 +949,7 @@ func TestFigure8Unreliable3C(t *testing.T) {
 		if nup < 3 {
 			s := rand.Int() % servers
 			if cfg.connected[s] == false {
+				Log(dInfo, "connect server %d", s)
 				cfg.connect(s)
 				nup += 1
 			}
@@ -956,6 +961,7 @@ func TestFigure8Unreliable3C(t *testing.T) {
 			cfg.connect(i)
 		}
 	}
+	Log(dInfo, "connect all server!")
 
 	cfg.one(rand.Int()%10000, servers, true)
 

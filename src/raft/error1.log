@@ -1,0 +1,1276 @@
+Test (3C): Figure 8 (unreliable) ...
+004448 CLNT S4: S4 will be a candidate. log =[{<nil> 0}]
+004522 VOTE S0:processing vote from S4! args.Term=1, rf.currentTerm=0
+004527 VOTE S0: S0 vote to S4!
+004562 VOTE S1:processing vote from S4! args.Term=1, rf.currentTerm=0
+004568 VOTE S1: S1 vote to S4!
+004575 LEAD S4: S4(3 tickets)will be a leader! log=[{<nil> 0}]
+004578 LEAD S4: send a heartbeat to S2, nextIndex=[1 1 1 1 1].
+004580 LEAD S4: send a heartbeat to S1, nextIndex=[1 1 1 1 1].
+004582 LEAD S4: send a heartbeat to S3, nextIndex=[1 1 1 1 1].
+004584 LEAD S4: send a heartbeat to S0, nextIndex=[1 1 1 1 1].
+004628 CLNT S0: S0 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+004642 CLNT S3: S3 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+004680 VOTE S2:processing vote from S4! args.Term=1, rf.currentTerm=0
+004684 VOTE S2: S2 vote to S4!
+004685 CLNT S2: S2 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+004689 VOTE S3:processing vote from S4! args.Term=1, rf.currentTerm=1
+004692 VOTE S3: S3 vote to S4!
+004809 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+005068 LEAD S4 has saved a log entry. command = 0
+005147 LEAD S4: send a entry to S0, log index = 1, PrevLogIndex =0, nextIndex=[1 1 1 1 2]
+005152 LEAD S4: send a entry to S3, log index = 1, PrevLogIndex =0, nextIndex=[1 1 1 1 2]
+005179 CLNT S3: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+005191 LEAD S4: send a entry to S2, log index = 1, PrevLogIndex =0, nextIndex=[1 1 1 1 2]
+005328 LEAD S4: send a entry to S1, log index = 1, PrevLogIndex =0, nextIndex=[1 1 1 1 2]
+005342 CLNT S1: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+005411 CLNT S0: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+005418 LEAD S4: apply logindex=1
+005418 LEAD S4: commitLogIndex=1, log=[{<nil> 0} {0 1}]
+005428 CLNT S2: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+005482 LEAD S4 has saved a log entry. command = 1
+005685 LEAD S4: send a entry to S3, log index = 1, PrevLogIndex =0, nextIndex=[2 2 2 1 3]
+005861 LEAD S4: send a entry to S1, log index = 2, PrevLogIndex =1, nextIndex=[2 2 2 1 3]
+005889 CLNT S1: receive logindex 2~2, log=[{<nil> 0} {0 1} {1 1}]
+005890 CLNT S1: apply logindex=1
+005891 CLNT S1: commitLogIndex=1, log=[{<nil> 0} {0 1} {1 1}]
+005920 LEAD S4: send a entry to S0, log index = 2, PrevLogIndex =1, nextIndex=[2 3 2 1 3]
+005935 CLNT S0: receive logindex 2~2, log=[{<nil> 0} {0 1} {1 1}]
+005936 CLNT S0: apply logindex=1
+005936 CLNT S0: commitLogIndex=1, log=[{<nil> 0} {0 1} {1 1}]
+005936 LEAD S4: send a entry to S2, log index = 2, PrevLogIndex =1, nextIndex=[2 3 2 1 3]
+005943 LEAD S4: apply logindex=2
+005944 LEAD S4: commitLogIndex=2, log=[{<nil> 0} {0 1} {1 1}]
+005945 CLNT S3: receive logindex 1~2, log=[{<nil> 0} {0 1} {1 1}]
+005976 CLNT S2: receive logindex 2~2, log=[{<nil> 0} {0 1} {1 1}]
+005977 CLNT S2: apply logindex=1
+005978 CLNT S2: commitLogIndex=1, log=[{<nil> 0} {0 1} {1 1}]
+006404 LEAD S4: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+006415 CLNT S1: apply logindex=2
+006416 CLNT S1: commitLogIndex=2, log=[{<nil> 0} {0 1} {1 1}]
+006417 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+006450 LEAD S4: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+006454 LEAD S4: send a heartbeat to S3, nextIndex=[3 3 3 3 3].
+006494 LEAD S4: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+006681 CLNT S3: apply logindex=1
+006682 CLNT S3: apply logindex=2
+006682 CLNT S3: commitLogIndex=2, log=[{<nil> 0} {0 1} {1 1}]
+006683 CLNT S3: S3 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+006930 LEAD S4: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+006941 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+006964 LEAD S4: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+007156 CLNT S0: apply logindex=2
+007156 CLNT S0: commitLogIndex=2, log=[{<nil> 0} {0 1} {1 1}]
+007157 LEAD S4: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+007157 CLNT S0: S0 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+007192 LEAD S4: send a heartbeat to S3, nextIndex=[3 3 3 3 3].
+007203 CLNT S2: apply logindex=2
+007204 CLNT S2: commitLogIndex=2, log=[{<nil> 0} {0 1} {1 1}]
+007205 CLNT S2: S2 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+007421 CLNT S3: S3 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+007448 LEAD S4: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+007662 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+007665 LEAD S4: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+007722 LEAD S4: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+007750 CLNT S0: S0 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+007760 CLNT S2: S2 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+007927 LEAD S4: send a heartbeat to S3, nextIndex=[3 3 3 3 3].
+008069 CLNT S3: S3 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+008167 LEAD S4: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+008261 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+008264 LEAD S4: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+008268 LEAD S4: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+008434 CLNT S0: S0 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+008434 CLNT S2: S2 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+008582 LEAD S4: send a heartbeat to S3, nextIndex=[3 3 3 3 3].
+008655 CLNT S3: S3 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+008766 LEAD S4: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+008949 LEAD S4: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+008951 LEAD S4: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+008967 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+009050 CLNT S2: S2 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+009170 LEAD S4: send a heartbeat to S3, nextIndex=[3 3 3 3 3].
+009205 CLNT S3: S3 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+009476 LEAD S4: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+009559 LEAD S4: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+009561 LEAD S4: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+009568 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+009648 CLNT S2: S2 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+009713 CLNT S0: S0 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+009716 LEAD S4: send a heartbeat to S3, nextIndex=[3 3 3 3 3].
+009960 CLNT S3: S3 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+010082 LEAD S4: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+010165 LEAD S4: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+010230 LEAD S4: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+010287 LEAD S4 has saved a log entry. command = 2
+010313 CLNT S0: S0 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+010338 INFO disconnect server 4
+010343 LEAD S4 has saved a log entry. command = 3
+010343 CLNT S1: S1 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+010355 CLNT S2: S2 receive a heartbeate from S4. currentTerm=1, args.currentTerm%!(EXTRA int=1)
+010478 LEAD S4 has saved a log entry. command = 4
+010480 LEAD S4: send a entry to S3, log index = 3, PrevLogIndex =2, nextIndex=[3 3 3 3 6]
+010526 LEAD S4 has saved a log entry. command = 5
+010592 LEAD S4 has saved a log entry. command = 6
+010709 LEAD S4 has saved a log entry. command = 7
+010782 LEAD S4 has saved a log entry. command = 8
+010831 LEAD S4: send a entry to S0, log index = 3, PrevLogIndex =2, nextIndex=[3 3 3 3 10]
+010853 LEAD S4: send a entry to S1, log index = 3, PrevLogIndex =2, nextIndex=[3 3 3 3 10]
+010859 LEAD S4: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[3 3 3 3 10]
+010881 LEAD S4 has saved a log entry. command = 9
+010886 LEAD S4 has saved a log entry. command = 10
+011021 LEAD S4 has saved a log entry. command = 11
+013061 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1}]
+013121 VOTE S2:processing vote from S3! args.Term=2, rf.currentTerm=1
+013127 VOTE S2: S2 vote to S3!
+013138 VOTE S0:processing vote from S3! args.Term=2, rf.currentTerm=1
+013143 VOTE S0: S0 vote to S3!
+013150 LEAD S3: S3(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1}]
+013152 LEAD S3: send a heartbeat to S4, nextIndex=[3 3 3 3 3].
+013153 LEAD S3: send a heartbeat to S1, nextIndex=[3 3 3 3 3].
+013154 LEAD S3: send a heartbeat to S0, nextIndex=[3 3 3 3 3].
+013156 LEAD S3: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+013230 CLNT S2: S2 receive a heartbeate from S3. currentTerm=2, args.currentTerm%!(EXTRA int=2)
+013322 VOTE S1:processing vote from S3! args.Term=2, rf.currentTerm=1
+013327 VOTE S1: S1 vote to S3!
+013394 CLNT S1: S1 receive a heartbeate from S3. currentTerm=2, args.currentTerm%!(EXTRA int=2)
+013403 CLNT S0: S0 receive a heartbeate from S3. currentTerm=2, args.currentTerm%!(EXTRA int=2)
+013741 LEAD S3: send a heartbeat to S2, nextIndex=[3 3 3 3 3].
+013870 LEAD S3 has saved a log entry. command = 12
+013875 LEAD S4 has saved a log entry. command = 12
+013910 LEAD S3: send a entry to S1, log index = 3, PrevLogIndex =2, nextIndex=[3 3 3 4 3]
+013913 LEAD S3: send a entry to S0, log index = 3, PrevLogIndex =2, nextIndex=[3 3 3 4 3]
+013925 CLNT S0: receive logindex 3~3, log=[{<nil> 0} {0 1} {1 1} {12 2}]
+013970 CLNT S2: S2 receive a heartbeate from S3. currentTerm=2, args.currentTerm%!(EXTRA int=2)
+013977 LEAD S3 has saved a log entry. command = 13
+013983 LEAD S4 has saved a log entry. command = 13
+014060 LEAD S3 has saved a log entry. command = 14
+014064 LEAD S4 has saved a log entry. command = 14
+014176 CLNT S1: receive logindex 3~3, log=[{<nil> 0} {0 1} {1 1} {12 2}]
+014184 LEAD S3: apply logindex=3
+014184 LEAD S3: commitLogIndex=3, log=[{<nil> 0} {0 1} {1 1} {12 2} {13 2} {14 2}]
+014186 INFO disconnect server 3
+014190 LEAD S3 has saved a log entry. command = 15
+014196 LEAD S4 has saved a log entry. command = 15
+014257 LEAD S3 has saved a log entry. command = 16
+014262 LEAD S4 has saved a log entry. command = 16
+014363 LEAD S3 has saved a log entry. command = 17
+014369 LEAD S4 has saved a log entry. command = 17
+014436 LEAD S3: send a entry to S0, log index = 4, PrevLogIndex =3, nextIndex=[4 4 3 9 3]
+014483 LEAD S3 has saved a log entry. command = 18
+014484 LEAD S3: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[4 4 3 10 3]
+014490 LEAD S4 has saved a log entry. command = 18
+014577 LEAD S3 has saved a log entry. command = 19
+014583 LEAD S4 has saved a log entry. command = 19
+014672 LEAD S3 has saved a log entry. command = 20
+014679 LEAD S4 has saved a log entry. command = 20
+014685 LEAD S3 has saved a log entry. command = 21
+014689 LEAD S3: send a entry to S1, log index = 4, PrevLogIndex =3, nextIndex=[4 4 3 13 3]
+014691 LEAD S4 has saved a log entry. command = 21
+014740 LEAD S3 has saved a log entry. command = 22
+014747 LEAD S4 has saved a log entry. command = 22
+014776 LEAD S3 has saved a log entry. command = 23
+014782 LEAD S4 has saved a log entry. command = 23
+014832 LEAD S3 has saved a log entry. command = 24
+014840 LEAD S4 has saved a log entry. command = 24
+014870 LEAD S3 has saved a log entry. command = 25
+014877 LEAD S4 has saved a log entry. command = 25
+014906 LEAD S3 has saved a log entry. command = 26
+014912 LEAD S4 has saved a log entry. command = 26
+015035 LEAD S3 has saved a log entry. command = 27
+015043 LEAD S4 has saved a log entry. command = 27
+015181 LEAD S3 has saved a log entry. command = 28
+015189 LEAD S4 has saved a log entry. command = 28
+015195 LEAD S3 has saved a log entry. command = 29
+015204 LEAD S4 has saved a log entry. command = 29
+015284 LEAD S3 has saved a log entry. command = 30
+015292 LEAD S4 has saved a log entry. command = 30
+015297 LEAD S3 has saved a log entry. command = 31
+015304 LEAD S4 has saved a log entry. command = 31
+015395 LEAD S3 has saved a log entry. command = 32
+015405 LEAD S4 has saved a log entry. command = 32
+015466 LEAD S3 has saved a log entry. command = 33
+015474 LEAD S4 has saved a log entry. command = 33
+016913 LEAD S3 has saved a log entry. command = 34
+016921 LEAD S4 has saved a log entry. command = 34
+017033 LEAD S3 has saved a log entry. command = 35
+017042 LEAD S4 has saved a log entry. command = 35
+017065 LEAD S3 has saved a log entry. command = 36
+017075 LEAD S4 has saved a log entry. command = 36
+017129 LEAD S3 has saved a log entry. command = 37
+017138 LEAD S4 has saved a log entry. command = 37
+017270 LEAD S3 has saved a log entry. command = 38
+017280 LEAD S4 has saved a log entry. command = 38
+017393 LEAD S3 has saved a log entry. command = 39
+017402 LEAD S4 has saved a log entry. command = 39
+017450 LEAD S3 has saved a log entry. command = 40
+017460 LEAD S4 has saved a log entry. command = 40
+017502 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1}]
+017535 LEAD S3 has saved a log entry. command = 41
+017546 LEAD S4 has saved a log entry. command = 41
+017577 LEAD S3 has saved a log entry. command = 42
+017585 LEAD S4 has saved a log entry. command = 42
+017659 VOTE S1:processing vote from S2! args.Term=3, rf.currentTerm=2
+017663 VOTE S1: S1 can't vote to S2! reaseon: serverState=0, votedFor=-1
+017702 LEAD S3 has saved a log entry. command = 43
+017709 LEAD S4 has saved a log entry. command = 43
+017774 VOTE S0:processing vote from S2! args.Term=3, rf.currentTerm=2
+017778 VOTE S0: S0 can't vote to S2! reaseon: serverState=0, votedFor=-1
+017780 VOTE S2: S2 -> S0 RequestVote rpc fail!
+018838 LEAD S3: send a entry to S1, log index = 4, PrevLogIndex =3, nextIndex=[4 4 3 35 3]
+020840 LEAD S3 has saved a log entry. command = 44
+020851 LEAD S4 has saved a log entry. command = 44
+020974 LEAD S3 has saved a log entry. command = 45
+020985 LEAD S4 has saved a log entry. command = 45
+021099 LEAD S3 has saved a log entry. command = 46
+021109 LEAD S4 has saved a log entry. command = 46
+021215 LEAD S3 has saved a log entry. command = 47
+021227 LEAD S4 has saved a log entry. command = 47
+021351 LEAD S3 has saved a log entry. command = 48
+021362 LEAD S4 has saved a log entry. command = 48
+021456 LEAD S3 has saved a log entry. command = 49
+021468 LEAD S4 has saved a log entry. command = 49
+021553 LEAD S3 has saved a log entry. command = 50
+021564 LEAD S4 has saved a log entry. command = 50
+021679 LEAD S3 has saved a log entry. command = 51
+021692 LEAD S4 has saved a log entry. command = 51
+021771 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2}]
+021785 VOTE S2:processing vote from S0! args.Term=4, rf.currentTerm=3
+021787 LEAD S3 has saved a log entry. command = 52
+021791 VOTE S2: S2 vote to S0!
+021798 LEAD S4 has saved a log entry. command = 52
+021921 LEAD S3 has saved a log entry. command = 53
+021932 LEAD S4 has saved a log entry. command = 53
+022038 VOTE S1:processing vote from S0! args.Term=4, rf.currentTerm=3
+022044 VOTE S1: S1 vote to S0!
+022050 LEAD S0: S0(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2}]
+022052 LEAD S0: send a heartbeat to S2, nextIndex=[4 4 4 4 4].
+022054 LEAD S0: send a heartbeat to S1, nextIndex=[4 4 4 4 4].
+022056 LEAD S0: send a heartbeat to S3, nextIndex=[4 4 4 4 4].
+022058 LEAD S0: send a heartbeat to S4, nextIndex=[4 4 4 4 4].
+022087 CLNT S1: S1 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+022270 CLNT S2:args.PrevLogIndex=3, XLen=1
+022271 CLNT S2: S2 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+022531 LEAD S0 has saved a log entry. command = 54
+022542 LEAD S3 has saved a log entry. command = 54
+022554 LEAD S4 has saved a log entry. command = 54
+022600 LEAD S0: send a entry to S1, log index = 4, PrevLogIndex =3, nextIndex=[5 4 3 4 4]
+022687 LEAD S0 has saved a log entry. command = 55
+022697 LEAD S3 has saved a log entry. command = 55
+022708 LEAD S4 has saved a log entry. command = 55
+022752 INFO disconnect server 0
+022754 INFO connect server 0
+022760 LEAD S0 has saved a log entry. command = 56
+022771 LEAD S3 has saved a log entry. command = 56
+022784 LEAD S4 has saved a log entry. command = 56
+022785 LEAD S0: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[7 4 3 4 4]
+022822 LEAD S0 has saved a log entry. command = 57
+022832 LEAD S3 has saved a log entry. command = 57
+022845 LEAD S4 has saved a log entry. command = 57
+022881 CLNT S1: receive logindex 4~4, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4}]
+022984 CLNT S2: receive logindex 3~3, log=[{<nil> 0} {0 1} {1 1} {12 2}]
+023398 LEAD S0: send a entry to S1, log index = 5, PrevLogIndex =4, nextIndex=[8 5 4 4 4]
+023496 LEAD S0: send a entry to S2, log index = 4, PrevLogIndex =3, nextIndex=[8 5 4 4 4]
+023529 CLNT S1: receive logindex 5~7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+023630 CLNT S2: receive logindex 4~7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+023636 LEAD S0: apply logindex=3
+023636 LEAD S0: apply logindex=4
+023636 LEAD S0: commitLogIndex=4, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+024039 LEAD S0: send a entry to S1, log index = 5, PrevLogIndex =4, nextIndex=[8 5 8 4 4]
+024095 CLNT S1: receive logindex 5~7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+024097 CLNT S1: apply logindex=3
+024097 CLNT S1: apply logindex=4
+024097 CLNT S1: commitLogIndex=4, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+024140 LEAD S0: send a heartbeat to S2, nextIndex=[8 5 8 4 4].
+024242 CLNT S2: apply logindex=3
+024243 CLNT S2: apply logindex=4
+024243 CLNT S2: commitLogIndex=4, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+024244 CLNT S2: S2 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+024605 LEAD S0: send a entry to S1, log index = 5, PrevLogIndex =4, nextIndex=[8 5 8 4 4]
+024631 CLNT S1: receive logindex 5~7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+024637 LEAD S0: apply logindex=5
+024638 LEAD S0: apply logindex=6
+024639 LEAD S0: apply logindex=7
+024639 LEAD S0: commitLogIndex=7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+024775 LEAD S0: send a heartbeat to S2, nextIndex=[8 8 8 4 4].
+024908 CLNT S2: apply logindex=5
+024909 CLNT S2: apply logindex=6
+024910 CLNT S2: apply logindex=7
+024910 CLNT S2: commitLogIndex=7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+024911 CLNT S2: S2 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+025150 LEAD S0: send a heartbeat to S1, nextIndex=[8 8 8 4 4].
+025259 CLNT S1: apply logindex=5
+025260 CLNT S1: apply logindex=6
+025261 CLNT S1: apply logindex=7
+025262 CLNT S1: commitLogIndex=7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+025263 CLNT S1: S1 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+025418 LEAD S0: send a heartbeat to S2, nextIndex=[8 8 8 4 4].
+025689 CLNT S2: S2 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+025776 LEAD S0: send a heartbeat to S1, nextIndex=[8 8 8 4 4].
+025797 CLNT S1: S1 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+026206 LEAD S0: send a heartbeat to S2, nextIndex=[8 8 8 4 4].
+026311 LEAD S0: send a heartbeat to S1, nextIndex=[8 8 8 4 4].
+026321 CLNT S1: S1 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+026410 CLNT S2: S2 receive a heartbeate from S0. currentTerm=4, args.currentTerm%!(EXTRA int=4)
+026527 INFO disconnect server 0
+026528 INFO connect server 4
+026533 LEAD S0 has saved a log entry. command = 58
+026545 LEAD S3 has saved a log entry. command = 58
+026558 LEAD S4 has saved a log entry. command = 58
+026606 LEAD S0 has saved a log entry. command = 59
+026617 LEAD S3 has saved a log entry. command = 59
+026630 LEAD S4 has saved a log entry. command = 59
+026723 LEAD S0 has saved a log entry. command = 60
+026735 LEAD S3 has saved a log entry. command = 60
+026748 LEAD S4 has saved a log entry. command = 60
+026786 LEAD S0 has saved a log entry. command = 61
+026797 LEAD S3 has saved a log entry. command = 61
+026809 LEAD S4 has saved a log entry. command = 61
+026836 LEAD S0: send a entry to S1, log index = 8, PrevLogIndex =7, nextIndex=[12 8 8 4 4]
+026926 LEAD S0 has saved a log entry. command = 62
+026927 LEAD S0: send a entry to S2, log index = 8, PrevLogIndex =7, nextIndex=[13 8 8 4 4]
+026937 LEAD S3 has saved a log entry. command = 62
+026950 LEAD S4 has saved a log entry. command = 62
+026968 LEAD S0 has saved a log entry. command = 63
+026980 LEAD S3 has saved a log entry. command = 63
+026993 LEAD S4 has saved a log entry. command = 63
+027043 LEAD S0 has saved a log entry. command = 64
+027054 LEAD S3 has saved a log entry. command = 64
+027066 LEAD S4 has saved a log entry. command = 64
+027079 INFO disconnect server 4
+027086 LEAD S0 has saved a log entry. command = 65
+027099 LEAD S3 has saved a log entry. command = 65
+027109 LEAD S4 has saved a log entry. command = 65
+027208 LEAD S0 has saved a log entry. command = 66
+027220 LEAD S3 has saved a log entry. command = 66
+027233 LEAD S4 has saved a log entry. command = 66
+027350 INFO connect server 3
+027350 LEAD S4: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[3 3 3 3 68]
+027356 LEAD S0 has saved a log entry. command = 67
+027368 LEAD S3 has saved a log entry. command = 67
+027379 LEAD S4 has saved a log entry. command = 67
+027489 LEAD S0 has saved a log entry. command = 68
+027498 LEAD S3 has saved a log entry. command = 68
+027508 LEAD S4 has saved a log entry. command = 68
+029815 LEAD S0: send a entry to S1, log index = 8, PrevLogIndex =7, nextIndex=[19 8 8 4 4]
+030471 LEAD S0 has saved a log entry. command = 69
+030480 LEAD S3 has saved a log entry. command = 69
+030494 LEAD S4 has saved a log entry. command = 69
+030494 INFO disconnect server 3
+030500 LEAD S0 has saved a log entry. command = 70
+030512 LEAD S3 has saved a log entry. command = 70
+030525 LEAD S4 has saved a log entry. command = 70
+030531 LEAD S0 has saved a log entry. command = 71
+030543 LEAD S3 has saved a log entry. command = 71
+030557 LEAD S4 has saved a log entry. command = 71
+030661 INFO connect server 0
+030668 LEAD S0 has saved a log entry. command = 72
+030682 LEAD S3 has saved a log entry. command = 72
+030695 LEAD S4 has saved a log entry. command = 72
+031174 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+031332 VOTE S0:processing vote from S1! args.Term=5, rf.currentTerm=4
+031339 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+031404 VOTE S2:processing vote from S1! args.Term=5, rf.currentTerm=4
+031410 VOTE S2: S2 vote to S1!
+032843 LEAD S3 has saved a log entry. command = 73
+032858 LEAD S4 has saved a log entry. command = 73
+032944 LEAD S3 has saved a log entry. command = 74
+032957 LEAD S4 has saved a log entry. command = 74
+033055 LEAD S3 has saved a log entry. command = 75
+033069 LEAD S4 has saved a log entry. command = 75
+033167 LEAD S3 has saved a log entry. command = 76
+033183 LEAD S4 has saved a log entry. command = 76
+033952 VOTE S1: S1 -> S3 RequestVote rpc fail!
+035539 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+035677 VOTE S1:processing vote from S2! args.Term=6, rf.currentTerm=5
+035685 VOTE S1: S1 vote to S2!
+035687 VOTE S2: S2 -> S1 RequestVote rpc fail!
+035719 VOTE S0:processing vote from S2! args.Term=6, rf.currentTerm=5
+035726 VOTE S0: S0 can't vote to S2! reaseon: serverState=0, votedFor=-1
+036029 VOTE S2: S2 -> S3 RequestVote rpc fail!
+036962 LEAD S3 has saved a log entry. command = 77
+036979 LEAD S4 has saved a log entry. command = 77
+037078 LEAD S3 has saved a log entry. command = 78
+037094 LEAD S4 has saved a log entry. command = 78
+037193 LEAD S3 has saved a log entry. command = 79
+037210 LEAD S4 has saved a log entry. command = 79
+037317 LEAD S3 has saved a log entry. command = 80
+037332 LEAD S4 has saved a log entry. command = 80
+037401 LEAD S3 has saved a log entry. command = 81
+037416 LEAD S4 has saved a log entry. command = 81
+037428 LEAD S3 has saved a log entry. command = 82
+037441 LEAD S4 has saved a log entry. command = 82
+037468 LEAD S3 has saved a log entry. command = 83
+037483 LEAD S4 has saved a log entry. command = 83
+037587 LEAD S3 has saved a log entry. command = 84
+037594 LEAD S4 has saved a log entry. command = 84
+037651 LEAD S3 has saved a log entry. command = 85
+037667 LEAD S4 has saved a log entry. command = 85
+037727 LEAD S3 has saved a log entry. command = 86
+037734 LEAD S4 has saved a log entry. command = 86
+037863 LEAD S3 has saved a log entry. command = 87
+037880 LEAD S4 has saved a log entry. command = 87
+038012 LEAD S3 has saved a log entry. command = 88
+038019 LEAD S4 has saved a log entry. command = 88
+038159 LEAD S3 has saved a log entry. command = 89
+038176 LEAD S4 has saved a log entry. command = 89
+038248 LEAD S3 has saved a log entry. command = 90
+038256 LEAD S4 has saved a log entry. command = 90
+038389 LEAD S3 has saved a log entry. command = 91
+038407 LEAD S4 has saved a log entry. command = 91
+038529 LEAD S3 has saved a log entry. command = 92
+038537 LEAD S4 has saved a log entry. command = 92
+038617 LEAD S3 has saved a log entry. command = 93
+038634 LEAD S4 has saved a log entry. command = 93
+038753 LEAD S3 has saved a log entry. command = 94
+038761 LEAD S4 has saved a log entry. command = 94
+038851 LEAD S3 has saved a log entry. command = 95
+038868 LEAD S4 has saved a log entry. command = 95
+039496 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+039506 VOTE S2:processing vote from S1! args.Term=7, rf.currentTerm=6
+039507 VOTE S0:processing vote from S1! args.Term=7, rf.currentTerm=6
+039509 VOTE S2: S2 vote to S1!
+039513 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+040670 LEAD S3: send a entry to S0, log index = 4, PrevLogIndex =3, nextIndex=[4 4 3 87 3]
+042381 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4}]
+042396 VOTE S0:processing vote from S1! args.Term=8, rf.currentTerm=7
+042404 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+042583 VOTE S2:processing vote from S1! args.Term=8, rf.currentTerm=7
+042591 VOTE S2: S2 vote to S1!
+042951 LEAD S3: send a entry to S4, log index = 3, PrevLogIndex =2, nextIndex=[4 4 3 87 3]
+043365 LEAD S3 has saved a log entry. command = 96
+043384 LEAD S4 has saved a log entry. command = 96
+043510 LEAD S3 has saved a log entry. command = 97
+043531 LEAD S4 has saved a log entry. command = 97
+043637 LEAD S3 has saved a log entry. command = 98
+043654 LEAD S4 has saved a log entry. command = 98
+043787 LEAD S3 has saved a log entry. command = 99
+043806 LEAD S4 has saved a log entry. command = 99
+043945 LEAD S3 has saved a log entry. command = 100
+043962 LEAD S4 has saved a log entry. command = 100
+044017 LEAD S3: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[4 4 3 92 3]
+044096 LEAD S3 has saved a log entry. command = 101
+044113 LEAD S4 has saved a log entry. command = 101
+044177 LEAD S3 has saved a log entry. command = 102
+044197 LEAD S4 has saved a log entry. command = 102
+046090 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+046272 VOTE S1:processing vote from S0! args.Term=9, rf.currentTerm=8
+046280 VOTE S1: S1 vote to S0!
+046325 VOTE S2:processing vote from S0! args.Term=9, rf.currentTerm=8
+046333 VOTE S2: S2 vote to S0!
+046339 LEAD S0: S0(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+046342 LEAD S0: send a heartbeat to S1, nextIndex=[23 23 23 23 23].
+046344 LEAD S0: send a heartbeat to S4, nextIndex=[23 23 23 23 23].
+046347 LEAD S0: send a heartbeat to S3, nextIndex=[23 23 23 23 23].
+046348 LEAD S0: send a heartbeat to S2, nextIndex=[23 23 23 23 23].
+046561 CLNT S2:args.PrevLogIndex=22, XLen=15
+046562 CLNT S2: S2 receive a heartbeate from S0. currentTerm=9, args.currentTerm%!(EXTRA int=9)
+046624 CLNT S1:args.PrevLogIndex=22, XLen=15
+046624 CLNT S1: S1 receive a heartbeate from S0. currentTerm=9, args.currentTerm%!(EXTRA int=9)
+046836 LEAD S0 has saved a log entry. command = 103
+046856 LEAD S3 has saved a log entry. command = 103
+046877 LEAD S4 has saved a log entry. command = 103
+047008 LEAD S0 has saved a log entry. command = 104
+047028 LEAD S3 has saved a log entry. command = 104
+047049 LEAD S4 has saved a log entry. command = 104
+047072 LEAD S0: send a entry to S2, log index = 23, PrevLogIndex =22, nextIndex=[25 8 23 23 23]
+047134 LEAD S0: send a entry to S1, log index = 8, PrevLogIndex =7, nextIndex=[25 8 23 23 23]
+047154 LEAD S0 has saved a log entry. command = 105
+047165 CLNT S1: receive logindex 8~22, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+047178 LEAD S3 has saved a log entry. command = 105
+047192 LEAD S4 has saved a log entry. command = 105
+047223 LEAD S0 has saved a log entry. command = 106
+047243 LEAD S3 has saved a log entry. command = 106
+047252 CLNT S2:args.PrevLogIndex=22, XLen=15
+047263 LEAD S4 has saved a log entry. command = 106
+047296 LEAD S0 has saved a log entry. command = 107
+047310 LEAD S3 has saved a log entry. command = 107
+047325 LEAD S4 has saved a log entry. command = 107
+047368 INFO disconnect server 0
+047369 INFO connect server 0
+047377 LEAD S0 has saved a log entry. command = 108
+047396 LEAD S3 has saved a log entry. command = 108
+047411 LEAD S4 has saved a log entry. command = 108
+047540 LEAD S0 has saved a log entry. command = 109
+047563 LEAD S3 has saved a log entry. command = 109
+047578 LEAD S4 has saved a log entry. command = 109
+047679 LEAD S0: send a entry to S1, log index = 23, PrevLogIndex =22, nextIndex=[30 23 8 23 23]
+047695 LEAD S0 has saved a log entry. command = 110
+047708 LEAD S3 has saved a log entry. command = 110
+047722 LEAD S4 has saved a log entry. command = 110
+047761 LEAD S0 has saved a log entry. command = 111
+047766 LEAD S0: send a entry to S2, log index = 8, PrevLogIndex =7, nextIndex=[32 23 8 23 23]
+047777 LEAD S3 has saved a log entry. command = 111
+047795 LEAD S4 has saved a log entry. command = 111
+047807 CLNT S1: receive logindex 23~29, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9}]
+047879 INFO disconnect server 0
+047885 LEAD S0 has saved a log entry. command = 112
+047898 LEAD S3 has saved a log entry. command = 112
+047912 LEAD S4 has saved a log entry. command = 112
+047933 LEAD S0 has saved a log entry. command = 113
+047954 LEAD S3 has saved a log entry. command = 113
+047976 LEAD S4 has saved a log entry. command = 113
+048050 CLNT S2: receive logindex 8~22, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+048078 LEAD S0 has saved a log entry. command = 114
+048095 LEAD S3 has saved a log entry. command = 114
+048113 LEAD S4 has saved a log entry. command = 114
+048234 INFO connect server 3
+048243 LEAD S0 has saved a log entry. command = 115
+048261 LEAD S3 has saved a log entry. command = 115
+048281 LEAD S4 has saved a log entry. command = 115
+048319 LEAD S0: send a entry to S1, log index = 23, PrevLogIndex =22, nextIndex=[36 23 8 23 23]
+048562 LEAD S0: send a entry to S2, log index = 8, PrevLogIndex =7, nextIndex=[36 23 8 23 23]
+052091 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9}]
+052164 LEAD S0 has saved a log entry. command = 116
+052186 LEAD S3 has saved a log entry. command = 116
+052206 LEAD S4 has saved a log entry. command = 116
+052228 LEAD S0 has saved a log entry. command = 117
+052251 LEAD S3 has saved a log entry. command = 117
+052274 LEAD S4 has saved a log entry. command = 117
+052307 VOTE S3:processing vote from S1! args.Term=10, rf.currentTerm=2
+052330 VOTE S3: S3 vote to S1!
+052355 INFO disconnect server 3
+052356 INFO connect server 3
+052365 LEAD S0 has saved a log entry. command = 118
+052387 VOTE S2:processing vote from S1! args.Term=10, rf.currentTerm=9
+052399 VOTE S2: S2 vote to S1!
+052403 LEAD S1: S1(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9}]
+052406 LEAD S4 has saved a log entry. command = 118
+052406 LEAD S1: send a heartbeat to S3, nextIndex=[30 30 30 30 30].
+052407 LEAD S1: send a heartbeat to S2, nextIndex=[30 30 30 30 30].
+052410 LEAD S1: send a heartbeat to S0, nextIndex=[30 30 30 30 30].
+052412 LEAD S1: send a heartbeat to S4, nextIndex=[30 30 30 30 30].
+052518 LEAD S0 has saved a log entry. command = 119
+052524 LEAD S1 has saved a log entry. command = 119
+052544 LEAD S4 has saved a log entry. command = 119
+052630 CLNT S3: log conflict, args.PrevLogIndex=29,XIndex=3,XTerm=2
+052631 CLNT S3: S3 receive a heartbeate from S1. currentTerm=10, args.currentTerm%!(EXTRA int=10)
+052636 INFO disconnect server 1
+052645 LEAD S0 has saved a log entry. command = 120
+052650 LEAD S1 has saved a log entry. command = 120
+052666 LEAD S4 has saved a log entry. command = 120
+052773 LEAD S0 has saved a log entry. command = 121
+052780 LEAD S1 has saved a log entry. command = 121
+052799 LEAD S4 has saved a log entry. command = 121
+052899 INFO connect server 0
+052907 LEAD S0 has saved a log entry. command = 122
+052914 LEAD S1 has saved a log entry. command = 122
+052931 LEAD S4 has saved a log entry. command = 122
+053045 INFO disconnect server 0
+053055 LEAD S0 has saved a log entry. command = 123
+053062 LEAD S1 has saved a log entry. command = 123
+053081 LEAD S4 has saved a log entry. command = 123
+053116 INFO connect server 0
+053127 LEAD S0 has saved a log entry. command = 124
+053135 LEAD S1 has saved a log entry. command = 124
+053138 LEAD S1: send a entry to S3, log index = 4, PrevLogIndex =3, nextIndex=[30 36 30 4 30]
+053158 LEAD S4 has saved a log entry. command = 124
+053159 LEAD S1: send a entry to S2, log index = 30, PrevLogIndex =29, nextIndex=[30 36 30 4 30]
+053203 LEAD S0 has saved a log entry. command = 125
+053213 LEAD S1 has saved a log entry. command = 125
+053238 LEAD S4 has saved a log entry. command = 125
+054810 LEAD S0 has saved a log entry. command = 126
+054814 LEAD S1 has saved a log entry. command = 126
+054824 LEAD S4 has saved a log entry. command = 126
+054948 INFO disconnect server 0
+054949 INFO connect server 4
+054961 LEAD S0 has saved a log entry. command = 127
+054971 LEAD S1 has saved a log entry. command = 127
+054996 LEAD S4 has saved a log entry. command = 127
+055007 LEAD S0 has saved a log entry. command = 128
+055016 LEAD S1 has saved a log entry. command = 128
+055041 LEAD S4 has saved a log entry. command = 128
+055108 LEAD S0 has saved a log entry. command = 129
+055119 LEAD S1 has saved a log entry. command = 129
+055139 LEAD S0: send a entry to S1, log index = 23, PrevLogIndex =22, nextIndex=[50 23 8 23 23]
+055141 LEAD S4 has saved a log entry. command = 129
+055269 LEAD S0 has saved a log entry. command = 130
+055273 LEAD S1 has saved a log entry. command = 130
+055283 LEAD S4 has saved a log entry. command = 130
+057584 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+057703 VOTE S3:processing vote from S2! args.Term=11, rf.currentTerm=10
+057705 VOTE S4:processing vote from S2! args.Term=11, rf.currentTerm=1
+057727 VOTE S3: S3 vote to S2!
+057729 VOTE S2: S2 -> S3 RequestVote rpc fail!
+057755 VOTE S4: S4 vote to S2!
+058794 INFO disconnect server 4
+058796 INFO connect server 4
+058808 LEAD S0 has saved a log entry. command = 131
+058816 LEAD S1 has saved a log entry. command = 131
+061089 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+061191 VOTE S3:processing vote from S2! args.Term=12, rf.currentTerm=11
+061232 VOTE S3: S3 vote to S2!
+061334 VOTE S4:processing vote from S2! args.Term=12, rf.currentTerm=11
+061384 VOTE S4: S4 vote to S2!
+061389 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+061392 LEAD S2: send a heartbeat to S4, nextIndex=[23 23 23 23 23].
+061394 LEAD S2: send a heartbeat to S1, nextIndex=[23 23 23 23 23].
+061396 LEAD S2: send a heartbeat to S0, nextIndex=[23 23 23 23 23].
+061399 LEAD S2: send a heartbeat to S3, nextIndex=[23 23 23 23 23].
+061402 LEAD S0 has saved a log entry. command = 132
+061411 LEAD S1 has saved a log entry. command = 132
+061416 LEAD S2 has saved a log entry. command = 132
+061464 CLNT S4: log conflict, args.PrevLogIndex=22,XIndex=1,XTerm=1
+061465 CLNT S4: S4 receive a heartbeate from S2. currentTerm=12, args.currentTerm%!(EXTRA int=12)
+061522 LEAD S0 has saved a log entry. command = 133
+061530 LEAD S1 has saved a log entry. command = 133
+061535 LEAD S2 has saved a log entry. command = 133
+061568 CLNT S3: log conflict, args.PrevLogIndex=22,XIndex=3,XTerm=2
+061569 CLNT S3: S3 receive a heartbeate from S2. currentTerm=12, args.currentTerm%!(EXTRA int=12)
+061828 LEAD S0 has saved a log entry. command = 134
+061836 LEAD S1 has saved a log entry. command = 134
+061842 LEAD S2 has saved a log entry. command = 134
+061906 LEAD S0 has saved a log entry. command = 135
+061914 LEAD S1 has saved a log entry. command = 135
+061920 LEAD S2 has saved a log entry. command = 135
+061942 LEAD S0 has saved a log entry. command = 136
+061951 LEAD S1 has saved a log entry. command = 136
+061957 LEAD S2 has saved a log entry. command = 136
+061969 INFO disconnect server 2
+061980 LEAD S2: send a entry to S4, log index = 3, PrevLogIndex =2, nextIndex=[23 23 28 23 3]
+061980 LEAD S0 has saved a log entry. command = 137
+061989 LEAD S1 has saved a log entry. command = 137
+061995 LEAD S2 has saved a log entry. command = 137
+062017 INFO connect server 0
+062030 LEAD S0 has saved a log entry. command = 138
+062041 LEAD S1 has saved a log entry. command = 138
+062048 LEAD S2 has saved a log entry. command = 138
+062080 LEAD S2: send a entry to S3, log index = 23, PrevLogIndex =22, nextIndex=[23 23 30 23 3]
+062132 INFO disconnect server 0
+062133 INFO connect server 0
+062146 LEAD S0 has saved a log entry. command = 139
+062156 LEAD S1 has saved a log entry. command = 139
+062163 LEAD S2 has saved a log entry. command = 139
+063448 INFO disconnect server 0
+063449 INFO connect server 0
+063463 LEAD S0 has saved a log entry. command = 140
+063475 LEAD S1 has saved a log entry. command = 140
+063484 LEAD S2 has saved a log entry. command = 140
+063597 INFO disconnect server 0
+063599 INFO connect server 0
+063608 LEAD S0 has saved a log entry. command = 141
+063617 LEAD S1 has saved a log entry. command = 141
+063622 LEAD S2 has saved a log entry. command = 141
+063709 LEAD S0 has saved a log entry. command = 142
+063720 LEAD S1 has saved a log entry. command = 142
+063729 LEAD S2 has saved a log entry. command = 142
+065729 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {13 2} {14 2} {15 2} {16 2} {17 2} {18 2} {19 2} {20 2} {21 2} {22 2} {23 2} {24 2} {25 2} {26 2} {27 2} {28 2} {29 2} {30 2} {31 2} {32 2} {33 2} {34 2} {35 2} {36 2} {37 2} {38 2} {39 2} {40 2} {41 2} {42 2} {43 2} {44 2} {45 2} {46 2} {47 2} {48 2} {49 2} {50 2} {51 2} {52 2} {53 2} {54 2} {55 2} {56 2} {57 2} {58 2} {59 2} {60 2} {61 2} {62 2} {63 2} {64 2} {65 2} {66 2} {67 2} {68 2} {69 2} {70 2} {71 2} {72 2} {73 2} {74 2} {75 2} {76 2} {77 2} {78 2} {79 2} {80 2} {81 2} {82 2} {83 2} {84 2} {85 2} {86 2} {87 2} {88 2} {89 2} {90 2} {91 2} {92 2} {93 2} {94 2} {95 2} {96 2} {97 2} {98 2} {99 2} {100 2} {101 2} {102 2} {103 2} {104 2} {105 2} {106 2} {107 2} {108 2} {109 2} {110 2} {111 2} {112 2} {113 2} {114 2} {115 2} {116 2} {117 2}]
+065851 VOTE S4:processing vote from S3! args.Term=13, rf.currentTerm=12
+065872 VOTE S4: S4 vote to S3!
+066006 VOTE S0:processing vote from S3! args.Term=13, rf.currentTerm=9
+066020 VOTE S0: S0 can't vote to S3! reaseon: serverState=0, votedFor=-1
+066917 LEAD S1 has saved a log entry. command = 143
+066921 LEAD S2 has saved a log entry. command = 143
+066957 LEAD S1 has saved a log entry. command = 144
+066966 LEAD S2 has saved a log entry. command = 144
+067086 LEAD S1 has saved a log entry. command = 145
+067096 LEAD S2 has saved a log entry. command = 145
+067173 LEAD S1 has saved a log entry. command = 146
+067181 LEAD S2 has saved a log entry. command = 146
+067238 LEAD S1 has saved a log entry. command = 147
+067246 LEAD S2 has saved a log entry. command = 147
+067304 LEAD S1 has saved a log entry. command = 148
+067313 LEAD S2 has saved a log entry. command = 148
+067377 LEAD S1 has saved a log entry. command = 149
+067385 LEAD S2 has saved a log entry. command = 149
+067423 LEAD S1 has saved a log entry. command = 150
+067432 LEAD S2 has saved a log entry. command = 150
+067488 LEAD S1 has saved a log entry. command = 151
+067496 LEAD S2 has saved a log entry. command = 151
+067604 LEAD S1 has saved a log entry. command = 152
+067614 LEAD S2 has saved a log entry. command = 152
+067731 LEAD S1 has saved a log entry. command = 153
+067741 LEAD S2 has saved a log entry. command = 153
+067768 LEAD S1 has saved a log entry. command = 154
+067777 LEAD S2 has saved a log entry. command = 154
+067855 LEAD S1 has saved a log entry. command = 155
+067865 LEAD S2 has saved a log entry. command = 155
+067962 LEAD S1 has saved a log entry. command = 156
+067971 LEAD S2 has saved a log entry. command = 156
+068100 LEAD S1 has saved a log entry. command = 157
+068110 LEAD S2 has saved a log entry. command = 157
+070615 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+070668 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {13 2} {14 2} {15 2} {16 2} {17 2} {18 2} {19 2} {20 2} {21 2} {22 2} {23 2} {24 2} {25 2} {26 2} {27 2} {28 2} {29 2} {30 2} {31 2} {32 2} {33 2} {34 2} {35 2} {36 2} {37 2} {38 2} {39 2} {40 2} {41 2} {42 2} {43 2} {44 2} {45 2} {46 2} {47 2} {48 2} {49 2} {50 2} {51 2} {52 2} {53 2} {54 2} {55 2} {56 2} {57 2} {58 2} {59 2} {60 2} {61 2} {62 2} {63 2} {64 2} {65 2} {66 2} {67 2} {68 2} {69 2} {70 2} {71 2} {72 2} {73 2} {74 2} {75 2} {76 2} {77 2} {78 2} {79 2} {80 2} {81 2} {82 2} {83 2} {84 2} {85 2} {86 2} {87 2} {88 2} {89 2} {90 2} {91 2} {92 2} {93 2} {94 2} {95 2} {96 2} {97 2} {98 2} {99 2} {100 2} {101 2} {102 2} {103 2} {104 2} {105 2} {106 2} {107 2} {108 2} {109 2} {110 2} {111 2} {112 2} {113 2} {114 2} {115 2} {116 2} {117 2}]
+070736 VOTE S0:processing vote from S3! args.Term=14, rf.currentTerm=14
+070736 VOTE S3:processing vote from S0! args.Term=14, rf.currentTerm=14
+070737 VOTE S0: S0 can't vote to S3! reaseon: serverState=1, votedFor=0, term=14
+070737 VOTE S3: S3 can't vote to S0! reaseon: serverState=1, votedFor=3, term=14
+070889 VOTE S4:processing vote from S0! args.Term=14, rf.currentTerm=13
+070931 VOTE S4: S4 vote to S0!
+070951 VOTE S4:processing vote from S3! args.Term=14, rf.currentTerm=14
+070952 VOTE S4: S4 can't vote to S3! reaseon: serverState=0, votedFor=0, term=14
+072821 LEAD S1 has saved a log entry. command = 158
+072826 LEAD S2 has saved a log entry. command = 158
+072955 LEAD S1 has saved a log entry. command = 159
+072967 LEAD S2 has saved a log entry. command = 159
+073070 LEAD S1 has saved a log entry. command = 160
+073075 LEAD S2 has saved a log entry. command = 160
+073083 LEAD S2: send a entry to S1, log index = 23, PrevLogIndex =22, nextIndex=[23 23 52 23 3]
+073194 LEAD S1 has saved a log entry. command = 161
+073200 LEAD S2 has saved a log entry. command = 161
+073216 LEAD S1 has saved a log entry. command = 162
+073227 LEAD S2 has saved a log entry. command = 162
+073308 LEAD S1 has saved a log entry. command = 163
+073321 LEAD S2 has saved a log entry. command = 163
+074716 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {2 1} {3 1} {4 1} {5 1} {6 1} {7 1} {8 1} {9 1} {10 1} {11 1} {12 1} {13 1} {14 1} {15 1} {16 1} {17 1} {18 1} {19 1} {20 1} {21 1} {22 1} {23 1} {24 1} {25 1} {26 1} {27 1} {28 1} {29 1} {30 1} {31 1} {32 1} {33 1} {34 1} {35 1} {36 1} {37 1} {38 1} {39 1} {40 1} {41 1} {42 1} {43 1} {44 1} {45 1} {46 1} {47 1} {48 1} {49 1} {50 1} {51 1} {52 1} {53 1} {54 1} {55 1} {56 1} {57 1} {58 1} {59 1} {60 1} {61 1} {62 1} {63 1} {64 1} {65 1} {66 1} {67 1} {68 1} {69 1} {70 1} {71 1} {72 1} {73 1} {74 1} {75 1} {76 1} {77 1} {78 1} {79 1} {80 1} {81 1} {82 1} {83 1} {84 1} {85 1} {86 1} {87 1} {88 1} {89 1} {90 1} {91 1} {92 1} {93 1} {94 1} {95 1} {96 1} {97 1} {98 1} {99 1} {100 1} {101 1} {102 1} {103 1} {104 1} {105 1} {106 1} {107 1} {108 1} {109 1} {110 1} {111 1} {112 1} {113 1} {114 1} {115 1} {116 1} {117 1} {118 1} {119 1} {120 1} {121 1} {122 1} {123 1} {124 1} {125 1} {126 1} {127 1} {128 1} {129 1} {130 1}]
+074922 VOTE S4: S4 -> S0 RequestVote rpc fail!
+074926 VOTE S3:processing vote from S4! args.Term=15, rf.currentTerm=14
+074946 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=-1
+075454 LEAD S1 has saved a log entry. command = 164
+075467 LEAD S2 has saved a log entry. command = 164
+075587 LEAD S1 has saved a log entry. command = 165
+075599 LEAD S2 has saved a log entry. command = 165
+076291 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+076411 VOTE S3:processing vote from S0! args.Term=15, rf.currentTerm=15
+076434 VOTE S3: S3 vote to S0!
+076436 VOTE S0: S0 -> S3 RequestVote rpc fail!
+076545 VOTE S4:processing vote from S0! args.Term=15, rf.currentTerm=15
+076545 VOTE S4: S4 can't vote to S0! reaseon: serverState=1, votedFor=4, term=15
+077681 LEAD S1: send a entry to S0, log index = 30, PrevLogIndex =29, nextIndex=[30 77 30 4 30]
+078194 LEAD S1 has saved a log entry. command = 166
+078208 LEAD S2 has saved a log entry. command = 166
+078230 LEAD S1 has saved a log entry. command = 167
+078236 LEAD S2 has saved a log entry. command = 167
+078286 LEAD S1 has saved a log entry. command = 168
+078295 LEAD S2 has saved a log entry. command = 168
+078327 LEAD S1 has saved a log entry. command = 169
+078333 LEAD S2 has saved a log entry. command = 169
+078470 LEAD S1 has saved a log entry. command = 170
+078480 LEAD S2 has saved a log entry. command = 170
+078623 LEAD S2: send a entry to S1, log index = 23, PrevLogIndex =22, nextIndex=[23 23 62 23 3]
+079731 VOTE S4: S4 -> S2 RequestVote rpc fail!
+081483 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {2 1} {3 1} {4 1} {5 1} {6 1} {7 1} {8 1} {9 1} {10 1} {11 1} {12 1} {13 1} {14 1} {15 1} {16 1} {17 1} {18 1} {19 1} {20 1} {21 1} {22 1} {23 1} {24 1} {25 1} {26 1} {27 1} {28 1} {29 1} {30 1} {31 1} {32 1} {33 1} {34 1} {35 1} {36 1} {37 1} {38 1} {39 1} {40 1} {41 1} {42 1} {43 1} {44 1} {45 1} {46 1} {47 1} {48 1} {49 1} {50 1} {51 1} {52 1} {53 1} {54 1} {55 1} {56 1} {57 1} {58 1} {59 1} {60 1} {61 1} {62 1} {63 1} {64 1} {65 1} {66 1} {67 1} {68 1} {69 1} {70 1} {71 1} {72 1} {73 1} {74 1} {75 1} {76 1} {77 1} {78 1} {79 1} {80 1} {81 1} {82 1} {83 1} {84 1} {85 1} {86 1} {87 1} {88 1} {89 1} {90 1} {91 1} {92 1} {93 1} {94 1} {95 1} {96 1} {97 1} {98 1} {99 1} {100 1} {101 1} {102 1} {103 1} {104 1} {105 1} {106 1} {107 1} {108 1} {109 1} {110 1} {111 1} {112 1} {113 1} {114 1} {115 1} {116 1} {117 1} {118 1} {119 1} {120 1} {121 1} {122 1} {123 1} {124 1} {125 1} {126 1} {127 1} {128 1} {129 1} {130 1}]
+081528 VOTE S3:processing vote from S4! args.Term=16, rf.currentTerm=15
+081547 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=-1
+081663 VOTE S0:processing vote from S4! args.Term=16, rf.currentTerm=15
+081674 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+083497 LEAD S1 has saved a log entry. command = 171
+083512 LEAD S2 has saved a log entry. command = 171
+083596 LEAD S1 has saved a log entry. command = 172
+083609 LEAD S2 has saved a log entry. command = 172
+085941 LEAD S1: send a entry to S0, log index = 30, PrevLogIndex =29, nextIndex=[30 84 30 4 30]
+086528 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {2 1} {3 1} {4 1} {5 1} {6 1} {7 1} {8 1} {9 1} {10 1} {11 1} {12 1} {13 1} {14 1} {15 1} {16 1} {17 1} {18 1} {19 1} {20 1} {21 1} {22 1} {23 1} {24 1} {25 1} {26 1} {27 1} {28 1} {29 1} {30 1} {31 1} {32 1} {33 1} {34 1} {35 1} {36 1} {37 1} {38 1} {39 1} {40 1} {41 1} {42 1} {43 1} {44 1} {45 1} {46 1} {47 1} {48 1} {49 1} {50 1} {51 1} {52 1} {53 1} {54 1} {55 1} {56 1} {57 1} {58 1} {59 1} {60 1} {61 1} {62 1} {63 1} {64 1} {65 1} {66 1} {67 1} {68 1} {69 1} {70 1} {71 1} {72 1} {73 1} {74 1} {75 1} {76 1} {77 1} {78 1} {79 1} {80 1} {81 1} {82 1} {83 1} {84 1} {85 1} {86 1} {87 1} {88 1} {89 1} {90 1} {91 1} {92 1} {93 1} {94 1} {95 1} {96 1} {97 1} {98 1} {99 1} {100 1} {101 1} {102 1} {103 1} {104 1} {105 1} {106 1} {107 1} {108 1} {109 1} {110 1} {111 1} {112 1} {113 1} {114 1} {115 1} {116 1} {117 1} {118 1} {119 1} {120 1} {121 1} {122 1} {123 1} {124 1} {125 1} {126 1} {127 1} {128 1} {129 1} {130 1}]
+086675 VOTE S3:processing vote from S4! args.Term=17, rf.currentTerm=16
+086693 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=-1
+086790 VOTE S0:processing vote from S4! args.Term=17, rf.currentTerm=16
+086805 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+087007 LEAD S2: send a entry to S4, log index = 3, PrevLogIndex =2, nextIndex=[23 23 64 23 3]
+088343 LEAD S1 has saved a log entry. command = 173
+088357 LEAD S2 has saved a log entry. command = 173
+088390 LEAD S1 has saved a log entry. command = 174
+088405 LEAD S2 has saved a log entry. command = 174
+088525 LEAD S1 has saved a log entry. command = 175
+088539 LEAD S2 has saved a log entry. command = 175
+088603 LEAD S1 has saved a log entry. command = 176
+088615 LEAD S2 has saved a log entry. command = 176
+088657 LEAD S1 has saved a log entry. command = 177
+088671 LEAD S2 has saved a log entry. command = 177
+090465 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {13 2} {14 2} {15 2} {16 2} {17 2} {18 2} {19 2} {20 2} {21 2} {22 2} {23 2} {24 2} {25 2} {26 2} {27 2} {28 2} {29 2} {30 2} {31 2} {32 2} {33 2} {34 2} {35 2} {36 2} {37 2} {38 2} {39 2} {40 2} {41 2} {42 2} {43 2} {44 2} {45 2} {46 2} {47 2} {48 2} {49 2} {50 2} {51 2} {52 2} {53 2} {54 2} {55 2} {56 2} {57 2} {58 2} {59 2} {60 2} {61 2} {62 2} {63 2} {64 2} {65 2} {66 2} {67 2} {68 2} {69 2} {70 2} {71 2} {72 2} {73 2} {74 2} {75 2} {76 2} {77 2} {78 2} {79 2} {80 2} {81 2} {82 2} {83 2} {84 2} {85 2} {86 2} {87 2} {88 2} {89 2} {90 2} {91 2} {92 2} {93 2} {94 2} {95 2} {96 2} {97 2} {98 2} {99 2} {100 2} {101 2} {102 2} {103 2} {104 2} {105 2} {106 2} {107 2} {108 2} {109 2} {110 2} {111 2} {112 2} {113 2} {114 2} {115 2} {116 2} {117 2}]
+090513 VOTE S4:processing vote from S3! args.Term=18, rf.currentTerm=17
+090560 VOTE S4: S4 vote to S3!
+090756 VOTE S0:processing vote from S3! args.Term=18, rf.currentTerm=17
+090773 VOTE S0: S0 can't vote to S3! reaseon: serverState=0, votedFor=-1
+093098 LEAD S1: send a entry to S4, log index = 30, PrevLogIndex =29, nextIndex=[30 89 30 4 30]
+093370 LEAD S1 has saved a log entry. command = 178
+093385 LEAD S2 has saved a log entry. command = 178
+094300 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+094420 LEAD S1 has saved a log entry. command = 179
+094434 LEAD S2 has saved a log entry. command = 179
+094470 VOTE S3:processing vote from S0! args.Term=19, rf.currentTerm=18
+094507 LEAD S1 has saved a log entry. command = 180
+094513 VOTE S3: S3 vote to S0!
+094522 LEAD S2 has saved a log entry. command = 180
+094584 VOTE S4:processing vote from S0! args.Term=19, rf.currentTerm=18
+094634 LEAD S1 has saved a log entry. command = 181
+094639 VOTE S4: S4 vote to S0!
+094648 LEAD S2 has saved a log entry. command = 181
+094644 LEAD S0: S0(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+094651 LEAD S0: send a heartbeat to S4, nextIndex=[63 63 63 63 63].
+094653 LEAD S0: send a heartbeat to S2, nextIndex=[63 63 63 63 63].
+094655 LEAD S0: send a heartbeat to S1, nextIndex=[63 63 63 63 63].
+094657 LEAD S0: send a heartbeat to S3, nextIndex=[63 63 63 63 63].
+094729 CLNT S3: log conflict, args.PrevLogIndex=62,XIndex=3,XTerm=2
+094730 CLNT S3: S3 receive a heartbeate from S0. currentTerm=19, args.currentTerm%!(EXTRA int=19)
+094760 LEAD S0 has saved a log entry. command = 182
+094772 LEAD S1 has saved a log entry. command = 182
+094781 LEAD S2 has saved a log entry. command = 182
+094838 LEAD S0 has saved a log entry. command = 183
+094850 CLNT S4: log conflict, args.PrevLogIndex=62,XIndex=1,XTerm=1
+094851 CLNT S4: S4 receive a heartbeate from S0. currentTerm=19, args.currentTerm%!(EXTRA int=19)
+094856 LEAD S1 has saved a log entry. command = 183
+094871 LEAD S2 has saved a log entry. command = 183
+094914 INFO disconnect server 0
+094915 INFO connect server 0
+094930 LEAD S0 has saved a log entry. command = 184
+094951 LEAD S1 has saved a log entry. command = 184
+094967 LEAD S2 has saved a log entry. command = 184
+095081 INFO disconnect server 0
+095082 INFO connect server 0
+095096 LEAD S0 has saved a log entry. command = 185
+095114 LEAD S1 has saved a log entry. command = 185
+095128 LEAD S2 has saved a log entry. command = 185
+095220 INFO disconnect server 0
+095231 LEAD S0 has saved a log entry. command = 186
+095242 LEAD S0: send a entry to S3, log index = 4, PrevLogIndex =3, nextIndex=[68 63 63 4 63]
+095247 LEAD S1 has saved a log entry. command = 186
+095261 LEAD S2 has saved a log entry. command = 186
+095357 LEAD S0: send a entry to S4, log index = 63, PrevLogIndex =62, nextIndex=[68 63 63 4 63]
+095363 INFO connect server 0
+095372 LEAD S0 has saved a log entry. command = 187
+095385 LEAD S1 has saved a log entry. command = 187
+095395 LEAD S2 has saved a log entry. command = 187
+095395 INFO disconnect server 0
+095404 LEAD S0 has saved a log entry. command = 188
+095417 LEAD S1 has saved a log entry. command = 188
+095426 LEAD S2 has saved a log entry. command = 188
+095427 INFO connect server 1
+095436 LEAD S0 has saved a log entry. command = 189
+095448 LEAD S1 has saved a log entry. command = 189
+095459 LEAD S2 has saved a log entry. command = 189
+095766 INFO disconnect server 1
+095780 LEAD S0 has saved a log entry. command = 190
+095798 LEAD S1 has saved a log entry. command = 190
+095812 LEAD S2 has saved a log entry. command = 190
+095813 INFO connect server 1
+095826 LEAD S0 has saved a log entry. command = 191
+095843 LEAD S1 has saved a log entry. command = 191
+095857 LEAD S2 has saved a log entry. command = 191
+095981 INFO disconnect server 1
+095982 INFO connect server 2
+095992 LEAD S0 has saved a log entry. command = 192
+096006 LEAD S1 has saved a log entry. command = 192
+096021 LEAD S2 has saved a log entry. command = 192
+096160 LEAD S0 has saved a log entry. command = 193
+096177 LEAD S1 has saved a log entry. command = 193
+096191 LEAD S2 has saved a log entry. command = 193
+096214 INFO disconnect server 2
+096216 INFO connect server 2
+096230 LEAD S0 has saved a log entry. command = 194
+096249 LEAD S1 has saved a log entry. command = 194
+096264 LEAD S2 has saved a log entry. command = 194
+096327 INFO disconnect server 2
+096328 INFO connect server 0
+096342 LEAD S0 has saved a log entry. command = 195
+096359 LEAD S1 has saved a log entry. command = 195
+096373 LEAD S2 has saved a log entry. command = 195
+096447 INFO disconnect server 0
+096448 INFO connect server 1
+096462 LEAD S0 has saved a log entry. command = 196
+096480 LEAD S1 has saved a log entry. command = 196
+096494 LEAD S2 has saved a log entry. command = 196
+096518 INFO disconnect server 1
+096534 LEAD S0 has saved a log entry. command = 197
+096553 LEAD S1 has saved a log entry. command = 197
+096569 LEAD S2 has saved a log entry. command = 197
+096675 LEAD S0 has saved a log entry. command = 198
+096693 LEAD S1 has saved a log entry. command = 198
+096708 LEAD S2 has saved a log entry. command = 198
+096829 INFO connect server 1
+096845 LEAD S0 has saved a log entry. command = 199
+096863 LEAD S1 has saved a log entry. command = 199
+096879 LEAD S2 has saved a log entry. command = 199
+096969 LEAD S0 has saved a log entry. command = 200
+096988 LEAD S1 has saved a log entry. command = 200
+097003 LEAD S2 has saved a log entry. command = 200
+097016 INFO disconnect server 1
+097032 LEAD S0 has saved a log entry. command = 201
+097050 LEAD S1 has saved a log entry. command = 201
+097063 LEAD S2 has saved a log entry. command = 201
+097167 INFO connect server 1
+097183 LEAD S0 has saved a log entry. command = 202
+097202 LEAD S1 has saved a log entry. command = 202
+097215 LEAD S2 has saved a log entry. command = 202
+097301 INFO disconnect server 1
+097302 INFO connect server 2
+097317 LEAD S0 has saved a log entry. command = 203
+097337 LEAD S1 has saved a log entry. command = 203
+097353 LEAD S2 has saved a log entry. command = 203
+097491 LEAD S0 has saved a log entry. command = 204
+097507 LEAD S1 has saved a log entry. command = 204
+097520 LEAD S2 has saved a log entry. command = 204
+097650 LEAD S0 has saved a log entry. command = 205
+097669 LEAD S1 has saved a log entry. command = 205
+097683 LEAD S2 has saved a log entry. command = 205
+097716 INFO disconnect server 2
+097718 INFO connect server 2
+097733 LEAD S0 has saved a log entry. command = 206
+097751 LEAD S1 has saved a log entry. command = 206
+097767 LEAD S2 has saved a log entry. command = 206
+097820 INFO disconnect server 2
+097821 INFO connect server 1
+097830 LEAD S0 has saved a log entry. command = 207
+097840 LEAD S1 has saved a log entry. command = 207
+097855 LEAD S2 has saved a log entry. command = 207
+097954 LEAD S0 has saved a log entry. command = 208
+097973 LEAD S1 has saved a log entry. command = 208
+097989 LEAD S2 has saved a log entry. command = 208
+098017 LEAD S0 has saved a log entry. command = 209
+098038 LEAD S1 has saved a log entry. command = 209
+098055 LEAD S2 has saved a log entry. command = 209
+098079 INFO disconnect server 1
+098080 INFO connect server 1
+098096 LEAD S0 has saved a log entry. command = 210
+098115 LEAD S1 has saved a log entry. command = 210
+098128 LEAD S2 has saved a log entry. command = 210
+098203 INFO connect all server!
+
+098224 LEAD S1 has saved a log entry. command = 592
+
+099982 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {13 2} {14 2} {15 2} {16 2} {17 2} {18 2} {19 2} {20 2} {21 2} {22 2} {23 2} {24 2} {25 2} {26 2} {27 2} {28 2} {29 2} {30 2} {31 2} {32 2} {33 2} {34 2} {35 2} {36 2} {37 2} {38 2} {39 2} {40 2} {41 2} {42 2} {43 2} {44 2} {45 2} {46 2} {47 2} {48 2} {49 2} {50 2} {51 2} {52 2} {53 2} {54 2} {55 2} {56 2} {57 2} {58 2} {59 2} {60 2} {61 2} {62 2} {63 2} {64 2} {65 2} {66 2} {67 2} {68 2} {69 2} {70 2} {71 2} {72 2} {73 2} {74 2} {75 2} {76 2} {77 2} {78 2} {79 2} {80 2} {81 2} {82 2} {83 2} {84 2} {85 2} {86 2} {87 2} {88 2} {89 2} {90 2} {91 2} {92 2} {93 2} {94 2} {95 2} {96 2} {97 2} {98 2} {99 2} {100 2} {101 2} {102 2} {103 2} {104 2} {105 2} {106 2} {107 2} {108 2} {109 2} {110 2} {111 2} {112 2} {113 2} {114 2} {115 2} {116 2} {117 2}]
+100074 VOTE S0:processing vote from S3! args.Term=20, rf.currentTerm=19
+100075 VOTE S2:processing vote from S3! args.Term=20, rf.currentTerm=12
+100096 VOTE S0: S0 can't vote to S3! reaseon: serverState=0, votedFor=-1
+100099 VOTE S2: S2 can't vote to S3! reaseon: serverState=0, votedFor=-1
+100101 VOTE S3: S3 -> S2 RequestVote rpc fail!
+100208 VOTE S4:processing vote from S3! args.Term=20, rf.currentTerm=19
+100219 VOTE S1:processing vote from S3! args.Term=20, rf.currentTerm=10
+100246 VOTE S1: S1 can't vote to S3! reaseon: serverState=0, votedFor=-1
+100263 VOTE S4: S4 vote to S3!
+105321 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+105502 VOTE S1:processing vote from S0! args.Term=21, rf.currentTerm=20
+105545 VOTE S3:processing vote from S0! args.Term=21, rf.currentTerm=20
+105552 VOTE S1: S1 vote to S0!
+105576 VOTE S4:processing vote from S0! args.Term=21, rf.currentTerm=20
+105588 VOTE S2:processing vote from S0! args.Term=21, rf.currentTerm=20
+105591 VOTE S3: S3 vote to S0!
+105620 VOTE S4: S4 vote to S0!
+105632 VOTE S2: S2 vote to S0!
+
+108142 LEAD S0: S0(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+108151 LEAD S0: send a heartbeat to S3, nextIndex=[92 92 92 92 92].
+108153 LEAD S0: send a heartbeat to S2, nextIndex=[92 92 92 92 92].
+108155 LEAD S0: send a heartbeat to S1, nextIndex=[92 92 92 92 92].
+108156 LEAD S0: send a heartbeat to S4, nextIndex=[92 92 92 92 92].
+108173 CLNT S2: log conflict, args.PrevLogIndex=91,XIndex=23,XTerm=12
+108174 CLNT S2: S2 receive a heartbeate from S0. currentTerm=21, args.currentTerm%!(EXTRA int=21)
+108364 CLNT S1: log conflict, args.PrevLogIndex=91,XIndex=30,XTerm=10
+108365 CLNT S1: S1 receive a heartbeate from S0. currentTerm=21, args.currentTerm%!(EXTRA int=21)
+108397 CLNT S4: log conflict, args.PrevLogIndex=91,XIndex=1,XTerm=1
+108397 CLNT S4: S4 receive a heartbeate from S0. currentTerm=21, args.currentTerm%!(EXTRA int=21)
+108683 LEAD S0: send a entry to S2, log index = 23, PrevLogIndex =22, nextIndex=[92 30 23 92 92]
+108786 LEAD S0: send a heartbeat to S3, nextIndex=[92 30 23 92 92].
+108855 CLNT S3: log conflict, args.PrevLogIndex=91,XIndex=3,XTerm=2
+108856 CLNT S3: S3 receive a heartbeate from S0. currentTerm=21, args.currentTerm%!(EXTRA int=21)
+
+108872 LEAD S0: send a entry to S1, log index = 30, PrevLogIndex =29, nextIndex=[92 30 23 4 92]
+108909 CLNT S2: receive logindex 23~62, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+108930 CLNT S1: receive logindex 30~62, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+109059 LEAD S0: send a entry to S1, log index = 63, PrevLogIndex =62, nextIndex=[92 63 23 4 92]
+109135 CLNT S1: receive logindex 63~91, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+109363 LEAD S0: send a entry to S3, log index = 4, PrevLogIndex =3, nextIndex=[92 92 23 4 92]
+109448 LEAD S0: send a heartbeat to S1, nextIndex=[92 92 23 4 92].
+109508 CLNT S3: receive logindex 4~22, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+109655 LEAD S0: send a heartbeat to S1, nextIndex=[92 92 23 23 92].
+109746 CLNT S1: S1 receive a heartbeate from S0. currentTerm=21, args.currentTerm%!(EXTRA int=21)
+110023 LEAD S0: send a entry to S3, log index = 23, PrevLogIndex =22, nextIndex=[92 92 23 23 92]
+110123 CLNT S3: receive logindex 23~62, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+110129 CLNT S3: apply logindex=4
+110130 CLNT S3: apply logindex=5
+110131 CLNT S3: apply logindex=6
+110132 LEAD S0: send a heartbeat to S1, nextIndex=[92 92 23 23 92].
+110132 CLNT S3: apply logindex=7
+110133 CLNT S3: commitLogIndex=7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+110256 LEAD S0: send a heartbeat to S1, nextIndex=[92 92 23 23 92].
+110326 CLNT S1: S1 receive a heartbeate from S0. currentTerm=21, args.currentTerm%!(EXTRA int=21)
+110389 CLNT S1: S1 receive a heartbeate from S0. currentTerm=21, args.currentTerm%!(EXTRA int=21)
+113090 LEAD S0: send a entry to S2, log index = 63, PrevLogIndex =62, nextIndex=[92 92 63 63 92]
+113173 LEAD S0: send a entry to S3, log index = 63, PrevLogIndex =62, nextIndex=[92 92 63 63 92]
+113368 CLNT S2: receive logindex 63~91, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+113390 CLNT S3: receive logindex 63~91, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+
+113807 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {2 1} {3 1} {4 1} {5 1} {6 1} {7 1} {8 1} {9 1} {10 1} {11 1} {12 1} {13 1} {14 1} {15 1} {16 1} {17 1} {18 1} {19 1} {20 1} {21 1} {22 1} {23 1} {24 1} {25 1} {26 1} {27 1} {28 1} {29 1} {30 1} {31 1} {32 1} {33 1} {34 1} {35 1} {36 1} {37 1} {38 1} {39 1} {40 1} {41 1} {42 1} {43 1} {44 1} {45 1} {46 1} {47 1} {48 1} {49 1} {50 1} {51 1} {52 1} {53 1} {54 1} {55 1} {56 1} {57 1} {58 1} {59 1} {60 1} {61 1} {62 1} {63 1} {64 1} {65 1} {66 1} {67 1} {68 1} {69 1} {70 1} {71 1} {72 1} {73 1} {74 1} {75 1} {76 1} {77 1} {78 1} {79 1} {80 1} {81 1} {82 1} {83 1} {84 1} {85 1} {86 1} {87 1} {88 1} {89 1} {90 1} {91 1} {92 1} {93 1} {94 1} {95 1} {96 1} {97 1} {98 1} {99 1} {100 1} {101 1} {102 1} {103 1} {104 1} {105 1} {106 1} {107 1} {108 1} {109 1} {110 1} {111 1} {112 1} {113 1} {114 1} {115 1} {116 1} {117 1} {118 1} {119 1} {120 1} {121 1} {122 1} {123 1} {124 1} {125 1} {126 1} {127 1} {128 1} {129 1} {130 1}]
+
+113874 VOTE S2:processing vote from S4! args.Term=22, rf.currentTerm=21
+113894 VOTE S2: S2 can't vote to S4! reaseon: serverState=0, votedFor=-1
+113967 VOTE S1:processing vote from S4! args.Term=22, rf.currentTerm=21
+113987 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+114022 VOTE S0:processing vote from S4! args.Term=22, rf.currentTerm=21
+114051 VOTE S3:processing vote from S4! args.Term=22, rf.currentTerm=21
+114057 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+114071 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=-1
+114074 VOTE S4: S4 -> S3 RequestVote rpc fail!
+117822 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+117962 VOTE S4:processing vote from S2! args.Term=23, rf.currentTerm=22
+118014 VOTE S4: S4 vote to S2!
+118017 VOTE S2: S2 -> S4 RequestVote rpc fail!
+118054 VOTE S0:processing vote from S2! args.Term=23, rf.currentTerm=22
+118055 VOTE S3:processing vote from S2! args.Term=23, rf.currentTerm=22
+118078 VOTE S1:processing vote from S2! args.Term=23, rf.currentTerm=22
+118090 VOTE S3: S3 vote to S2!
+118095 VOTE S0: S0 vote to S2!
+118119 VOTE S1: S1 vote to S2!
+121309 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+121370 VOTE S4:processing vote from S2! args.Term=24, rf.currentTerm=23
+121423 VOTE S4: S4 vote to S2!
+121453 VOTE S3:processing vote from S2! args.Term=24, rf.currentTerm=23
+121486 VOTE S0:processing vote from S2! args.Term=24, rf.currentTerm=23
+121488 VOTE S3: S3 vote to S2!
+121490 VOTE S2: S2 -> S3 RequestVote rpc fail!
+121524 VOTE S0: S0 vote to S2!
+121569 VOTE S1:processing vote from S2! args.Term=24, rf.currentTerm=23
+121606 VOTE S1: S1 vote to S2!
+121610 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+
+121616 LEAD S2: send a heartbeat to S3, nextIndex=[92 92 92 92 92].
+121617 LEAD S2: send a heartbeat to S0, nextIndex=[92 92 92 92 92].
+121618 LEAD S2: send a heartbeat to S1, nextIndex=[92 92 92 92 92].
+121620 LEAD S2: send a heartbeat to S4, nextIndex=[92 92 92 92 92].
+121695 CLNT S1: S1 receive a heartbeate from S2. currentTerm=24, args.currentTerm%!(EXTRA int=24)
+121706 CLNT S3: S3 receive a heartbeate from S2. currentTerm=24, args.currentTerm%!(EXTRA int=24)
+121747 CLNT S0: S0 receive a heartbeate from S2. currentTerm=24, args.currentTerm%!(EXTRA int=24)
+121874 LEAD S2 has saved a log entry. command = 592
+122172 LEAD S2: send a entry to S4, log index = 92, PrevLogIndex =91, nextIndex=[92 92 93 92 92]
+122866 LEAD S2: send a entry to S4, log index = 92, PrevLogIndex =91, nextIndex=[92 92 93 92 92]
+123109 CLNT S4: log conflict, args.PrevLogIndex=91,XIndex=1,XTerm=1
+123625 LEAD S2: send a entry to S4, log index = 3, PrevLogIndex =2, nextIndex=[92 92 93 92 3]
+123802 CLNT S4: receive logindex 3~3, log=[{<nil> 0} {0 1} {1 1} {12 2}]
+124297 LEAD S2: send a entry to S0, log index = 92, PrevLogIndex =91, nextIndex=[92 92 93 92 4]
+124321 LEAD S2: send a entry to S4, log index = 4, PrevLogIndex =3, nextIndex=[92 92 93 92 4]
+124360 CLNT S4: receive logindex 4~22, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+124363 CLNT S4: apply logindex=3
+124364 CLNT S4: apply logindex=4
+124365 CLNT S4: apply logindex=5
+124365 CLNT S4: apply logindex=6
+124366 CLNT S4: apply logindex=7
+124367 CLNT S4: commitLogIndex=7, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+124570 CLNT S0: receive logindex 92~92, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+124636 LEAD S2: send a entry to S1, log index = 92, PrevLogIndex =91, nextIndex=[92 92 93 92 4]
+124752 CLNT S1: receive logindex 92~92, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+125265 LEAD S2: send a heartbeat to S1, nextIndex=[92 93 93 92 4].
+125388 CLNT S1: S1 receive a heartbeate from S2. currentTerm=24, args.currentTerm%!(EXTRA int=24)
+125712 LEAD S2: send a entry to S3, log index = 92, PrevLogIndex =91, nextIndex=[92 93 93 92 4]
+125999 CLNT S3: receive logindex 92~92, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+
+128073 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+128131 VOTE S4: S4 -> S1 RequestVote rpc fail!
+128192 VOTE S2:processing vote from S4! args.Term=25, rf.currentTerm=24
+128212 VOTE S2: S2 can't vote to S4! reaseon: serverState=0, votedFor=-1
+128215 VOTE S0:processing vote from S4! args.Term=25, rf.currentTerm=24
+128235 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+128329 VOTE S3:processing vote from S4! args.Term=25, rf.currentTerm=24
+128350 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=-1
+130753 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+130801 VOTE S4:processing vote from S1! args.Term=25, rf.currentTerm=25
+130802 VOTE S4: S4 can't vote to S1! reaseon: serverState=1, votedFor=4, term=25
+130801 VOTE S2:processing vote from S1! args.Term=25, rf.currentTerm=25
+130822 VOTE S2: S2 vote to S1!
+130824 VOTE S1: S1 -> S2 RequestVote rpc fail!
+130967 VOTE S0:processing vote from S1! args.Term=25, rf.currentTerm=25
+130968 VOTE S3:processing vote from S1! args.Term=25, rf.currentTerm=25
+130989 VOTE S0: S0 vote to S1!
+130989 VOTE S3: S3 vote to S1!
+134882 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+135124 VOTE S3:processing vote from S2! args.Term=26, rf.currentTerm=25
+135146 VOTE S4:processing vote from S2! args.Term=26, rf.currentTerm=25
+135159 VOTE S4: S4 vote to S2!
+135164 VOTE S3: S3 vote to S2!
+135165 VOTE S2: S2 -> S1 RequestVote rpc fail!
+135168 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+135173 LEAD S2: send a heartbeat to S4, nextIndex=[93 93 93 93 93].
+135174 LEAD S2: send a heartbeat to S1, nextIndex=[93 93 93 93 93].
+135176 LEAD S2: send a heartbeat to S0, nextIndex=[93 93 93 93 93].
+135177 LEAD S2: send a heartbeat to S3, nextIndex=[93 93 93 93 93].
+135223 CLNT S0: S0 receive a heartbeate from S2. currentTerm=26, args.currentTerm%!(EXTRA int=26)
+135278 CLNT S1: S1 receive a heartbeate from S2. currentTerm=26, args.currentTerm%!(EXTRA int=26)
+135418 CLNT S4:args.PrevLogIndex=92, XLen=70
+135419 CLNT S4: S4 receive a heartbeate from S2. currentTerm=26, args.currentTerm%!(EXTRA int=26)
+135688 LEAD S2: send a heartbeat to S3, nextIndex=[93 93 93 93 93].
+135741 LEAD S2: send a heartbeat to S0, nextIndex=[93 93 93 93 93].
+135789 CLNT S3: S3 receive a heartbeate from S2. currentTerm=26, args.currentTerm%!(EXTRA int=26)
+136006 CLNT S0: S0 receive a heartbeate from S2. currentTerm=26, args.currentTerm%!(EXTRA int=26)
+138221 LEAD S2: send a heartbeat to S1, nextIndex=[93 93 93 93 93].
+138256 CLNT S1: S1 receive a heartbeate from S2. currentTerm=26, args.currentTerm%!(EXTRA int=26)
+138594 LEAD S2: send a heartbeat to S3, nextIndex=[93 93 93 93 93].
+138799 CLNT S3: S3 receive a heartbeate from S2. currentTerm=26, args.currentTerm%!(EXTRA int=26)
+140260 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4}]
+140323 VOTE S3:processing vote from S4! args.Term=27, rf.currentTerm=26
+140345 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=-1
+140378 VOTE S1:processing vote from S4! args.Term=27, rf.currentTerm=26
+140401 VOTE S2:processing vote from S4! args.Term=27, rf.currentTerm=26
+140402 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+140424 VOTE S2: S2 can't vote to S4! reaseon: serverState=0, votedFor=-1
+140534 VOTE S0:processing vote from S4! args.Term=27, rf.currentTerm=26
+140554 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+144856 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+144916 VOTE S4:processing vote from S3! args.Term=28, rf.currentTerm=27
+144929 VOTE S4: S4 vote to S3!
+144937 VOTE S1:processing vote from S3! args.Term=28, rf.currentTerm=27
+144967 VOTE S1: S1 vote to S3!
+145092 VOTE S2:processing vote from S3! args.Term=28, rf.currentTerm=27
+145131 VOTE S2: S2 vote to S3!
+145155 VOTE S0:processing vote from S3! args.Term=28, rf.currentTerm=27
+145191 VOTE S0: S0 vote to S3!
+148482 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+148520 VOTE S1:processing vote from S2! args.Term=29, rf.currentTerm=28
+148557 VOTE S1: S1 vote to S2!
+148602 VOTE S4:processing vote from S2! args.Term=29, rf.currentTerm=28
+148616 VOTE S4: S4 vote to S2!
+148644 VOTE S0:processing vote from S2! args.Term=29, rf.currentTerm=28
+148683 VOTE S0: S0 vote to S2!
+148718 VOTE S3:processing vote from S2! args.Term=29, rf.currentTerm=28
+148757 VOTE S3: S3 vote to S2!
+151095 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+151104 LEAD S2: send a heartbeat to S4, nextIndex=[93 93 93 93 93].
+151106 LEAD S2: send a heartbeat to S3, nextIndex=[93 93 93 93 93].
+151108 LEAD S2: send a heartbeat to S0, nextIndex=[93 93 93 93 93].
+151110 LEAD S2: send a heartbeat to S1, nextIndex=[93 93 93 93 93].
+151128 CLNT S3: S3 receive a heartbeate from S2. currentTerm=29, args.currentTerm%!(EXTRA int=29)
+151231 CLNT S4:args.PrevLogIndex=92, XLen=70
+151232 CLNT S4: S4 receive a heartbeate from S2. currentTerm=29, args.currentTerm%!(EXTRA int=29)
+151366 CLNT S1: S1 receive a heartbeate from S2. currentTerm=29, args.currentTerm%!(EXTRA int=29)
+151610 LEAD S2 has saved a log entry. command = 592
+151748 LEAD S2: send a entry to S4, log index = 23, PrevLogIndex =22, nextIndex=[93 93 94 93 23]
+151796 LEAD S2: send a entry to S0, log index = 93, PrevLogIndex =92, nextIndex=[93 93 94 93 23]
+151806 CLNT S4: receive logindex 23~62, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9}]
+152566 LEAD S2: send a entry to S0, log index = 93, PrevLogIndex =92, nextIndex=[93 93 94 93 23]
+152640 CLNT S0: receive logindex 93~93, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24} {592 29}]
+153156 LEAD S2: send a heartbeat to S0, nextIndex=[94 93 94 93 23].
+153217 CLNT S0: S0 receive a heartbeate from S2. currentTerm=29, args.currentTerm%!(EXTRA int=29)
+153731 LEAD S2: send a heartbeat to S0, nextIndex=[94 93 94 93 23].
+153933 CLNT S0: S0 receive a heartbeate from S2. currentTerm=29, args.currentTerm%!(EXTRA int=29)
+155115 LEAD S2: send a entry to S4, log index = 63, PrevLogIndex =62, nextIndex=[94 93 94 93 63]
+155310 CLNT S4: receive logindex 63~91, log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+155782 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+155825 LEAD S2: send a entry to S4, log index = 92, PrevLogIndex =91, nextIndex=[94 93 94 93 92]
+155883 VOTE S2:processing vote from S1! args.Term=30, rf.currentTerm=29
+155902 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
+155910 VOTE S3:processing vote from S1! args.Term=30, rf.currentTerm=29
+155949 VOTE S3: S3 vote to S1!
+155950 VOTE S0:processing vote from S1! args.Term=30, rf.currentTerm=29
+155966 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+156002 VOTE S4:processing vote from S1! args.Term=30, rf.currentTerm=29
+156032 VOTE S4: S4 vote to S1!
+158906 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24} {592 29}]
+159099 VOTE S1:processing vote from S2! args.Term=31, rf.currentTerm=30
+159100 VOTE S3:processing vote from S2! args.Term=31, rf.currentTerm=30
+159122 VOTE S4:processing vote from S2! args.Term=31, rf.currentTerm=30
+159157 VOTE S3: S3 vote to S2!
+159160 VOTE S1: S1 vote to S2!
+159178 VOTE S4: S4 vote to S2!
+159185 VOTE S0:processing vote from S2! args.Term=31, rf.currentTerm=30
+159225 VOTE S0: S0 vote to S2!
+162322 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+162404 VOTE S3:processing vote from S4! args.Term=32, rf.currentTerm=31
+162413 VOTE S2:processing vote from S4! args.Term=32, rf.currentTerm=31
+162425 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=-1
+162428 VOTE S2: S2 can't vote to S4! reaseon: serverState=0, votedFor=-1
+162599 VOTE S0:processing vote from S4! args.Term=32, rf.currentTerm=31
+162609 VOTE S1:processing vote from S4! args.Term=32, rf.currentTerm=31
+162619 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+162626 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
+166336 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+166407 VOTE S3:processing vote from S1! args.Term=33, rf.currentTerm=32
+166408 VOTE S2:processing vote from S1! args.Term=33, rf.currentTerm=32
+166430 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
+166446 VOTE S3: S3 vote to S1!
+166481 VOTE S4:processing vote from S1! args.Term=33, rf.currentTerm=32
+166519 VOTE S4: S4 vote to S1!
+166521 VOTE S1: S1 -> S4 RequestVote rpc fail!
+166596 VOTE S0:processing vote from S1! args.Term=33, rf.currentTerm=32
+166613 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+170742 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+170933 VOTE S2:processing vote from S3! args.Term=34, rf.currentTerm=33
+170954 VOTE S2: S2 can't vote to S3! reaseon: serverState=0, votedFor=-1
+170961 VOTE S0:processing vote from S3! args.Term=34, rf.currentTerm=33
+170962 VOTE S1:processing vote from S3! args.Term=34, rf.currentTerm=33
+170984 VOTE S0: S0 can't vote to S3! reaseon: serverState=0, votedFor=-1
+171002 VOTE S1: S1 vote to S3!
+171039 VOTE S4:processing vote from S3! args.Term=34, rf.currentTerm=33
+171078 VOTE S4: S4 vote to S3!
+175092 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+175120 VOTE S2:processing vote from S1! args.Term=35, rf.currentTerm=34
+175139 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
+175188 VOTE S1: S1 -> S0 RequestVote rpc fail!
+175277 VOTE S4:processing vote from S1! args.Term=35, rf.currentTerm=34
+175316 VOTE S4: S4 vote to S1!
+175321 VOTE S3:processing vote from S1! args.Term=35, rf.currentTerm=34
+175360 VOTE S3: S3 vote to S1!
+175362 VOTE S1: S1 -> S3 RequestVote rpc fail!
+176823 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24} {592 29}]
+176862 VOTE S1:processing vote from S0! args.Term=35, rf.currentTerm=35
+176863 VOTE S1: S1 can't vote to S0! reaseon: serverState=1, votedFor=1, term=35
+176865 VOTE S0: S0 -> S1 RequestVote rpc fail!
+176868 VOTE S0: S0 -> S3 RequestVote rpc fail!
+176882 VOTE S4:processing vote from S0! args.Term=35, rf.currentTerm=35
+176882 VOTE S4: S4 can't vote to S0! reaseon: serverState=0, votedFor=1, term=35
+177027 VOTE S2:processing vote from S0! args.Term=35, rf.currentTerm=35
+177048 VOTE S2: S2 vote to S0!
+179308 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+179357 VOTE S0:processing vote from S3! args.Term=36, rf.currentTerm=35
+179378 VOTE S0: S0 can't vote to S3! reaseon: serverState=0, votedFor=-1
+179380 VOTE S4:processing vote from S3! args.Term=36, rf.currentTerm=35
+179419 VOTE S4: S4 vote to S3!
+179421 VOTE S3: S3 -> S4 RequestVote rpc fail!
+179493 VOTE S1:processing vote from S3! args.Term=36, rf.currentTerm=35
+179531 VOTE S1: S1 vote to S3!
+179565 VOTE S2:processing vote from S3! args.Term=36, rf.currentTerm=35
+179585 VOTE S2: S2 can't vote to S3! reaseon: serverState=0, votedFor=-1
+182598 CLNT S3: S3 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+182760 VOTE S0:processing vote from S3! args.Term=37, rf.currentTerm=36
+182770 VOTE S4:processing vote from S3! args.Term=37, rf.currentTerm=36
+182781 VOTE S0: S0 can't vote to S3! reaseon: serverState=0, votedFor=-1
+182784 VOTE S3: S3 -> S0 RequestVote rpc fail!
+182811 VOTE S4: S4 vote to S3!
+182874 VOTE S2:processing vote from S3! args.Term=37, rf.currentTerm=36
+182886 VOTE S1:processing vote from S3! args.Term=37, rf.currentTerm=36
+182897 VOTE S2: S2 can't vote to S3! reaseon: serverState=0, votedFor=-1
+182925 VOTE S1: S1 vote to S3!
+187089 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+187111 CLNT S4: S4 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19}]
+187148 VOTE S3:processing vote from S1! args.Term=38, rf.currentTerm=37
+187149 VOTE S0:processing vote from S4! args.Term=38, rf.currentTerm=37
+187173 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+187189 VOTE S3: S3 vote to S1!
+187192 VOTE S1: S1 -> S3 RequestVote rpc fail!
+187243 VOTE S2:processing vote from S1! args.Term=38, rf.currentTerm=37
+187263 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
+187266 VOTE S0:processing vote from S1! args.Term=38, rf.currentTerm=38
+187267 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+187270 VOTE S2:processing vote from S4! args.Term=38, rf.currentTerm=38
+187271 VOTE S2: S2 can't vote to S4! reaseon: serverState=0, votedFor=-1
+187299 VOTE S4:processing vote from S1! args.Term=38, rf.currentTerm=38
+187300 VOTE S4: S4 can't vote to S1! reaseon: serverState=1, votedFor=4, term=38
+187332 VOTE S1:processing vote from S4! args.Term=38, rf.currentTerm=38
+187333 VOTE S1: S1 can't vote to S4! reaseon: serverState=1, votedFor=1, term=38
+187398 VOTE S3:processing vote from S4! args.Term=38, rf.currentTerm=38
+187399 VOTE S3: S3 can't vote to S4! reaseon: serverState=0, votedFor=1, term=38
+191941 CLNT S1: S1 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+191978 VOTE S3:processing vote from S1! args.Term=39, rf.currentTerm=38
+192016 VOTE S3: S3 vote to S1!
+192040 VOTE S4:processing vote from S1! args.Term=39, rf.currentTerm=38
+192070 VOTE S4: S4 vote to S1!
+192107 VOTE S1: S1 -> S2 RequestVote rpc fail!
+192174 VOTE S0:processing vote from S1! args.Term=39, rf.currentTerm=38
+192193 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+192395 CLNT S2: S2 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24} {592 29}]
+192513 VOTE S4:processing vote from S2! args.Term=39, rf.currentTerm=39
+192514 VOTE S4: S4 can't vote to S2! reaseon: serverState=0, votedFor=1, term=39
+192616 VOTE S3:processing vote from S2! args.Term=39, rf.currentTerm=39
+192617 VOTE S3: S3 can't vote to S2! reaseon: serverState=0, votedFor=1, term=39
+192654 VOTE S2: S2 -> S0 RequestVote rpc fail!
+192681 VOTE S1:processing vote from S2! args.Term=39, rf.currentTerm=39
+192682 VOTE S1: S1 can't vote to S2! reaseon: serverState=1, votedFor=1, term=39
+196130 LEAD S1: S1(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24}]
+196135 LEAD S1: send a heartbeat to S3, nextIndex=[93 93 93 93 93].
+196136 LEAD S1: send a heartbeat to S0, nextIndex=[93 93 93 93 93].
+196137 LEAD S1: send a heartbeat to S2, nextIndex=[93 93 93 93 93].
+196139 LEAD S1: send a heartbeat to S4, nextIndex=[93 93 93 93 93].
+196254 CLNT S4:args.PrevLogIndex=92, XLen=1
+196255 CLNT S4: S4 receive a heartbeate from S1. currentTerm=39, args.currentTerm%!(EXTRA int=39)
+196316 CLNT S2: S2 receive a heartbeate from S1. currentTerm=39, args.currentTerm%!(EXTRA int=39)
+196333 CLNT S0: S0 will be a candidate. log =[{<nil> 0} {0 1} {1 1} {12 2} {54 4} {55 4} {56 4} {57 4} {58 4} {59 4} {60 4} {61 4} {62 4} {63 4} {64 4} {65 4} {66 4} {67 4} {68 4} {69 4} {70 4} {71 4} {72 4} {103 9} {104 9} {105 9} {106 9} {107 9} {108 9} {109 9} {110 9} {111 9} {112 9} {113 9} {114 9} {115 9} {116 9} {117 9} {118 9} {119 9} {120 9} {121 9} {122 9} {123 9} {124 9} {125 9} {126 9} {127 9} {128 9} {129 9} {130 9} {131 9} {132 9} {133 9} {134 9} {135 9} {136 9} {137 9} {138 9} {139 9} {140 9} {141 9} {142 9} {182 19} {183 19} {184 19} {185 19} {186 19} {187 19} {188 19} {189 19} {190 19} {191 19} {192 19} {193 19} {194 19} {195 19} {196 19} {197 19} {198 19} {199 19} {200 19} {201 19} {202 19} {203 19} {204 19} {205 19} {206 19} {207 19} {208 19} {209 19} {210 19} {592 24} {592 29}]
+196351 CLNT S3: S3 receive a heartbeate from S1. currentTerm=39, args.currentTerm%!(EXTRA int=39)
+196372 VOTE S2:processing vote from S0! args.Term=40, rf.currentTerm=39
+196409 VOTE S2: S2 vote to S0!
+196464 VOTE S4:processing vote from S0! args.Term=40, rf.currentTerm=39
+196498 VOTE S1:processing vote from S0! args.Term=40, rf.currentTerm=39
+196498 VOTE S4: S4 vote to S0!
+196501 VOTE S0: S0 -> S4 RequestVote rpc fail!
+196525 VOTE S1: S1 vote to S0!
+196531 VOTE S3:processing vote from S0! args.Term=40, rf.currentTerm=39
+196562 VOTE S3: S3 vote to S0!
+--- FAIL: TestFigure8Unreliable3C (19.86s)
+    config.go:603: one(592) failed to reach agreement
+FAIL
+exit status 1
+FAIL	6.5840/raft	19.880s

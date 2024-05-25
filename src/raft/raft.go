@@ -353,42 +353,20 @@ func (rf *Raft) appendFailInfoLocked(args *AppendEntriesArgs, reply *AppendEntri
 		conflictIndex += 1
 		reply.XIndex = conflictIndex
 		reply.XTerm = rf.log[conflictIndex].Term
+		Log(dClient, "S%d: log conflict, args.PrevLogIndex=%d,XIndex=%d,XTerm=%d", rf.me,args.PrevLogIndex,reply.XIndex,reply.XTerm)
+
 	}
 }
 
-func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
-	//保存当前心跳的时间
-	
-
-	reply.Success = false
-	rf.mu.Lock()
-	defer rf.mu.Unlock()
-
-	rf.resetElectionTimerLocked()
-
-	//新Leader处理来自旧Leader的消息
-	if rf.currentTerm > args.Term {
-		// Log(dClient, "S%d: serverstate change %d -> %d", rf.me, rf.serverState, Follower)
-		reply.Term = rf.currentTerm
-		return
-	}
-	//旧Leader处理来自新Leader的消息，Candidate处理来自新Leader的消息
-	if rf.serverState != Follower {
-		rf.serverState = Follower	
-	}
-
-	rf.newTermLocked(args.Term)
-
-
-
+func (rf *Raft)applyLogFollower(args *AppendEntriesArgs) {
 	//提交Follower中已经在Leader中被提交的Log，同时更新rf.commitIndex和rf.commitIndex
-	if rf.commitIndex < args.LeaderCommit &&  rf.commitIndex < args.PrevLogIndex && rf.nextIndex[rf.me] > args.PrevLogIndex && rf.log[args.PrevLogIndex].Term == args.PrevLogTerm {
+	if rf.commitIndex < args.LeaderCommit &&  rf.commitIndex < args.PrevLogIndex {
 		// Log(dClient,"S%d: need to apply some logs. PrevLogIndex=%d, args.LeaderCommit=%d, rf.commitIndex=%d. isHeartbeat=%t", rf.me, args.PrevLogIndex, args.LeaderCommit, rf.commitIndex, len(args.Entries)==0)
 
 		//新的rf.commitIndex应该是args.LeaderCommit和Leader发送PrevLogIndex之间的最小值
 		commitIndex := args.LeaderCommit
-		if commitIndex > args.PrevLogIndex {
-			commitIndex = args.PrevLogIndex
+		if commitIndex > args.PrevLogIndex + len(args.Entries) {
+			commitIndex = args.PrevLogIndex + len(args.Entries)
 		}
 
 		//在Follwer中提交这些日志
@@ -407,16 +385,43 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		rf.lastApplied = commitIndex
 		Log(dClient, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex, rf.log)
 	}
+}
+
+
+func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
+
+	reply.Success = false
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+
+
+	//新Leader处理来自旧Leader的消息
+	if rf.currentTerm > args.Term {
+		// Log(dClient, "S%d: serverstate change %d -> %d", rf.me, rf.serverState, Follower)
+		reply.Term = rf.currentTerm
+		return
+	} else if rf.currentTerm < args.Term {
+		rf.currentTerm = args.Term
+		rf.persist(false)
+	}
+	//旧Leader处理来自新Leader的消息，Candidate处理来自新Leader的消息
+	if rf.serverState != Follower {
+		rf.serverState = Follower	
+	}
+
+	//重置随机选举时间
+	rf.resetElectionTimerLocked()
 
 
 	//处理消息时心跳的情况
 	if len(args.Entries) == 0 {
 		if args.PrevLogIndex == 0 || (args.PrevLogIndex < rf.nextIndex[rf.me] && rf.log[args.PrevLogIndex].Term == args.PrevLogTerm) {
 			reply.Success = true
+			rf.applyLogFollower(args)
 		} else {
 			rf.appendFailInfoLocked(args, reply)
 		}
-		// Log(dClient,"S%d: S%d receive a heartbeate from S%d.", rf.me, rf.me, args.LearderId)
+		Log(dClient,"S%d: S%d receive a heartbeate from S%d. currentTerm=%d, args.currentTerm=%d", rf.me, rf.me, args.LearderId, rf.currentTerm, args.Term)
 		return
 	}
 
@@ -426,19 +431,20 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		// Log(dClient,"S%d: receive a entry from S%d. PrevLogIndex=%d PrevLogTerm=%d, args.Term = %d", rf.me, args.LearderId, args.PrevLogIndex ,rf.log[args.PrevLogIndex].Term, args.Term)
 		
 		logIndex := args.PrevLogIndex + 1
-		//两种情况:（1）当前下标还没有日志，直接append（2）已经有日志那么直接覆盖
+		//首先需要清楚旧的日志，然后将Leader的新日志逐条添加上
+		rf.log = rf.log[:logIndex]
+
 		for i := 0; i < len(args.Entries); i++ {
-			if logIndex + i < len(rf.log) {
-				rf.log[logIndex + i] = args.Entries[i]
-			} else {
-				rf.log = append(rf.log, args.Entries[i])
-			}
 			
+			rf.log = append(rf.log, args.Entries[i])
 			// Log(dClient, "S%d: receive logindex=%d", rf.me, logIndex + i)
 		}
 		rf.persist(true)
 		rf.nextIndex[rf.me] = logIndex + len(args.Entries)
 		reply.Success = true
+
+		Log(dClient, "S%d: receive logindex %d~%d, log=%d", rf.me, args.PrevLogIndex + 1, rf.nextIndex[rf.me] - 1, rf.log)
+		rf.applyLogFollower(args)
 	} else {
 		rf.appendFailInfoLocked(args, reply)
 	}
@@ -534,10 +540,9 @@ func (rf *Raft) sendLog2Server(server int) {
 		}
 		if len(entries) != 0 {
 			Log(dLeader, "S%d: send a entry to S%d, log index = %d, PrevLogIndex =%d, nextIndex=%d", rf.me, server, nextSendIndex, args.PrevLogIndex, rf.nextIndex)
+		} else {
+			Log(dLeader, "S%d: send a heartbeat to S%d, nextIndex=%d.", rf.me, server, rf.nextIndex)
 		}
-		//  else {
-		// 	Log(dLeader, "S%d: send a heartbeat to S%d, nextIndex=%d.", rf.me, server, rf.nextIndex)
-		// }
 		rf.mu.Unlock()
 
 		//发送日志
@@ -556,6 +561,8 @@ func (rf *Raft) sendLog2Server(server int) {
 				if reply.Term > rf.currentTerm {
 					Log(dClient, "S%d: serverstate change %d -> %d", rf.me, rf.serverState, Follower)
 					rf.newTermLocked(reply.Term)
+					rf.mu.Unlock()
+					return
 				}
 				// Log(dLeader, "S%d: send log to S%d, args.PrevLogIndex=%d", rf.me, server, args.PrevLogIndex)
 				if reply.Success {
@@ -753,7 +760,7 @@ func (rf *Raft) ticker() {
 		rf.mu.Lock()
 		if rf.serverState != Leader && time.Since(rf.heartbeatTime) > rf.electionTimeout {
 
-			Log(dClient,"S%d: S%d will be a candidate", rf.me, rf.me)
+			Log(dClient,"S%d: S%d will be a candidate. log =%d", rf.me, rf.me, rf.log)
 			rf.serverState = Candidate
 			rf.currentTerm += 1
 			rf.votedFor = rf.me

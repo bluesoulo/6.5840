@@ -1,198 +1,264 @@
 Test (3C): Figure 8 ...
-003385 CLNT S2: S2 will be a candidate
-003412 VOTE S3:processing vote from S2! args.Term=1, rf.currentTerm=0
-003413 VOTE S1:processing vote from S2! args.Term=1, rf.currentTerm=0
-003412 VOTE S4:processing vote from S2! args.Term=1, rf.currentTerm=0
-003412 VOTE S0:processing vote from S2! args.Term=1, rf.currentTerm=0
-003417 VOTE S3: S3 vote to S2!
-003418 VOTE S1: S1 vote to S2!
-003418 VOTE S4: S4 vote to S2!
-003420 VOTE S0: S0 vote to S2!
-003427 LEAD S2: S2(3 tickets)will be a leader!
-003551 LEAD S2 has saved a log entry. command = 0
-003958 LEAD S2: send a entry to S3, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
-003959 LEAD S2: send a entry to S4, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
-003961 LEAD S2: send a entry to S1, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
-003964 LEAD S2: send a entry to S0, log index = 1, PrevLogIndex =0, nextIndex=[1 1 2 1 1]
-003985 LEAD S2: apply logindex=1
-003986 LEAD S2: commitLogIndex=1, log=[{<nil> 0} {0 1}]
-004165 LEAD S2 has saved a log entry. command = 1
-004258 INFO crash server 2
-008200 CLNT S0: S0 will be a candidate
-008213 VOTE S3:processing vote from S0! args.Term=2, rf.currentTerm=1
-008213 VOTE S1:processing vote from S0! args.Term=2, rf.currentTerm=1
-008213 VOTE S4:processing vote from S0! args.Term=2, rf.currentTerm=1
-008218 VOTE S3: S3 vote to S0!
-008220 VOTE S1: S1 vote to S0!
-008220 VOTE S4: S4 vote to S0!
-008226 LEAD S0: S0(3 tickets)will be a leader!
-010523 LEAD S0 has saved a log entry. command = 38
-010595 INFO crash server 0
-014455 CLNT S1: S1 will be a candidate
-014469 VOTE S3:processing vote from S1! args.Term=3, rf.currentTerm=2
-014469 VOTE S4:processing vote from S1! args.Term=3, rf.currentTerm=2
-014474 VOTE S3: S3 vote to S1!
-014474 VOTE S4: S4 vote to S1!
-014480 LEAD S1: S1(3 tickets)will be a leader!
-
-014485 LEAD S1 has saved a log entry. command = 71
-014486 LEAD S1: send a entry to S2, log index = 2, PrevLogIndex =1, nextIndex=[2 3 2 2 2]
-014488 LEAD S1: send a entry to S3, log index = 2, PrevLogIndex =1, nextIndex=[2 3 2 2 2]
-
-014538 INFO crash server 1
-014644 INFO restart server 0
-017879 CLNT S0: S0 will be a candidate
-017887 VOTE S4:processing vote from S0! args.Term=3, rf.currentTerm=3
-017889 VOTE S4: S4 vote to S0!
-017892 VOTE S3:processing vote from S0! args.Term=3, rf.currentTerm=3
-017893 VOTE S3: S3 can't vote to S0! reaseon: serverState=0, votedFor=-1
-017898 VOTE S0: S0 -> S2 RequestVote rpc fail!
-022686 CLNT S3: S3 will be a candidate
-022693 VOTE S4:processing vote from S3! args.Term=4, rf.currentTerm=3
-022696 VOTE S4: S4 vote to S3!
-022697 VOTE S0:processing vote from S3! args.Term=4, rf.currentTerm=3
-022704 VOTE S0: S0 vote to S3!
-022710 LEAD S3: S3(3 tickets)will be a leader!
-022727 CLNT S4:args.PrevLogIndex=2, XLen=1
-023242 LEAD S3: send a entry to S0, log index = 2, PrevLogIndex =1, nextIndex=[2 3 3 3 2]
-023244 LEAD S3: send a entry to S4, log index = 2, PrevLogIndex =1, nextIndex=[2 3 3 3 2]
-023929 LEAD S3 has saved a log entry. command = 88
-023983 INFO crash server 3
-023985 INFO restart server 1
-027236 CLNT S1: S1 will be a candidate
-027246 VOTE S4:processing vote from S1! args.Term=4, rf.currentTerm=4
-027248 VOTE S4: S4 vote to S1!
-027250 VOTE S0:processing vote from S1! args.Term=4, rf.currentTerm=4
-027254 VOTE S0: S0 vote to S1!
-027259 LEAD S1: S1(3 tickets)will be a leader!
-028023 LEAD S1 has saved a log entry. command = 101
-028077 INFO crash server 1
-028079 INFO restart server 1
-030787 CLNT S4: S4 will be a candidate
-030800 VOTE S0:processing vote from S4! args.Term=5, rf.currentTerm=4
-030800 VOTE S1:processing vote from S4! args.Term=5, rf.currentTerm=4
-030805 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
-030806 VOTE S0: S0 vote to S4!
-033409 VOTE S4: S4 -> S3 RequestVote rpc fail!
-033736 CLNT S4: S4 will be a candidate
-033750 VOTE S0:processing vote from S4! args.Term=6, rf.currentTerm=5
-033750 VOTE S1:processing vote from S4! args.Term=6, rf.currentTerm=5
-033754 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
-033756 VOTE S0: S0 vote to S4!
-038291 CLNT S1: S1 will be a candidate
-038305 VOTE S0:processing vote from S1! args.Term=7, rf.currentTerm=6
-038305 VOTE S4:processing vote from S1! args.Term=7, rf.currentTerm=6
-038311 VOTE S0: S0 vote to S1!
-038311 VOTE S4: S4 vote to S1!
-038318 LEAD S1: S1(3 tickets)will be a leader!
-038331 CLNT S4:args.PrevLogIndex=3, XLen=1
-038332 CLNT S0:args.PrevLogIndex=3, XLen=1
-038841 LEAD S1: send a entry to S0, log index = 3, PrevLogIndex =2, nextIndex=[3 4 4 4 3]
-038844 LEAD S1: send a entry to S4, log index = 3, PrevLogIndex =2, nextIndex=[3 4 4 4 3]
-040002 LEAD S1 has saved a log entry. command = 182
-040418 LEAD S1: send a entry to S4, log index = 4, PrevLogIndex =3, nextIndex=[4 5 4 4 4]
-040420 LEAD S1: send a entry to S0, log index = 4, PrevLogIndex =3, nextIndex=[4 5 4 4 4]
-040445 LEAD S1: apply logindex=1
-040446 LEAD S1: apply logindex=2
-040447 LEAD S1: apply logindex=3
-040449 LEAD S1: apply logindex=4
-040449 LEAD S1: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
-040957 CLNT S4: apply logindex=1
-040958 CLNT S4: apply logindex=2
-040959 CLNT S4: apply logindex=3
-040960 CLNT S4: apply logindex=4
-040960 CLNT S4: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
-040968 CLNT S0: apply logindex=1
-040969 CLNT S0: apply logindex=2
-040969 CLNT S0: apply logindex=3
-040970 CLNT S0: apply logindex=4
-040970 CLNT S0: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
-042554 INFO crash server 1
-042556 INFO restart server 1
-047913 CLNT S1: S1 will be a candidate
-047925 VOTE S0:processing vote from S1! args.Term=8, rf.currentTerm=7
-047928 VOTE S4:processing vote from S1! args.Term=8, rf.currentTerm=7
-047933 VOTE S0: S0 vote to S1!
-047935 VOTE S4: S4 vote to S1!
-047941 LEAD S1: S1(3 tickets)will be a leader!
-052171 LEAD S1 has saved a log entry. command = 238
-052173 INFO crash server 1
-052177 INFO restart server 1
-056515 CLNT S4: S4 will be a candidate
-056529 VOTE S1:processing vote from S4! args.Term=9, rf.currentTerm=8
-056530 VOTE S0:processing vote from S4! args.Term=9, rf.currentTerm=8
-056533 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
-056536 VOTE S0: S0 vote to S4!
-059781 CLNT S4: S4 will be a candidate
-059792 VOTE S0:processing vote from S4! args.Term=10, rf.currentTerm=9
-059797 VOTE S1:processing vote from S4! args.Term=10, rf.currentTerm=9
-059799 VOTE S0: S0 vote to S4!
-059801 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
-064313 CLNT S0: S0 will be a candidate
-064325 VOTE S4:processing vote from S0! args.Term=11, rf.currentTerm=10
-064327 VOTE S1:processing vote from S0! args.Term=11, rf.currentTerm=10
-064331 VOTE S1: S1 can't vote to S0! reaseon: serverState=0, votedFor=-1
-064332 VOTE S4: S4 vote to S0!
-068280 CLNT S4: S4 will be a candidate
-068294 VOTE S1:processing vote from S4! args.Term=12, rf.currentTerm=11
-068295 VOTE S0:processing vote from S4! args.Term=12, rf.currentTerm=11
-068298 VOTE S1: S1 can't vote to S4! reaseon: serverState=0, votedFor=-1
-068303 VOTE S0: S0 vote to S4!
-071971 CLNT S1: S1 will be a candidate
-071985 VOTE S4:processing vote from S1! args.Term=13, rf.currentTerm=12
-071986 VOTE S0:processing vote from S1! args.Term=13, rf.currentTerm=12
-071990 VOTE S4: S4 vote to S1!
-071993 VOTE S0: S0 vote to S1!
-071999 LEAD S1: S1(3 tickets)will be a leader!
-072010 CLNT S4:args.PrevLogIndex=5, XLen=1
-072014 CLNT S0:args.PrevLogIndex=5, XLen=1
-072520 LEAD S1: send a entry to S4, log index = 5, PrevLogIndex =4, nextIndex=[5 6 6 6 5]
-072524 LEAD S1: send a entry to S0, log index = 5, PrevLogIndex =4, nextIndex=[5 6 6 6 5]
-074641 LEAD S1 has saved a log entry. command = 310
-074675 INFO crash server 1
-074677 INFO restart server 2
-078672 CLNT S4: S4 will be a candidate
-078685 VOTE S2:processing vote from S4! args.Term=14, rf.currentTerm=1
-078686 VOTE S0:processing vote from S4! args.Term=14, rf.currentTerm=13
-078690 VOTE S2: S2 vote to S4!
-078695 VOTE S0: S0 vote to S4!
-078701 LEAD S4: S4(3 tickets)will be a leader!
-078715 CLNT S2:args.PrevLogIndex=5, XLen=3
-079225 LEAD S4: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[6 6 3 6 6]
-079745 LEAD S4: send a entry to S2, log index = 2, PrevLogIndex =1, nextIndex=[6 6 2 6 6]
-079760 CLNT S2: apply logindex=1
-079761 CLNT S2: commitLogIndex=1, log=[{<nil> 0} {0 1} {1 1}]
-080277 LEAD S4: send a entry to S2, log index = 3, PrevLogIndex =2, nextIndex=[6 6 3 6 6]
-080291 CLNT S2: apply logindex=2
-080292 CLNT S2: commitLogIndex=2, log=[{<nil> 0} {0 1} {71 3}]
-080803 LEAD S4: send a entry to S2, log index = 4, PrevLogIndex =3, nextIndex=[6 6 4 6 6]
-080817 CLNT S2: apply logindex=3
-080818 CLNT S2: commitLogIndex=3, log=[{<nil> 0} {0 1} {71 3} {101 4}]
-081305 LEAD S4 has saved a log entry. command = 322
-081335 LEAD S4: send a entry to S0, log index = 6, PrevLogIndex =5, nextIndex=[6 6 5 6 7]
-081335 INFO crash server 4
-081337 LEAD S4: send a entry to S2, log index = 5, PrevLogIndex =4, nextIndex=[6 6 5 6 7]
-081338 INFO restart server 3
-086015 CLNT S0: S0 will be a candidate
-086027 VOTE S2:processing vote from S0! args.Term=15, rf.currentTerm=14
-086028 VOTE S3:processing vote from S0! args.Term=15, rf.currentTerm=4
-086034 VOTE S2: S2 vote to S0!
-086035 VOTE S3: S3 vote to S0!
-086042 LEAD S0: S0(3 tickets)will be a leader!
-086056 CLNT S2:args.PrevLogIndex=5, XLen=1
-086057 CLNT S3:args.PrevLogIndex=5, XLen=2
-086566 LEAD S0: send a entry to S3, log index = 4, PrevLogIndex =3, nextIndex=[6 6 5 4 6]
-086567 LEAD S0: send a entry to S2, log index = 5, PrevLogIndex =4, nextIndex=[6 6 5 4 6]
-086578 CLNT S2: apply logindex=4
-086579 CLNT S2: commitLogIndex=4, log=[{<nil> 0} {0 1} {71 3} {101 4} {182 7}]
-086581 CLNT S3: apply logindex=1
-086582 CLNT S3: apply logindex=2
-086583 CLNT S3: apply logindex=3
-3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
-086583 CLNT S3: commitLogIndex=3, log=[{<nil> 0} {0 1} {71 3} {88 4}]
-3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
-3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
-3: log map[1:0 2:71]; server map[1:0 2:71 3:101 4:182]
-apply error: commit index=3 server=3 88 != server=4 101
+003046 CLNT S0: S0 will be a candidate
+003073 VOTE S4:processing vote from S0! args.Term=1, rf.currentTerm=0
+003074 VOTE S3:processing vote from S0! args.Term=1, rf.currentTerm=0
+003074 VOTE S2:processing vote from S0! args.Term=1, rf.currentTerm=0
+003074 VOTE S1:processing vote from S0! args.Term=1, rf.currentTerm=0
+003079 VOTE S4: S4 vote to S0!
+003080 VOTE S3: S3 vote to S0!
+003081 VOTE S2: S2 vote to S0!
+003083 VOTE S1: S1 vote to S0!
+003088 LEAD S0: S0(3 tickets)will be a leader! log=[{<nil> 0}]
+003571 LEAD S0 has saved a log entry. command = 0
+003621 LEAD S0: send a entry to S3, log index = 1, PrevLogIndex =0, nextIndex=[2 1 1 1 1]
+003623 LEAD S0: send a entry to S4, log index = 1, PrevLogIndex =0, nextIndex=[2 1 1 1 1]
+003625 LEAD S0: send a entry to S2, log index = 1, PrevLogIndex =0, nextIndex=[2 1 1 1 1]
+003626 LEAD S0: send a entry to S1, log index = 1, PrevLogIndex =0, nextIndex=[2 1 1 1 1]
+003638 CLNT S3: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+003642 CLNT S4: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+003642 CLNT S2: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+003645 CLNT S1: receive logindex 1~1, log=[{<nil> 0} {0 1}]
+003649 LEAD S0: apply logindex=1
+003650 LEAD S0: commitLogIndex=1, log=[{<nil> 0} {0 1}]
+003777 LEAD S0 has saved a log entry. command = 1
+003841 INFO crash server 0
+007866 CLNT S3: S3 will be a candidate
+007879 VOTE S4:processing vote from S3! args.Term=2, rf.currentTerm=1
+007881 VOTE S1:processing vote from S3! args.Term=2, rf.currentTerm=1
+007881 VOTE S2:processing vote from S3! args.Term=2, rf.currentTerm=1
+007885 VOTE S4: S4 vote to S3!
+007886 VOTE S1: S1 vote to S3!
+007887 VOTE S2: S2 vote to S3!
+007893 LEAD S3: S3(3 tickets)will be a leader! log=[{<nil> 0} {0 1}]
+008053 LEAD S3 has saved a log entry. command = 6
+008066 INFO crash server 3
+011075 CLNT S1: S1 will be a candidate
+011088 VOTE S4:processing vote from S1! args.Term=3, rf.currentTerm=2
+011088 VOTE S2:processing vote from S1! args.Term=3, rf.currentTerm=2
+011094 VOTE S4: S4 vote to S1!
+011095 VOTE S2: S2 vote to S1!
+011101 LEAD S1: S1(3 tickets)will be a leader! log=[{<nil> 0} {0 1}]
+011272 LEAD S1 has saved a log entry. command = 10
+011327 INFO crash server 1
+011535 INFO restart server 1
+015803 CLNT S1: S1 will be a candidate
+015818 VOTE S2:processing vote from S1! args.Term=4, rf.currentTerm=3
+015819 VOTE S4:processing vote from S1! args.Term=4, rf.currentTerm=3
+015824 VOTE S2: S2 vote to S1!
+015825 VOTE S4: S4 vote to S1!
+015831 LEAD S1: S1(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3}]
+015848 CLNT S4:args.PrevLogIndex=2, XLen=1
+015850 CLNT S2:args.PrevLogIndex=2, XLen=1
+016363 LEAD S1: send a entry to S2, log index = 2, PrevLogIndex =1, nextIndex=[3 3 2 3 2]
+016365 LEAD S1: send a entry to S4, log index = 2, PrevLogIndex =1, nextIndex=[3 3 2 3 2]
+016380 CLNT S2: receive logindex 2~2, log=[{<nil> 0} {0 1} {10 3}]
+016384 CLNT S4: receive logindex 2~2, log=[{<nil> 0} {0 1} {10 3}]
+017468 LEAD S1 has saved a log entry. command = 33
+017562 INFO crash server 1
+017638 INFO restart server 0
+023015 CLNT S2: S2 will be a candidate
+023029 VOTE S0:processing vote from S2! args.Term=5, rf.currentTerm=1
+023030 VOTE S4:processing vote from S2! args.Term=5, rf.currentTerm=4
+023036 VOTE S0: S0 vote to S2!
+023037 VOTE S4: S4 vote to S2!
+023044 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3}]
+023574 LEAD S2: send a entry to S0, log index = 2, PrevLogIndex =1, nextIndex=[2 3 3 3 3]
+023590 CLNT S0: receive logindex 2~2, log=[{<nil> 0} {0 1} {10 3}]
+026677 LEAD S2 has saved a log entry. command = 49
+026740 LEAD S2: send a entry to S0, log index = 3, PrevLogIndex =2, nextIndex=[3 3 4 3 3]
+026742 LEAD S2: send a entry to S4, log index = 3, PrevLogIndex =2, nextIndex=[3 3 4 3 3]
+026758 CLNT S0: receive logindex 3~3, log=[{<nil> 0} {0 1} {10 3} {49 5}]
+026760 CLNT S4: receive logindex 3~3, log=[{<nil> 0} {0 1} {10 3} {49 5}]
+026766 LEAD S2: apply logindex=1
+026767 LEAD S2: apply logindex=2
+026768 LEAD S2: apply logindex=3
+026768 INFO crash server 2
+026768 LEAD S2: commitLogIndex=3, log=[{<nil> 0} {0 1} {10 3} {49 5}]
+026770 INFO restart server 1
+029897 CLNT S1: S1 will be a candidate
+029911 VOTE S4:processing vote from S1! args.Term=5, rf.currentTerm=5
+029911 VOTE S4: S4 can't vote to S1! reaseon: serverState=0, votedFor=-1
+029913 VOTE S0:processing vote from S1! args.Term=5, rf.currentTerm=5
+029914 VOTE S0: S0 can't vote to S1! reaseon: serverState=0, votedFor=-1
+034546 CLNT S4: S4 will be a candidate
+034560 VOTE S1:processing vote from S4! args.Term=6, rf.currentTerm=5
+034563 VOTE S0:processing vote from S4! args.Term=6, rf.currentTerm=5
+034568 VOTE S1: S1 vote to S4!
+034570 VOTE S0: S0 vote to S4!
+034577 LEAD S4: S4(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5}]
+035104 LEAD S4: send a entry to S1, log index = 3, PrevLogIndex =2, nextIndex=[4 3 4 4 4]
+035121 CLNT S1: receive logindex 3~3, log=[{<nil> 0} {0 1} {10 3} {49 5}]
+036778 LEAD S4 has saved a log entry. command = 81
+036882 INFO crash server 4
+036885 INFO restart server 2
+040391 CLNT S2: S2 will be a candidate
+040403 VOTE S0:processing vote from S2! args.Term=6, rf.currentTerm=6
+040405 VOTE S1:processing vote from S2! args.Term=6, rf.currentTerm=6
+040406 VOTE S0: S0 vote to S2!
+040410 VOTE S1: S1 vote to S2!
+040416 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5}]
+040436 LEAD S2 has saved a log entry. command = 88
+040941 LEAD S2: send a entry to S1, log index = 4, PrevLogIndex =3, nextIndex=[4 4 5 4 4]
+040943 LEAD S2: send a entry to S0, log index = 4, PrevLogIndex =3, nextIndex=[4 4 5 4 4]
+040952 CLNT S1: receive logindex 4~4, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6}]
+040960 CLNT S0: receive logindex 4~4, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6}]
+040968 LEAD S2: apply logindex=1
+040969 LEAD S2: apply logindex=2
+040970 LEAD S2: apply logindex=3
+040970 LEAD S2: apply logindex=4
+040971 LEAD S2: commitLogIndex=4, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6}]
+041468 CLNT S1: apply logindex=1
+041468 CLNT S1: apply logindex=2
+041469 CLNT S1: apply logindex=3
+041469 CLNT S1: apply logindex=4
+041470 CLNT S1: commitLogIndex=4, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6}]
+041478 CLNT S0: apply logindex=1
+041478 CLNT S0: apply logindex=2
+041479 CLNT S0: apply logindex=3
+041479 CLNT S0: apply logindex=4
+041479 CLNT S0: commitLogIndex=4, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6}]
+043136 INFO crash server 2
+043138 INFO restart server 2
+046258 CLNT S2: S2 will be a candidate
+046279 VOTE S1:processing vote from S2! args.Term=7, rf.currentTerm=6
+046294 VOTE S0:processing vote from S2! args.Term=7, rf.currentTerm=6
+046300 VOTE S1: S1 vote to S2!
+046302 VOTE S0: S0 vote to S2!
+046309 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6}]
+047887 LEAD S2 has saved a log entry. command = 96
+047889 LEAD S2: send a entry to S0, log index = 5, PrevLogIndex =4, nextIndex=[5 5 6 5 5]
+047905 CLNT S0: receive logindex 5~5, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7}]
+047992 INFO crash server 2
+048078 INFO restart server 2
+051183 CLNT S2: S2 will be a candidate
+051196 VOTE S1:processing vote from S2! args.Term=8, rf.currentTerm=7
+051197 VOTE S0:processing vote from S2! args.Term=8, rf.currentTerm=7
+051203 VOTE S1: S1 vote to S2!
+051205 VOTE S0: S0 vote to S2!
+051211 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7}]
+051225 CLNT S1:args.PrevLogIndex=5, XLen=1
+051734 LEAD S2: send a entry to S1, log index = 5, PrevLogIndex =4, nextIndex=[6 5 6 6 6]
+051753 CLNT S1: receive logindex 5~5, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7}]
+054918 LEAD S2 has saved a log entry. command = 110
+054992 INFO crash server 2
+055161 INFO restart server 2
+058008 CLNT S0: S0 will be a candidate
+058021 VOTE S2:processing vote from S0! args.Term=9, rf.currentTerm=8
+058021 VOTE S1:processing vote from S0! args.Term=9, rf.currentTerm=8
+058026 VOTE S2: S2 can't vote to S0! reaseon: serverState=0, votedFor=-1
+058030 VOTE S1: S1 vote to S0!
+060889 CLNT S2: S2 will be a candidate
+060901 VOTE S0:processing vote from S2! args.Term=10, rf.currentTerm=9
+060902 VOTE S1:processing vote from S2! args.Term=10, rf.currentTerm=9
+060908 VOTE S0: S0 vote to S2!
+060909 VOTE S1: S1 vote to S2!
+060915 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8}]
+060929 CLNT S1:args.PrevLogIndex=6, XLen=1
+060930 CLNT S0:args.PrevLogIndex=6, XLen=1
+061040 LEAD S2 has saved a log entry. command = 140
+061125 INFO crash server 2
+061127 INFO restart server 2
+066041 CLNT S1: S1 will be a candidate
+066053 VOTE S0:processing vote from S1! args.Term=11, rf.currentTerm=10
+066055 VOTE S2:processing vote from S1! args.Term=11, rf.currentTerm=10
+066060 VOTE S0: S0 vote to S1!
+066060 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
+069129 CLNT S0: S0 will be a candidate
+069142 VOTE S2:processing vote from S0! args.Term=12, rf.currentTerm=11
+069143 VOTE S1:processing vote from S0! args.Term=12, rf.currentTerm=11
+069146 VOTE S2: S2 can't vote to S0! reaseon: serverState=0, votedFor=-1
+069150 VOTE S1: S1 vote to S0!
+072327 CLNT S1: S1 will be a candidate
+072341 VOTE S0:processing vote from S1! args.Term=13, rf.currentTerm=12
+072342 VOTE S2:processing vote from S1! args.Term=13, rf.currentTerm=12
+072347 VOTE S2: S2 can't vote to S1! reaseon: serverState=0, votedFor=-1
+072349 VOTE S0: S0 vote to S1!
+074919 VOTE S1: S1 -> S3 RequestVote rpc fail!
+076417 CLNT S2: S2 will be a candidate
+076429 VOTE S0:processing vote from S2! args.Term=14, rf.currentTerm=13
+076430 VOTE S1:processing vote from S2! args.Term=14, rf.currentTerm=13
+076437 VOTE S0: S0 vote to S2!
+076438 VOTE S1: S1 vote to S2!
+076444 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10}]
+076457 CLNT S0:args.PrevLogIndex=7, XLen=2
+076459 CLNT S1:args.PrevLogIndex=7, XLen=2
+076967 LEAD S2: send a entry to S1, log index = 6, PrevLogIndex =5, nextIndex=[6 6 8 8 8]
+076968 LEAD S2: send a entry to S0, log index = 6, PrevLogIndex =5, nextIndex=[6 6 8 8 8]
+076984 CLNT S1: receive logindex 6~6, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8}]
+076986 CLNT S0: receive logindex 6~6, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8}]
+077500 LEAD S2: send a entry to S1, log index = 7, PrevLogIndex =6, nextIndex=[7 7 8 8 8]
+077502 LEAD S2: send a entry to S0, log index = 7, PrevLogIndex =6, nextIndex=[7 7 8 8 8]
+077520 CLNT S1: receive logindex 7~7, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10}]
+077520 CLNT S0: receive logindex 7~7, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10}]
+078477 LEAD S2 has saved a log entry. command = 179
+078557 LEAD S2: send a entry to S0, log index = 8, PrevLogIndex =7, nextIndex=[8 8 9 8 8]
+078559 LEAD S2: send a entry to S1, log index = 8, PrevLogIndex =7, nextIndex=[8 8 9 8 8]
+078577 CLNT S1: receive logindex 8~8, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+078577 CLNT S0: receive logindex 8~8, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+078586 LEAD S2: apply logindex=1
+078587 LEAD S2: apply logindex=2
+078588 LEAD S2: apply logindex=3
+078588 LEAD S2: apply logindex=4
+078589 LEAD S2: apply logindex=5
+078590 LEAD S2: apply logindex=6
+078590 LEAD S2: apply logindex=7
+078590 LEAD S2: apply logindex=8
+078591 LEAD S2: commitLogIndex=8, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+079097 CLNT S1: apply logindex=5
+079098 CLNT S1: apply logindex=6
+079099 CLNT S1: apply logindex=7
+079100 CLNT S1: apply logindex=8
+079100 CLNT S1: commitLogIndex=8, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+079111 CLNT S0: apply logindex=5
+079112 CLNT S0: apply logindex=6
+079112 CLNT S0: apply logindex=7
+079113 CLNT S0: apply logindex=8
+079114 CLNT S0: commitLogIndex=8, log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+081467 INFO crash server 2
+081542 INFO restart server 4
+085070 CLNT S1: S1 will be a candidate
+085084 VOTE S0:processing vote from S1! args.Term=15, rf.currentTerm=14
+085084 VOTE S4:processing vote from S1! args.Term=15, rf.currentTerm=6
+085092 VOTE S4: S4 vote to S1!
+085093 VOTE S0: S0 vote to S1!
+085099 LEAD S1: S1(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+085115 CLNT S4:args.PrevLogIndex=8, XLen=4
+085491 LEAD S1 has saved a log entry. command = 188
+085492 INFO crash server 1
+085657 INFO restart server 2
+088958 CLNT S2: S2 will be a candidate
+088971 VOTE S0:processing vote from S2! args.Term=15, rf.currentTerm=15
+088973 VOTE S4:processing vote from S2! args.Term=15, rf.currentTerm=15
+088976 VOTE S0: S0 vote to S2!
+088977 VOTE S4: S4 vote to S2!
+088982 LEAD S2: S2(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+088996 CLNT S4:args.PrevLogIndex=8, XLen=4
+089046 LEAD S2 has saved a log entry. command = 202
+089139 INFO crash server 2
+089142 INFO restart server 3
+092628 CLNT S4: S4 will be a candidate
+092642 VOTE S3:processing vote from S4! args.Term=16, rf.currentTerm=2
+092642 VOTE S0:processing vote from S4! args.Term=16, rf.currentTerm=15
+092648 VOTE S3: S3 vote to S4!
+092648 VOTE S0: S0 can't vote to S4! reaseon: serverState=0, votedFor=-1
+096348 CLNT S0: S0 will be a candidate
+096361 VOTE S4:processing vote from S0! args.Term=17, rf.currentTerm=16
+096363 VOTE S3:processing vote from S0! args.Term=17, rf.currentTerm=16
+096367 VOTE S4: S4 vote to S0!
+096369 VOTE S3: S3 vote to S0!
+096375 LEAD S0: S0(3 tickets)will be a leader! log=[{<nil> 0} {0 1} {10 3} {49 5} {88 6} {96 7} {110 8} {140 10} {179 14}]
+096387 CLNT S3:args.PrevLogIndex=8, XLen=6
+096388 CLNT S4:args.PrevLogIndex=8, XLen=4
+096905 LEAD S0: send a entry to S3, log index = 3, PrevLogIndex =2, nextIndex=[9 9 9 3 5]
+096907 LEAD S0: send a entry to S4, log index = 5, PrevLogIndex =4, nextIndex=[9 9 9 3 5]
+096923 CLNT S4: receive logindex 5~5, log=[{<nil> 0} {0 1} {10 3} {49 5} {81 6} {96 7}]
+096925 CLNT S4: apply logindex=1
+096925 CLNT S4: apply logindex=2
+096926 CLNT S4: apply logindex=3
+096927 CLNT S4: apply logindex=4
+4: log map[1:0 2:10 3:49]; server map[1:0 2:10 3:49 4:88 5:96 6:110 7:140 8:179]
+4: log map[1:0 2:10 3:49]; server map[1:0 2:10 3:49 4:88 5:96 6:110 7:140 8:179]
+4: log map[1:0 2:10 3:49]; server map[1:0 2:10 3:49 4:88 5:96 6:110 7:140 8:179]
+apply error: commit index=4 server=4 81 != server=2 88
 exit status 1
-FAIL	6.5840/raft	8.680s
+FAIL	6.5840/raft	9.719s
