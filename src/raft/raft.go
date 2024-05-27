@@ -403,6 +403,8 @@ func (rf *Raft)applyLogFollower(args *AppendEntriesArgs) {
 
 
 func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply) {
+	//to do：消息不按序到达
+
 
 	reply.Success = false
 	rf.mu.Lock()
@@ -554,52 +556,50 @@ func (rf *Raft) sendLog2Server(server int) {
 		}
 		rf.mu.Unlock()
 
-		reply := AppendEntriesReply{}
-		ok := rf.sendAppendEntries(server, &args, &reply)
+		//在协程中处理结果
+		go func(){
+			reply := AppendEntriesReply{}
+			ok := rf.sendAppendEntries(server, &args, &reply)
 
-		rf.mu.Lock()
+			rf.mu.Lock()
 
-		//检查Leader身份和Term是否发生变化
-		if rf.contextLostLocked(Leader, args.Term) {
-			rf.mu.Unlock()
-			return
-		}
-
-		if ok {
-			if reply.Term > rf.currentTerm {
-				rf.newTermLocked(reply.Term)
+			//检查Leader身份和Term是否发生变化
+			if rf.contextLostLocked(Leader, args.Term) {
 				rf.mu.Unlock()
 				return
 			}
 
-			Log(dLeader, "S%d: receive a reply from %d. args.PrevLogIndex=%d, reply=%d", rf.me, server, args.PrevLogIndex, reply)
-
-			if reply.Success {
-				rf.dealHaveEntryLogLocked(server, &args)
-			} else {
-				if reply.XLen != -1 {
-					rf.nextIndex[server] = reply.XLen
-				} else {
-					// newLogIndex := args.PrevLogIndex
-						// for rf.log[newLogIndex].Term != reply.XTerm && newLogIndex >= reply.XIndex {
-						// 	newLogIndex--
-						// }
-						// rf.nextIndex[server] = newLogIndex + 1
-						newLogIndex := args.PrevLogIndex
-						for rf.log[newLogIndex].Term > reply.XTerm && newLogIndex > reply.XIndex {
-							newLogIndex--
-						}
-						if rf.log[newLogIndex].Term == reply.XTerm {
-							rf.nextIndex[server] = newLogIndex + 1
-						} else {
-							rf.nextIndex[server] = reply.XIndex
-						}
+			if ok {
+				if reply.Term > rf.currentTerm {
+					rf.newTermLocked(reply.Term)
+					rf.mu.Unlock()
+					return
 				}
-			}
 
-		}
-		rf.mu.Unlock()
-		time.Sleep(120 * time.Millisecond)	
+				Log(dLeader, "S%d: receive a reply from %d. args.PrevLogIndex=%d, reply=%d", rf.me, server, args.PrevLogIndex, reply)
+
+				if reply.Success {
+					rf.dealHaveEntryLogLocked(server, &args)
+				} else {
+					if reply.XLen != -1 {
+						rf.nextIndex[server] = reply.XLen
+					} else {
+							newLogIndex := args.PrevLogIndex
+							for rf.log[newLogIndex].Term > reply.XTerm && newLogIndex > reply.XIndex {
+								newLogIndex--
+							}
+							if rf.log[newLogIndex].Term == reply.XTerm {
+								rf.nextIndex[server] = newLogIndex + 1
+							} else {
+								rf.nextIndex[server] = reply.XIndex
+							}
+					}
+				}
+
+			}
+			rf.mu.Unlock()
+		}()
+		time.Sleep(100 * time.Millisecond)	
 	}
 }
 
@@ -613,7 +613,9 @@ func maxIndexBeyondOneHalf(origin []int) int {
 
 
 func (rf *Raft) dealHaveEntryLogLocked(server int, args *AppendEntriesArgs) {
-	// rf.nextIndex[server] = rf.nextIndex[server] + len(args.Entries)
+	if args.PrevLogIndex + len(args.Entries) <= rf.matchIndex[server] {
+		return
+	}
 	rf.nextIndex[server] = args.PrevLogIndex + len(args.Entries) + 1
 	rf.matchIndex[server] = args.PrevLogIndex + len(args.Entries)
 	
@@ -691,7 +693,7 @@ func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) 
 				rf.matchIndex[rf.me] = rf.nextIndex[rf.me] - 1
 
 				//面向所有Follower，不需要等待返回结果的空包心跳
-				go rf.longerHeartBeater()
+				// go rf.longerHeartBeater()
 		
 				//开始发送日志（包含了发送心跳的程序）
 				go rf.sendLog2AllServers()

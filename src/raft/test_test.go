@@ -919,7 +919,7 @@ func TestFigure8Unreliable3C(t *testing.T) {
 	num++
 
 	nup := servers
-	for iters := 0; iters < 250; iters++ {
+	for iters := 0; iters < 1000; iters++ {
 		if iters == 200 {
 			cfg.setlongreordering(true)
 		}
