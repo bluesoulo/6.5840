@@ -1,18 +1,18 @@
 Test (3C): basic persistence ...
-  ... Passed --   4.6  3   84   20908    6
+  ... Passed --   4.9  3   86   21250    6
 Test (3C): more persistence ...
-  ... Passed --  24.2  5 1280  261122   16
+  ... Passed --  23.1  5 1196  242392   16
 Test (3C): partitioned leader and one follower crash, leader restarts ...
-  ... Passed --   2.6  3   36    8880    4
+  ... Passed --   2.6  3   38    9126    4
 Test (3C): Figure 8 ...
-  ... Passed --  29.1  5  480   90811   15
+  ... Passed --  27.5  5  502   97078   15
 Test (3C): unreliable agreement ...
-  ... Passed --   5.8  5  220   73438  246
+  ... Passed --   5.9  5  220   74383  246
 Test (3C): Figure 8 (unreliable) ...
-  ... Passed --  38.8  5 3352 10745986  684
+  ... Passed --  39.2  5 3208 7301586  412
 Test (3C): churn ...
-  ... Passed --  16.3  5 1042 1428578  367
+  ... Passed --  16.3  5  600  547800  229
 Test (3C): unreliable churn ...
-  ... Passed --  16.3  5  520  254138  144
+  ... Passed --  16.3  5  666  252321  324
 PASS
-ok  	6.5840/raft	138.734s
+ok  	6.5840/raft	136.714s

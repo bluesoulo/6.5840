@@ -1234,13 +1234,14 @@ func TestSnapshotAllCrash3D(t *testing.T) {
 		for i := 0; i < servers; i++ {
 			cfg.crash1(i)
 		}
+		Log(dInfo,"all servers crash.")
 
 		// revive all
 		for i := 0; i < servers; i++ {
 			cfg.start1(i, cfg.applierSnap)
 			cfg.connect(i)
 		}
-
+		Log(dInfo,"all servers connect.")
 		index2 := cfg.one(rand.Int(), servers, true)
 		if index2 < index1+1 {
 			t.Fatalf("index decreased from %v to %v", index1, index2)
