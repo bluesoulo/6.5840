@@ -464,7 +464,6 @@ func (rf *Raft) applier() {
 			rf.lastApplied += 1
 			lastAppliedRel := rf.convertIndexRelative(rf.lastApplied)
 
-			Log(dClient,"S%d:applier, len(log)=%d,lastAppliedRel=%d,rf.commitIndex=%d,rf.lastApplied=%d",rf.me, len(rf.log),lastAppliedRel,rf.commitIndex,rf.lastApplied)
 			applyMsg := ApplyMsg{CommandValid: true,
 				Command: rf.log[lastAppliedRel].Command,
 				CommandIndex: rf.lastApplied,}
