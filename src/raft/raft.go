@@ -96,6 +96,8 @@ type Raft struct {
 	snapShot          []byte
 	lastIncludedIndex int
 	lastIncludedTerm int
+
+	leaderId int
 }
 
 const (
@@ -134,6 +136,12 @@ func (rf *Raft) GetState() (int, bool) {
 	rf.mu.Unlock()
 
 	return term, isleader
+}
+
+func (rf *Raft) GetLeaderId() int {
+	rf.mu.Lock()
+	defer rf.mu.Unlock()
+	return rf.leaderId
 }
 
 func (rf *Raft) serializeState() []byte {
@@ -293,6 +301,7 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 
 	Log(dClient, "S%d:has install snapshot from S%d!", rf.me, args.LeaderId)
 
+	rf.leaderId = args.LeaderId
 	
 
 	trueLogIndex := args.LastIncludedIndex - rf.lastIncludedIndex
@@ -546,6 +555,8 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 
 	//重置随机选举时间
 	rf.resetElectionTimerLocked()
+	
+	rf.leaderId = args.LearderId
 
 
 	//处理消息时心跳的情况
@@ -782,7 +793,12 @@ func (rf *Raft) sendLog2Server(server int) {
 			}
 			rf.mu.Unlock()
 		}()
-		time.Sleep(100 * time.Millisecond)	
+		if len(entries) == 0 {
+			time.Sleep(100 * time.Millisecond)
+		} else {
+			time.Sleep(25 * time.Millisecond)
+		}
+			
 	}
 }
 
@@ -873,6 +889,7 @@ func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) 
 					rf.nextIndex[i] = rf.nextIndex[rf.me]
 
 				}
+				rf.leaderId = rf.me
 				
 				rf.matchIndex[rf.me] = rf.nextIndex[rf.me] - 1
 
@@ -1022,6 +1039,7 @@ func Make(peers []*labrpc.ClientEnd, me int,
 
 	rf.lastIncludedIndex = 0
 	rf.lastIncludedTerm = 0
+	rf.leaderId = -1
 
 	rf.resetElectionTimerLocked()
 	// Your initialization code here (3A, 3B, 3C).
