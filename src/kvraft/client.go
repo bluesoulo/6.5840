@@ -3,8 +3,7 @@ package kvraft
 import (
 	crand "crypto/rand"
 	"math/big"
-	mrand "math/rand"
-	"sync"
+	// mrand "math/rand"
 	"6.5840/labrpc"
 )
 
@@ -16,8 +15,6 @@ type Clerk struct {
 	ver int
 
 	leaderId int
-	mu        sync.Mutex
-
 }
 
 func nrand() int64 {
@@ -32,7 +29,7 @@ func MakeClerk(servers []*labrpc.ClientEnd) *Clerk {
 	ck.servers = servers
 	ck.id = nrand()
 	ck.ver = 0
-	ck.leaderId = -1
+	ck.leaderId = 0
 	// You'll have to add code here.
 	return ck
 }
@@ -55,34 +52,26 @@ func (ck *Clerk) Get(key string) string {
 	reply := GetReply{}
 	isSuccess := false
 
+	Log(dClient,"%d:need to perform! ver=%d, op=Get, key=%s",ck.id, ck.ver, key)
+	leaderId := ck.leaderId
+
 	for !isSuccess {
-
-		if ck.leaderId == -1 {
-			ck.leaderId = mrand.Intn(len(ck.servers))
-		}
-		leaderId := ck.leaderId
-
 		isSuccess = ck.servers[leaderId].Call("KVServer.Get", &args, &reply)
 
 		if !isSuccess {
-			ck.leaderId = -1
+			// Log(dClient, "%v:request Server=%v fail.", ck.id,leaderId)
+			leaderId = (leaderId + 1) % len(ck.servers)
 		} else if reply.Err == ErrWrongLeader {
-			if ck.leaderId == reply.LeaderId {
-				ck.leaderId = -1
-			} else {
-				ck.leaderId = reply.LeaderId
-			}
+			// Log(dClient, "%v:request Server=%v fail.", ck.id,leaderId)
+			leaderId = (leaderId + 1) % len(ck.servers)
 			isSuccess = false
 		}
 	}
-
-	Log(dClient,"C%d: ver=%d, op=Get, key=%s, res=%s",ck.id, ck.ver, key, reply.Value)
+	Log(dClient,"%d: ver=%d, op=Get, key=%s, res=%s", ck.id, ck.ver, key, reply.Value)
 	
-	ck.leaderId = reply.LeaderId
-	
-	// ck.mu.Unlock()
-
-	if reply.Err == OK {
+	ck.leaderId = leaderId
+		
+	if reply.Err == OK || reply.Err == ErrRepeatRequest{
 		return reply.Value
 	} else {
 		return ""
@@ -103,29 +92,22 @@ func (ck *Clerk) PutAppend(key string, value string, op string) {
 	args := PutAppendArgs{Key: key, Value: value, Id: ck.id, Ver: ck.ver}
 	reply := PutAppendReply{}
 	isSuccess := false
-	Log(dClient,"C%d: ver=%d, op=%s, key=%s, value=%s",ck.id, ck.ver, op, key, value)
+	Log(dClient,"%d:need to perform! ver=%d, op=%s, key=%s, value=%s",ck.id, ck.ver, op, key, value)
 
+	leaderId := ck.leaderId
 	for !isSuccess {
-		if ck.leaderId == -1 {
-			ck.leaderId = mrand.Intn(len(ck.servers))
-		}
-		leaderId := ck.leaderId
 
 		isSuccess = ck.servers[leaderId].Call("KVServer."+ op, &args, &reply)
 
 		if !isSuccess {
-			ck.leaderId = -1
+			leaderId = (leaderId + 1) % len(ck.servers)
 		} else if reply.Err == ErrWrongLeader {
-			if ck.leaderId == reply.LeaderId {
-				ck.leaderId = -1
-			} else {
-				ck.leaderId = reply.LeaderId
-			}
+			leaderId = (leaderId + 1) % len(ck.servers)
 			isSuccess = false
-		}
+		} 
 	}
-	
-	ck.leaderId = reply.LeaderId
+	Log(dClient,"%d: ver=%d, op=%s, key=%s, value=%s", ck.id, ck.ver, op, key, value)
+	ck.leaderId = leaderId
 }
 
 func (ck *Clerk) Put(key string, value string) {

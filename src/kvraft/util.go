@@ -11,7 +11,7 @@ import (
 
 // Retrieve the verbosity level from an environment variable
 func getVerbosity() int {
-	v := os.Getenv("VERBOSE4")
+	v := os.Getenv("VERBOSE")
 	level := 0
 	if v != "" {
 		var err error
@@ -26,23 +26,23 @@ func getVerbosity() int {
 type logTopic string
 
 const (
-	dClient  logTopic = "CLNT"
-	dCommit  logTopic = "CMIT"
-	dDrop    logTopic = "DROP"
-	dError   logTopic = "ERRO"
-	dInfo    logTopic = "INFO"
-	dLeader  logTopic = "LEAD"
-	dLog     logTopic = "LOG1"
-	dLog2    logTopic = "LOG2"
-	dPersist logTopic = "PERS"
-	dSnap    logTopic = "SNAP"
-	dTerm    logTopic = "TERM"
-	dTest    logTopic = "TEST"
-	dTimer   logTopic = "TIMR"
-	dTrace   logTopic = "TRCE"
-	dVote    logTopic = "VOTE"
-	dWarn    logTopic = "WARN"
-	dSERVER  logTopic = "SERV"
+	dClient  logTopic = "*CLNT"
+	dCommit  logTopic = "*CMIT"
+	dDrop    logTopic = "*DROP"
+	dError   logTopic = "*ERRO"
+	dInfo    logTopic = "*INFO"
+	dLeader  logTopic = "*LEAD"
+	dLog     logTopic = "*LOG1"
+	dLog2    logTopic = "*LOG2"
+	dPersist logTopic = "*PERS"
+	dSnap    logTopic = "*SNAP"
+	dTerm    logTopic = "*TERM"
+	dTest    logTopic = "*TEST"
+	dTimer   logTopic = "*TIMR"
+	dTrace   logTopic = "*TRCE"
+	dVote    logTopic = "*VOTE"
+	dWarn    logTopic = "*WARN"
+	dSERVER  logTopic = "*SERV"
 )
 
 var debugStart time.Time

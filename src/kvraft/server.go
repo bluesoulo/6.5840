@@ -41,6 +41,12 @@ type Op struct {
 	Version int
 }
 
+type Res struct {
+	OP Op
+	Value string
+	ERROR string
+}
+
 type KVServer struct {
 	mu      sync.Mutex
 	me      int
@@ -59,7 +65,7 @@ type KVServer struct {
 	// client id 和 version 的映射
 	clientMap map[int64]int
 	// 跟踪客户端等待的请求结果
-    waitCh map[int]chan Op
+    waitCh map[int]chan Res
 }
 
 
@@ -72,7 +78,6 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 	if args.Ver <= kv.clientMap[args.Id] {
 		Log(dInfo, "error: args.Ver=%v,kv.clientMap[%v]=%v, olDdataMap[%v]=%v", args.Ver, args.Id, kv.clientMap[args.Id],args.Id, kv.olDdataMap[args.Id])
 		reply.Err = OK
-		reply.LeaderId = kv.rf.GetLeaderId()
 		reply.Value = kv.olDdataMap[args.Id]
 		kv.mu.Unlock()
 		return
@@ -83,39 +88,92 @@ func (kv *KVServer) Get(args *GetArgs, reply *GetReply) {
 	if !isLeader {
 		kv.mu.Unlock()
 		reply.Err = ErrWrongLeader
-		reply.LeaderId = kv.rf.GetLeaderId()
 		return
 	}
 
-	
-	ch := make(chan Op, 1)
+	ch := make(chan Res, 1)
 	kv.waitCh[index] = ch
 	kv.mu.Unlock()
 
-	// 设置超时时间 2 秒
-    timeout := time.After(2 * time.Second)
+
+	// 设置超时时间 1 秒
+    timeout := time.After(1 * time.Second)
 
 	select {
-	case commitOp := <- ch:
-		if commitOp.ClientId == op.ClientId && commitOp.Version == op.Version {
-			reply.LeaderId = kv.rf.GetLeaderId()
-			reply.Err = OK
+	case commitRes := <- ch:
+		Log(dLeader, "S%d: -res3=%v", kv.me, commitRes)
+		commitOp := commitRes.OP
+		if commitRes.ERROR == OK || commitRes.ERROR == ErrRepeatRequest{
 			
-			kv.mu.Lock()
-			reply.Value = kv.dataMap[args.Key]
-			kv.olDdataMap[args.Id] = kv.dataMap[args.Key]
-			kv.mu.Unlock()
-		} else {
-			reply.Err = ErrWrongLeader
+			if commitOp.ClientId == op.ClientId && commitOp.Version == op.Version {
+				reply.Err = OK
+				kv.mu.Lock()
+				reply.Value = commitRes.Value
+				kv.mu.Unlock()
+			} else {
+				// kv.mu.Lock()
+				// delete(kv.waitCh, index)
+				reply.Err = ErrWrongLeader
+				// kv.mu.Unlock()
+			}
+		} else if commitRes.ERROR == ErrNoKey {
+			reply.Err = ErrNoKey
+			reply.Value = ""
 		}
-	case <-timeout:
+	case <- timeout:
 		kv.mu.Lock()
-        delete(kv.waitCh, index)
-		reply.LeaderId = -1
-        kv.mu.Unlock()
-
+		delete(kv.waitCh, index)
+		kv.mu.Unlock()
 		reply.Err = ErrWrongLeader
 	}
+}
+
+func (kv *KVServer) putAndAppend(op * Op, reply *PutAppendReply) {
+	kv.mu.Lock()
+
+	if op.Version <= kv.clientMap[op.ClientId] {
+		kv.mu.Unlock()
+		reply.Err = OK
+		return
+	}
+	
+	index, _, isLeader := kv.rf.Start(*op)
+	
+	if !isLeader {
+		kv.mu.Unlock()
+		reply.Err = ErrWrongLeader
+		return
+	}
+	
+	ch := make(chan Res, 1)
+	kv.waitCh[index] = ch
+	// Log(dLeader, "S%v:kv.waitCh=%v", kv.me,kv.waitCh)
+	kv.mu.Unlock()
+
+	// 设置超时时间 1 秒
+    timeout := time.After(1 * time.Second)
+	select {
+	case commitRes := <- ch:
+		commitOp := commitRes.OP
+		if commitRes.ERROR == OK || commitRes.ERROR == ErrRepeatRequest {
+			if commitOp.ClientId == op.ClientId && commitOp.Version == op.Version {
+				reply.Err = OK
+			} else {
+				reply.Err = ErrWrongLeader
+			}
+		} else {
+			kv.mu.Lock()
+			delete(kv.waitCh, index)
+			reply.Err = ErrWrongLeader
+			kv.mu.Unlock()
+		}
+	case <- timeout:
+		kv.mu.Lock()
+		delete(kv.waitCh, index)
+		kv.mu.Unlock()
+		reply.Err = ErrWrongLeader
+	}
+
 }
 
 func (kv *KVServer) Put(args *PutAppendArgs, reply *PutAppendReply) {
@@ -126,51 +184,9 @@ func (kv *KVServer) Put(args *PutAppendArgs, reply *PutAppendReply) {
 		  ClientId: args.Id,
 		  Version: args.Ver,
 		}
-
-	kv.mu.Lock()
-
-	if args.Ver <= kv.clientMap[args.Id] {
-		kv.mu.Unlock()
-		reply.Err = OK
-		reply.LeaderId = kv.rf.GetLeaderId()
-		return
-	}
-	
-	index, _, isLeader := kv.rf.Start(op)
-	
-	if !isLeader {
-		kv.mu.Unlock()
-		reply.Err = ErrWrongLeader
-		reply.LeaderId = kv.rf.GetLeaderId()
-		return
-	}
-
-	
-	ch := make(chan Op, 1)
-	kv.waitCh[index] = ch
-
-	kv.mu.Unlock()
-
-	// 设置超时时间 2 秒
-    timeout := time.After(2 * time.Second)
-
-	select {
-	case commitOp := <- ch:
-		if commitOp.ClientId == op.ClientId && commitOp.Version == op.Version {
-			reply.LeaderId = kv.rf.GetLeaderId()
-			reply.Err = OK
-		} else {
-			reply.Err = ErrWrongLeader
-		}
-	case <-timeout:
-		kv.mu.Lock()
-        delete(kv.waitCh, index)
-		reply.LeaderId = -1
-        kv.mu.Unlock()
-
-		reply.Err = ErrWrongLeader
-	}
+	kv.putAndAppend(&op, reply)
 }
+
 
 func (kv *KVServer) Append(args *PutAppendArgs, reply *PutAppendReply) {
 	// Your code here.
@@ -180,50 +196,7 @@ func (kv *KVServer) Append(args *PutAppendArgs, reply *PutAppendReply) {
 		ClientId: args.Id,
 		Version: args.Ver,
 	  }
-	
-	kv.mu.Lock() 
-	if args.Ver <= kv.clientMap[args.Id] {
-		kv.mu.Unlock()
-		reply.Err = OK
-		reply.LeaderId = kv.rf.GetLeaderId()
-		return
-	}
-
-	index, _, isLeader := kv.rf.Start(op)
-
-	if !isLeader {
-		kv.mu.Unlock()
-		reply.Err = ErrWrongLeader
-		reply.LeaderId = kv.rf.GetLeaderId()
-		return
-	}
-
-	
-	ch := make(chan Op, 1)
-	kv.waitCh[index] = ch
-	kv.mu.Unlock()
-
-	// 设置超时时间 2 秒
-	timeout := time.After(2 * time.Second)
-
-	select {
-	case commitOp := <- ch:
-		if commitOp.ClientId == op.ClientId && commitOp.Version == op.Version {
-			reply.LeaderId = kv.rf.GetLeaderId()
-			reply.Err = OK
-		} else {
-			reply.Err = ErrWrongLeader
-		}
-	case <-timeout:
-		kv.mu.Lock()
-		delete(kv.waitCh, index)
-		reply.LeaderId = -1
-		kv.mu.Unlock()
-
-		
-		reply.Err = ErrWrongLeader
-	}
-	
+	kv.putAndAppend(&op, reply)
 }
 
 // the tester calls Kill() when a KVServer instance won't
@@ -250,36 +223,61 @@ func (kv *KVServer) applier() {
 		applyMsg := <- kv.applyCh
 		op := applyMsg.Command.(Op)
 		
-		kv.mu.Lock()
-		if kv.me == kv.rf.GetLeaderId() {
-			Log(dLeader, "S%d: op.Version = %v, kv.olDdataMap[%v]=%v", kv.me, op.Version, op.ClientId, kv.olDdataMap[op.ClientId])
-		}
-		if kv.clientMap[op.ClientId] < op.Version {
-			if op.OprateType == PUT {
-				kv.dataMap[op.Key] = op.Value
-			} else if op.OprateType == APPEND {
-				kv.dataMap[op.Key] = kv.dataMap[op.Key] + op.Value
+		if applyMsg.CommandValid {
+
+			res := Res{OP: op, Value: ""}
+			
+			kv.mu.Lock()
+			
+			
+			//屏蔽重复请求
+			if kv.clientMap[op.ClientId] < op.Version {
+				Log(dLeader, "S%d: commandIndex=%v,op=%v, applyMsg=%v,clientMap[%v]=%v", kv.me, applyMsg.CommandIndex,op, applyMsg,op.ClientId,kv.clientMap[op.ClientId])
+				
+				res.ERROR = OK
+				if op.OprateType == PUT {
+					kv.dataMap[op.Key] = op.Value
+				} else if op.OprateType == APPEND {
+					kv.dataMap[op.Key] = kv.dataMap[op.Key] + op.Value
+				} else {
+					value, exists := kv.dataMap[op.Key]
+					if exists {
+						kv.olDdataMap[op.ClientId] = value
+						res.Value = value
+					} else {
+						kv.olDdataMap[op.ClientId] = ""
+						res.ERROR = ErrNoKey
+					}
+				}
+				_, isleader := kv.rf.GetState()
+				if isleader {
+					Log(dLeader, "S%d: datdmap=%v", kv.me, kv.dataMap)
+					Log(dLeader, "S%d: -res=%v", kv.me, res)
+				}
+
+				// Log(dLeader, "S%d:kv.waitCh=%v", kv.me, kv.waitCh)
+
+				//执行该操作之后更新对应的版本号
+				kv.clientMap[op.ClientId] = kv.clientMap[op.ClientId] + 1
 			} else {
-				kv.olDdataMap[op.ClientId] = kv.dataMap[op.Key]
+				res.ERROR = ErrRepeatRequest
+				if op.OprateType != PUT && op.OprateType != APPEND {
+					res.Value = kv.olDdataMap[op.ClientId]
+				}
 			}
-
-			if kv.me == kv.rf.GetLeaderId() {
-				Log(dLeader, "S%d: map = %v, dataMap=%v", kv.me, kv.dataMap, kv.dataMap)
-			}
-
-			//执行该操作之后更新对应的版本号
-			kv.clientMap[op.ClientId] = kv.clientMap[op.ClientId] + 1
 
 			//放入日志Index对应的channel中
 			if ch, ok := kv.waitCh[applyMsg.CommandIndex]; ok {
-                ch <- op
-                delete(kv.waitCh, applyMsg.CommandIndex)
-            }
+				Log(dLeader, "S%d: -2res=%v", kv.me, res)
+				ch <- res
+				// Log(dSERVER, "S%d:delete kv.waitCh =%v", kv.me, kv.waitCh)
+				delete(kv.waitCh, applyMsg.CommandIndex)
+			}
+
+			kv.mu.Unlock()
 		}
-		kv.mu.Unlock()
 	}
 }
-
 
 
 // servers[] contains the ports of the set of
@@ -312,9 +310,11 @@ func StartKVServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persiste
 	kv.dataMap = make(map[string]string)
 	kv.clientMap = make(map[int64]int)
 	kv.olDdataMap = make(map[int64]string)
-	kv.waitCh = make(map[int]chan Op)
+	kv.waitCh = make(map[int]chan Res)
 
 	go kv.applier()
 
 	return kv
 }
+
+

@@ -3,7 +3,8 @@ package kvraft
 const (
 	OK             = "OK"
 	ErrNoKey       = "ErrNoKey"
-	ErrWrongLeader = "ErrWrongLeader"	
+	ErrWrongLeader = "ErrWrongLeader"
+	ErrRepeatRequest = "ErrRepeatRequest"
 )
 
 type Err string
@@ -35,5 +36,4 @@ type GetArgs struct {
 type GetReply struct {
 	Err   Err
 	Value string
-	LeaderId int
 }

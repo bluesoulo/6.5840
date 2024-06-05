@@ -97,7 +97,6 @@ type Raft struct {
 	lastIncludedIndex int
 	lastIncludedTerm int
 
-	leaderId int
 }
 
 const (
@@ -138,11 +137,6 @@ func (rf *Raft) GetState() (int, bool) {
 	return term, isleader
 }
 
-func (rf *Raft) GetLeaderId() int {
-	rf.mu.Lock()
-	defer rf.mu.Unlock()
-	return rf.leaderId
-}
 
 func (rf *Raft) serializeState() []byte {
 	w := new(bytes.Buffer)
@@ -301,7 +295,6 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 
 	Log(dClient, "S%d:has install snapshot from S%d!", rf.me, args.LeaderId)
 
-	rf.leaderId = args.LeaderId
 	
 
 	trueLogIndex := args.LastIncludedIndex - rf.lastIncludedIndex
@@ -509,7 +502,7 @@ func (rf *Raft) appendFailInfoLocked(args *AppendEntriesArgs, reply *AppendEntri
 		reply.XLen = -1
 		// Log(dClient, "S%d: log conflict, args.PrevLogIndex=%d,XIndex=%d,XTerm=%d", rf.me,args.PrevLogIndex,reply.XIndex,reply.XTerm)
 	}
-	Log(dClient, "S%d: log conflict, args.PrevLogIndex=%d, reply=%d, log =%d", rf.me,args.PrevLogIndex,reply, rf.log)
+	Log(dClient, "S%d: log conflict, args.PrevLogIndex=%d, reply=%d, log =%d", rf.me,args.PrevLogIndex,reply)
 
 }
 
@@ -525,7 +518,7 @@ func (rf *Raft)applyLogFollowerLocked(args *AppendEntriesArgs) {
 		}
 		rf.commitIndex = commitIndex
 		rf.condApply.Signal()
-		Log(dClient, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex, rf.log)
+		Log(dClient, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex)
 	}
 }
 
@@ -556,7 +549,6 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	//重置随机选举时间
 	rf.resetElectionTimerLocked()
 	
-	rf.leaderId = args.LearderId
 
 
 	//处理消息时心跳的情况
@@ -595,7 +587,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		rf.nextIndex[rf.me] = logIndex + len(args.Entries)
 		reply.Success = true
 
-		Log(dClient, "S%d: receive logindex %d~%d, log=%d", rf.me, args.PrevLogIndex + 1, rf.nextIndex[rf.me] - 1, rf.log)
+		Log(dClient, "S%d: receive logindex %d~%d, log=%d", rf.me, args.PrevLogIndex + 1, rf.nextIndex[rf.me] - 1)
 		rf.applyLogFollowerLocked(args)
 	} else {
 	// Log(dClient, "S%d:args.PrevLogIndex=%d, XLen=%d", rf.me,args.PrevLogIndex, reply.XLen)
@@ -650,7 +642,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	rf.nextIndex[rf.me] = rf.nextIndex[rf.me] + 1
 	rf.matchIndex[rf.me] = rf.matchIndex[rf.me] + 1
 	
-	Log(dLeader, "S%d has saved a log entry. command = %d", rf.me, logItem.Command)
+	Log(dLeader, "S%d has saved a log entry. command = %v", rf.me, logItem.Command)
 	// Your code here (3B).
 
 	return index, term, isLeader
@@ -742,9 +734,9 @@ func (rf *Raft) sendLog2Server(server int) {
 			LeaderCommit: rf.commitIndex,
 		}
 		if len(entries) != 0 {
-			Log(dLeader, "S%d: send a entry to S%d, log index = %d, PrevLogIndex =%d, nextIndex=%d, log=%d", rf.me, server, nextSendIndex, args.PrevLogIndex, rf.nextIndex, rf.log)
+			Log(dLeader, "S%d: send a entry to S%d, log index = %d, PrevLogIndex =%d, nextIndex=%d, log=%d", rf.me, server, nextSendIndex, args.PrevLogIndex, rf.nextIndex)
 		} else {
-			Log(dLeader, "S%d: send a heartbeat to S%d, nextIndex=%d, log=%d.", rf.me, server, rf.nextIndex, rf.log)
+			Log(dLeader, "S%d: send a heartbeat to S%d, nextIndex=%d", rf.me, server, rf.nextIndex)
 		}
 		rf.mu.Unlock()
 
@@ -796,7 +788,7 @@ func (rf *Raft) sendLog2Server(server int) {
 		if len(entries) == 0 {
 			time.Sleep(100 * time.Millisecond)
 		} else {
-			time.Sleep(25 * time.Millisecond)
+			time.Sleep(20 * time.Millisecond)
 		}
 			
 	}
@@ -825,7 +817,7 @@ func (rf *Raft) dealHaveEntryLogLocked(server int, args *AppendEntriesArgs) {
 		//注意这里不选择index := args.PrevLogIndex + 1的原因
 		rf.commitIndex = targetIndex
 		rf.condApply.Signal()
-		Log(dLeader, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex, rf.log)
+		Log(dLeader, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex)
 	}
 }
 
@@ -877,7 +869,7 @@ func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) 
 
 			if *sumTickets > int(len(rf.peers) / 2) {
 
-				Log(dLeader, "S%d: S%d(%d tickets)will be a leader! log=%d", rf.me, rf.me, *sumTickets, rf.log)
+				Log(dLeader, "S%d: S%d(%d tickets)will be a leader! log=%d", rf.me, rf.me, *sumTickets)
 		
 				rf.serverState = Leader
 		
@@ -889,7 +881,6 @@ func (rf *Raft) requestVote(server int, args *RequestVoteArgs, sumTickets *int) 
 					rf.nextIndex[i] = rf.nextIndex[rf.me]
 
 				}
-				rf.leaderId = rf.me
 				
 				rf.matchIndex[rf.me] = rf.nextIndex[rf.me] - 1
 
@@ -942,7 +933,7 @@ func (rf *Raft) ticker() {
 		rf.mu.Lock()
 		if rf.serverState != Leader && time.Since(rf.heartbeatTime) > rf.electionTimeout {
 
-			Log(dClient,"S%d: S%d will be a candidate. log =%d", rf.me, rf.me, rf.log)
+			Log(dClient,"S%d: S%d will be a candidate. log =%d", rf.me, rf.me)
 			rf.serverState = Candidate
 			rf.currentTerm += 1
 			rf.votedFor = rf.me
@@ -1010,6 +1001,7 @@ func (rf *Raft) longerHeartBeater() {
 
 
 
+
 // the service or tester wants to create a Raft server. the ports
 // of all the Raft servers (including this one) are in peers[]. this
 // server's port is peers[me]. all the servers' peers[] arrays
@@ -1039,7 +1031,6 @@ func Make(peers []*labrpc.ClientEnd, me int,
 
 	rf.lastIncludedIndex = 0
 	rf.lastIncludedTerm = 0
-	rf.leaderId = -1
 
 	rf.resetElectionTimerLocked()
 	// Your initialization code here (3A, 3B, 3C).
