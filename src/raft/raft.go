@@ -203,6 +203,7 @@ func (rf *Raft) readPersist(data []byte) {
 		rf.lastIncludedTerm = lastIncludedTerm
 		rf.commitIndex = lastIncludedIndex
 		rf.lastApplied = lastIncludedIndex
+		Log(dInfo,"S%d: read Persist, rf.lastIncludedIndex=%v.",rf.me,rf.lastIncludedIndex)
 	}
 }
 
@@ -210,7 +211,7 @@ func (rf *Raft) readSnapshot(snapshot []byte) {
 	if snapshot == nil || len(snapshot) < 1 { // bootstrap without any state?
 		return
 	}
-	
+
 	rf.snapShot = snapshot
 	Log(dClient,"S%d: read snapshot.",rf.me)
 }
@@ -293,20 +294,20 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 		rf.serverState = Follower	
 	}
 
-	Log(dClient, "S%d:has install snapshot from S%d!", rf.me, args.LeaderId)
-
-	
 
 	trueLogIndex := args.LastIncludedIndex - rf.lastIncludedIndex
 	rf.lastIncludedIndex = args.LastIncludedIndex
 	rf.lastIncludedTerm = args.LastIncludedTerm
+
+	//在logIndex=0位置创建一个占位log
+	newLog := make([]LogItem, 1)
 	if trueLogIndex >= len(rf.log) || rf.log[trueLogIndex].Term != args.Term{
 		//情况1：快照会包含没有在接收者日志中存在的信息,Follower会丢弃掉所有的日志
-		newLog := make([]LogItem, 1)
 		rf.log = newLog
 	} else {
 		//情况2:接收到的快照是自己日志的前面部分（由于网络重传或者错误）,那么被快照包含的条目将会被全部删除，但是快照后面的条目仍然有效，必须保留。
 		rf.log = rf.log[trueLogIndex+1:]
+		rf.log = append(newLog, rf.log...)
 	}
 
 	//应用snapshot到状态机
@@ -324,6 +325,8 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 
 	raftstate := rf.serializeState()
 	rf.persister.Save(raftstate, args.Snapshot)
+	
+	Log(dClient, "S%d:has install snapshot from S%d! rf.lastIncludedIndex=%v", rf.me, args.LeaderId, rf.lastIncludedIndex)
 
 }
 
@@ -466,6 +469,10 @@ func (rf *Raft) applier() {
 			rf.lastApplied += 1
 			lastAppliedRel := rf.convertIndexRelative(rf.lastApplied)
 
+			if lastAppliedRel >= len(rf.log) || lastAppliedRel <= 0{
+				Log(dError, "S%d:apply error! rf.lastIncludedIndex=%d, logindex=%v, lastApplied=%v", rf.me,rf.lastIncludedIndex,rf.nextIndex[rf.me], rf.lastApplied)
+			}
+			
 			applyMsg := ApplyMsg{CommandValid: true,
 				Command: rf.log[lastAppliedRel].Command,
 				CommandIndex: rf.lastApplied,}
@@ -549,12 +556,22 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 	//重置随机选举时间
 	rf.resetElectionTimerLocked()
 	
-
+	//解决bug：旧的请求到达后，cut log 使得已经提交的日志被cut
+	if args.PrevLogIndex < rf.commitIndex {
+		reply.Success = false
+		reply.XLen = rf.commitIndex + 1
+		return
+	}
 
 	//处理消息时心跳的情况
 	argsPrevLogIndexRel := rf.convertIndexRelative(args.PrevLogIndex)
 	argsPrevLogTerm := rf.lastIncludedTerm
-	if argsPrevLogIndexRel > 0 && argsPrevLogIndexRel < len(rf.log){
+	if argsPrevLogIndexRel < 0 {
+		//处理心跳落后于snapShot的情况
+		reply.Success=false
+		reply.XLen = rf.lastIncludedIndex + 1
+		return
+	} else if argsPrevLogIndexRel > 0 && argsPrevLogIndexRel < len(rf.log){
 		argsPrevLogTerm = rf.log[argsPrevLogIndexRel].Term
 	}
 
@@ -569,6 +586,7 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		return
 	}
 
+
 	//处理消息中包含日志的情况
 	if args.PrevLogIndex == 0 || (args.PrevLogIndex < rf.nextIndex[rf.me] && argsPrevLogTerm == args.PrevLogTerm)  {
 		// Log(dClient,"S%d: receive a entry from S%d. PrevLogIndex=%d PrevLogTerm=%d, args.Term = %d", rf.me, args.LearderId, args.PrevLogIndex ,rf.log[args.PrevLogIndex].Term, args.Term)
@@ -578,16 +596,13 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		//首先需要清除旧的日志，然后将Leader的新日志逐条添加上
 		rf.log = rf.log[:logIndexRel]
 
-		for i := 0; i < len(args.Entries); i++ {
-			
-			rf.log = append(rf.log, args.Entries[i])
-			// Log(dClient, "S%d: receive logindex=%d", rf.me, logIndex + i)
-		}
+		rf.log = append(rf.log, args.Entries...)
+
 		rf.persist()
 		rf.nextIndex[rf.me] = logIndex + len(args.Entries)
 		reply.Success = true
 
-		Log(dClient, "S%d: receive logindex %d~%d, log=%d", rf.me, args.PrevLogIndex + 1, rf.nextIndex[rf.me] - 1)
+		Log(dClient, "S%d: receive logindex %d~%d from S%d, len(log)=%d", rf.me, args.PrevLogIndex + 1, rf.nextIndex[rf.me] - 1,args.LearderId, len(rf.log))
 		rf.applyLogFollowerLocked(args)
 	} else {
 	// Log(dClient, "S%d:args.PrevLogIndex=%d, XLen=%d", rf.me,args.PrevLogIndex, reply.XLen)
@@ -642,7 +657,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	rf.nextIndex[rf.me] = rf.nextIndex[rf.me] + 1
 	rf.matchIndex[rf.me] = rf.matchIndex[rf.me] + 1
 	
-	Log(dLeader, "S%d has saved a log entry. command = %v", rf.me, logItem.Command)
+	Log(dLeader, "S%d has saved a log entry. index=%d", rf.me, rf.nextIndex[rf.me] - 1)
 	// Your code here (3B).
 
 	return index, term, isLeader
@@ -684,15 +699,14 @@ func (rf *Raft) sendLog2Server(server int) {
 										LastIncludedTerm: rf.lastIncludedTerm,
 										Snapshot: snapshot}
 			reply := InstallSnapshotReply{}
-		
+			Log(dLeader, "S%d: S%d need to install snapshot! rf.lastIncludedIndex=%d,nextSendIndex=%d", rf.me, server,rf.lastIncludedIndex,nextSendIndex)
 			rf.mu.Unlock()
 			go func(){
-				Log(dLeader, "S%d: S%d need to install snapshot!", rf.me, server)
 				ok := rf.sendInstallSnapshot(server, &args, &reply)
 				
 				rf.mu.Lock()
 				defer rf.mu.Unlock()
-				
+
 				if ok && reply.Success{
 										
 					if rf.contextLostLocked(Leader, args.Term) {
@@ -754,7 +768,7 @@ func (rf *Raft) sendLog2Server(server int) {
 			}
 			
 			if ok {
-				// Log(dLeader, "S%d: receive a reply from %d. args.PrevLogIndex=%d, reply=%d", rf.me, server, args.PrevLogIndex, reply)
+				Log(dLeader, "S%d: receive a reply from S%d. args.PrevLogIndex=%d, reply=%v", rf.me, server, args.PrevLogIndex, reply)
 				if reply.Term > rf.currentTerm {
 					rf.newTermLocked(reply.Term)
 					rf.mu.Unlock()
@@ -771,14 +785,27 @@ func (rf *Raft) sendLog2Server(server int) {
 						newLogIndex := args.PrevLogIndex
 						newLogIndexRel := rf.convertIndexRelative(newLogIndex)
 						xIndexRel := rf.convertIndexRelative(reply.XIndex)
-						for rf.log[newLogIndexRel].Term > reply.XTerm && newLogIndexRel > xIndexRel {
-							newLogIndexRel--
-						}
-						if rf.log[newLogIndexRel].Term == reply.XTerm {
-							rf.nextIndex[server] = rf.convertIndexTrue(newLogIndexRel) + 1
-						} else {
+
+						//处理XIndex在Leader中信息已经不存在的异常的情况的
+						if xIndexRel <= 0 {
 							rf.nextIndex[server] = reply.XIndex
+						} else {
+							if xIndexRel < 0 || newLogIndexRel < 0{
+							Log(dLeader, "S%d:index error from %v!rf.lastIncludedIndex=%v,newLogIndexRel=%v,xIndexRel=%v, len(log)=%v",rf.me, server,rf.lastIncludedIndex, newLogIndexRel,xIndexRel, len(rf.log))
+							}
+							for rf.log[newLogIndexRel].Term > reply.XTerm && newLogIndexRel > xIndexRel {
+								newLogIndexRel--
+								if xIndexRel < 0 || newLogIndexRel < 0{
+									Log(dLeader, "S%d:index error from %v!rf.lastIncludedIndex=%v,newLogIndexRel=%v,xIndexRel=%v, len(log)=%v",rf.me, server,rf.lastIncludedIndex, newLogIndexRel,xIndexRel, len(rf.log))
+								}
+							}
+							if rf.log[newLogIndexRel].Term == reply.XTerm {
+								rf.nextIndex[server] = rf.convertIndexTrue(newLogIndexRel) + 1
+							} else {
+								rf.nextIndex[server] = reply.XIndex
+							}
 						}
+						
 					}
 				}
 
