@@ -234,9 +234,6 @@ func (kv *KVServer) killed() bool {
 func (kv *KVServer) applier() {
 	for kv.killed() == false {
 		applyMsg := <- kv.applyCh
-		// if applyMsg.Command == nil {
-		// 	Log(dError, "S%d: apply error! applyMsg=%v", kv.me, applyMsg)
-		// }
 		
 		if applyMsg.CommandValid {
 			op := applyMsg.Command.(Op)
@@ -412,7 +409,7 @@ func (kv *KVServer) detecter(){
 			//这里不能直接使用lastAppliedIndex，因为我们最终并不是切割了lastAppliedIndex - lastIncludedIndex
 			kv.rf.Snapshot(lastIncludedIndex + logIndex, w.Bytes())
 		}
-		time.Sleep(250 * time.Millisecond)
+		time.Sleep(200 * time.Millisecond)
 	}
 }
 

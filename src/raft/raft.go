@@ -62,6 +62,10 @@ const (
 	Leader
 )
 
+const (
+	HeartBeatTimeOut = 101
+)
+
 // A Go object implementing a single Raft peer.
 type Raft struct {
 	mu        sync.Mutex          // Lock to protect shared access to this peer's state
@@ -97,6 +101,8 @@ type Raft struct {
 	lastIncludedIndex int
 	lastIncludedTerm int
 
+	heartTimers []*time.Timer
+
 }
 
 const (
@@ -105,6 +111,10 @@ const (
 
 	replicateInterval time.Duration = 250 * time.Millisecond
 )
+
+func (rf *Raft) resetHeartTimer(server int, timeStamp int) {
+	rf.heartTimers[server].Reset(time.Duration(timeStamp) * time.Millisecond)
+}
 
 
 func (rf *Raft) resetElectionTimerLocked() {
@@ -147,6 +157,7 @@ func (rf *Raft) serializeState() []byte {
 	e.Encode(rf.lastIncludedTerm)
 	e.Encode(rf.log)
 	return w.Bytes()
+
 }
 
 // save Raft's persistent state to stable storage,
@@ -170,7 +181,9 @@ func (rf *Raft) persist() {
 	// rf.persister.Save(raftstate, nil)
 
 	raftstate := rf.serializeState()
+	// Log(dInfo,"S%d: write Persist, rf.lastIncludedIndex=%v. len(log)=%d",rf.me,rf.lastIncludedIndex,len(rf.log))
 	rf.persister.Save(raftstate, rf.snapShot)
+	// Log(dInfo,"S%d: write snapshot. snapsize=%d", rf.me, len(rf.snapShot))
 }
 
 
@@ -213,7 +226,7 @@ func (rf *Raft) readSnapshot(snapshot []byte) {
 	}
 
 	rf.snapShot = snapshot
-	Log(dClient,"S%d: read snapshot.",rf.me)
+	Log(dInfo,"S%d: read snapshot. snapsize=%d", rf.me, len(snapshot))
 }
 
 
@@ -240,7 +253,7 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 		raftstate := rf.serializeState()
 		rf.persister.Save(raftstate, snapshot)
 		
-		Log(dClient, "S%d: has saved a snapshot, rf.lastIncludedIndex=%d, rf.lastIncludedTerm=%d", rf.me, rf.lastIncludedIndex, rf.lastIncludedTerm)
+		Log(dClient, "S%d: has saved a snapshot, rf.lastIncludedIndex=%d, snapsize=%d", rf.me, rf.lastIncludedIndex, len(snapshot))
 
 	}
 
@@ -575,6 +588,9 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		argsPrevLogTerm = rf.log[argsPrevLogIndexRel].Term
 	}
 
+	// Log(dClient,"S%d: S%d receive a heartbeate from S%d. log=%d", rf.me, rf.me, args.LearderId, rf.log)
+
+
 	if len(args.Entries) == 0 {
 		if args.PrevLogIndex == 0 || (args.PrevLogIndex < rf.nextIndex[rf.me] && argsPrevLogTerm == args.PrevLogTerm) {
 			reply.Success = true
@@ -593,16 +609,21 @@ func (rf *Raft) AppendEntries(args *AppendEntriesArgs, reply *AppendEntriesReply
 		
 		logIndex := args.PrevLogIndex + 1
 		logIndexRel := rf.convertIndexRelative(logIndex)
-		//首先需要清除旧的日志，然后将Leader的新日志逐条添加上
-		rf.log = rf.log[:logIndexRel]
 
-		rf.log = append(rf.log, args.Entries...)
+		endIndexRel := logIndexRel + len(args.Entries)
+		//2种情况需要作截断处理（针对请求不按序到达使得旧请求截断新完整的日志）：
+		//情况1：新增日志后的日志长度比当前长
+		//情况2: 新增日志后的日志长度比当前短，且末尾日志任期不同
+		if endIndexRel >= len(rf.log) || args.Entries[len(args.Entries)-1].Term != rf.log[endIndexRel].Term{
+			rf.log = rf.log[:logIndexRel]
+			rf.log = append(rf.log, args.Entries...)
+			rf.persist()
+			rf.nextIndex[rf.me] = logIndex + len(args.Entries)
+		}
 
-		rf.persist()
-		rf.nextIndex[rf.me] = logIndex + len(args.Entries)
 		reply.Success = true
 
-		Log(dClient, "S%d: receive logindex %d~%d from S%d, len(log)=%d", rf.me, args.PrevLogIndex + 1, rf.nextIndex[rf.me] - 1,args.LearderId, len(rf.log))
+		Log(dClient, "S%d: receive logindex %d~%d from S%d, len(log)=%d", rf.me, args.PrevLogIndex + 1, args.PrevLogIndex+ len(args.Entries), args.LearderId, len(rf.log))
 		rf.applyLogFollowerLocked(args)
 	} else {
 	// Log(dClient, "S%d:args.PrevLogIndex=%d, XLen=%d", rf.me,args.PrevLogIndex, reply.XLen)
@@ -658,7 +679,13 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	rf.matchIndex[rf.me] = rf.matchIndex[rf.me] + 1
 	
 	Log(dLeader, "S%d has saved a log entry. index=%d", rf.me, rf.nextIndex[rf.me] - 1)
-	// Your code here (3B).
+
+	//每当有新日志到来时加速发送心跳
+	defer func() {
+		for i := 0; i < len(rf.heartTimers); i++ {
+			rf.resetHeartTimer(i, 1)
+		}
+	}()
 
 	return index, term, isLeader
 }
@@ -683,6 +710,8 @@ func (rf *Raft) convertIndexTrue(index int) int {
 func (rf *Raft) sendLog2Server(server int) {
 
 	for rf.killed() == false {
+
+		<- rf.heartTimers[server].C
 		
 		rf.mu.Lock()
 		if rf.serverState != Leader {
@@ -723,7 +752,8 @@ func (rf *Raft) sendLog2Server(server int) {
 				}
 			}()
 			
-			time.Sleep(100 * time.Millisecond)
+			
+			rf.resetHeartTimer(server, HeartBeatTimeOut)
 			continue
 		}
 
@@ -731,7 +761,16 @@ func (rf *Raft) sendLog2Server(server int) {
 		prevLogIndexTrue := nextSendIndex - 1
 		prevLogIndexRel := rf.convertIndexRelative(prevLogIndexTrue)
 		prevLogTerm := 0
-		if prevLogIndexRel > 0  {
+
+		if prevLogIndexRel >= len(rf.log) {
+			Log(dError, "S%d:C%d log index error!rf.lastIncludedIndex=%d,len(log)=%d,next=%v", rf.me,server,rf.lastIncludedIndex,len(rf.log),rf.nextIndex)
+			
+			// rf.mu.Unlock()
+			// rf.resetHeartTimer(server, HeartBeatTimeOut)
+			// continue
+		}
+
+		if prevLogIndexRel > 0 {
 			prevLogTerm = rf.log[prevLogIndexRel].Term
 		} else {
 			prevLogTerm = rf.lastIncludedTerm
@@ -748,7 +787,7 @@ func (rf *Raft) sendLog2Server(server int) {
 			LeaderCommit: rf.commitIndex,
 		}
 		if len(entries) != 0 {
-			Log(dLeader, "S%d: send a entry to S%d, log index = %d, PrevLogIndex =%d, nextIndex=%d, log=%d", rf.me, server, nextSendIndex, args.PrevLogIndex, rf.nextIndex)
+			Log(dLeader, "S%d: send a entry to S%d, log index = %d, PrevLogIndex =%d, nextIndex=%d, len(Entries)=%d", rf.me, server, nextSendIndex, args.PrevLogIndex, rf.nextIndex,len(args.Entries))
 		} else {
 			Log(dLeader, "S%d: send a heartbeat to S%d, nextIndex=%d", rf.me, server, rf.nextIndex)
 		}
@@ -812,11 +851,12 @@ func (rf *Raft) sendLog2Server(server int) {
 			}
 			rf.mu.Unlock()
 		}()
-		if len(entries) == 0 {
-			time.Sleep(100 * time.Millisecond)
-		} else {
-			time.Sleep(20 * time.Millisecond)
-		}
+		rf.resetHeartTimer(server, HeartBeatTimeOut)
+		// if len(entries) == 0 {
+		// 	time.Sleep(100 * time.Millisecond)
+		// } else {
+		// 	time.Sleep(20 * time.Millisecond)
+		// }
 			
 	}
 }
@@ -844,7 +884,7 @@ func (rf *Raft) dealHaveEntryLogLocked(server int, args *AppendEntriesArgs) {
 		//注意这里不选择index := args.PrevLogIndex + 1的原因
 		rf.commitIndex = targetIndex
 		rf.condApply.Signal()
-		Log(dLeader, "S%d: commitLogIndex=%d, log=%d", rf.me, rf.commitIndex)
+		Log(dLeader, "S%d: commitLogIndex=%d, match=%v, log=%d", rf.me, rf.commitIndex, rf.matchIndex)
 	}
 }
 
@@ -1058,6 +1098,11 @@ func Make(peers []*labrpc.ClientEnd, me int,
 
 	rf.lastIncludedIndex = 0
 	rf.lastIncludedTerm = 0
+	
+	rf.heartTimers = make([]*time.Timer, len(peers))
+	for i := 0; i < len(peers); i++ {
+		rf.heartTimers[i] = time.NewTimer(0)
+	}
 
 	rf.resetElectionTimerLocked()
 	// Your initialization code here (3A, 3B, 3C).
@@ -1075,5 +1120,6 @@ func Make(peers []*labrpc.ClientEnd, me int,
 
 	go rf.applier()
 
+	Log(dClient,"S%d:raft server restart!", rf.me)
 	return rf
 }

@@ -11,7 +11,7 @@ import (
 
 // Retrieve the verbosity level from an environment variable
 func getVerbosity() int {
-	v := os.Getenv("VERBOSE4")
+	v := os.Getenv("VERBOSE")
 	level := 0
 	if v != "" {
 		var err error
