@@ -1,0 +1,6 @@
+Test (5A): static shards ...
+  ... Passed
+Test (5A): rejection ...
+  ... Passed
+PASS
+ok  	6.5840/shardkv	7.144s

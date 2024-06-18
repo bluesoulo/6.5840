@@ -167,7 +167,7 @@ func leaveRebalance(shards [10]int, originGids []int, gids []int) [10] int {
 	//对回收的切片排序，以确保所有节点得到的cycleShards一致
 	sort.Ints(cycleShards)
 	
-	//将回收的shard重新分配
+	//重置rem到正确的数值
 	for id, _ := range(groupShardMap) {
 		//已经达到avg + 1个shards的group删除
 		if len(groupShardMap[id]) == avg + 1 {

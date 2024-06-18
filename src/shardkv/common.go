@@ -14,6 +14,7 @@ const (
 	ErrNoKey       = "ErrNoKey"
 	ErrWrongGroup  = "ErrWrongGroup"
 	ErrWrongLeader = "ErrWrongLeader"
+	ErrRepeatRequest = "ErrRepeatRequest"
 )
 
 type Err string
@@ -27,6 +28,9 @@ type PutAppendArgs struct {
 	// You'll have to add definitions here.
 	// Field names must start with capital letters,
 	// otherwise RPC will break.
+
+	Id int64  //为每一个client 设置一个随机id
+	Version int //请求的版本
 }
 
 type PutAppendReply struct {
@@ -36,6 +40,8 @@ type PutAppendReply struct {
 type GetArgs struct {
 	Key string
 	// You'll have to add definitions here.
+	Id int64  //为每一个client 设置一个随机id
+	Version int //请求的版本
 }
 
 type GetReply struct {
