@@ -476,7 +476,6 @@ func TestMulti(t *testing.T) {
 			t.Fatalf("Leader not found")
 		}
 		c := ck.Query(-1) // Config leader claims
-
 		cfg.ShutdownServer(leader)
 
 		attempts := 0
@@ -485,7 +484,6 @@ func TestMulti(t *testing.T) {
 				t.Fatalf("Leader not found")
 			}
 		}
-
 		c1 = ck.Query(-1)
 		check_same_config(t, c, c1)
 
