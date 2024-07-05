@@ -66,8 +66,9 @@ func MakeClerk(ctrlers []*labrpc.ClientEnd, make_end func(string) *labrpc.Client
 // keeps trying forever in the face of all other errors.
 // You will have to modify this function.
 func (ck *Clerk) Get(key string) string {
-	ck.version = ck.version + 1
-	args := GetArgs{Id:ck.id, Version: ck.version}
+	// ck.version = ck.version + 1
+	// args := GetArgs{Id:ck.id, Version: ck.version}
+	args := GetArgs{}
 	args.Key = key
 
 	for {

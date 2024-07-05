@@ -89,7 +89,8 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		return
 	}
 	// Your code here.
-	op := Op{OprateType:GET, Key:args.Key, ClientId: args.Id, Version: args.Version}
+	// op := Op{OprateType:GET, Key:args.Key, ClientId: args.Id, Version: args.Version}
+	op := Op{OprateType:GET, Key:args.Key, ClientId: nrand(), Version: 1}
 	kv.mu.Lock()
 
 	//检查到来的请求是否当前的group
@@ -99,12 +100,12 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		return
 	}
 
-	if args.Version <= kv.clientMap[args.Id] {
-		reply.Err = OK
-		reply.Value = kv.olDdataMap[args.Id]
-		kv.mu.Unlock()
-		return
-	}
+	// if args.Version <= kv.clientMap[args.Id] {
+	// 	reply.Err = OK
+	// 	reply.Value = kv.olDdataMap[args.Id]
+	// 	kv.mu.Unlock()
+	// 	return
+	// }
 	kv.mu.Unlock()
 
 	index, _, isLeader := kv.rf.Start(op)
@@ -121,7 +122,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 	timeout := time.After(1 * time.Second)
 	select {
 	case commitRes := <- ch:
-		// Log(dLeader, "S%d: -res3=%v", kv.me, commitRes)
+		Log(dLeader, "S%d: -res3=%v", kv.me, commitRes)
 		commitOp := commitRes.OP
 		if commitRes.ERROR == OK || commitRes.ERROR == ErrRepeatRequest{
 			
@@ -313,9 +314,9 @@ func (kv *ShardKV) performOpOnMachine(applyMsg raft.ApplyMsg) {
 			kv.clientMap[op.ClientId] = op.Version				
 		} else {
 			res.ERROR = ErrRepeatRequest
-			if op.OprateType == GET {
-				res.Value = kv.olDdataMap[op.ClientId]
-			}
+			// if op.OprateType == GET {
+			// 	res.Value = kv.olDdataMap[op.ClientId]
+			// }
 		}
 	}				
 	//放入日志Index对应的channel中
