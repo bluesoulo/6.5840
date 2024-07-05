@@ -1,6 +1,7 @@
 package shardctrler
 
 import (
+	// "github.com/sasha-s/go-deadlock"
 	"sort"
 	"sync"
 	"time"
@@ -13,6 +14,7 @@ import (
 
 type ShardCtrler struct {
 	mu      sync.Mutex
+	// mu deadlock.Mutex
 	me      int
 	rf      *raft.Raft
 	applyCh chan raft.ApplyMsg
@@ -240,28 +242,32 @@ func (sc *ShardCtrler) joinLocked(args *JoinOP) {
 
 
 func (sc *ShardCtrler) Join(args *JoinArgs, reply *JoinReply) {
+	_, isleader := sc.rf.GetState()
+	if !isleader {
+		reply.WrongLeader = true
+		return
+	}
+
 	op := Op{OprateType: JOINT, JoinOP: JoinOP{Servers: args.Servers},ClientId: args.ClientId, Version: args.Version}
 	// Your code here.
 	sc.mu.Lock()
-
 	if args.Version <= sc.clientMap[args.ClientId] {
 		sc.mu.Unlock()
 		reply.Err = OK
 		reply.WrongLeader = false
 		return
 	}
+	sc.mu.Unlock()
 
 	index, _, isLeader := sc.rf.Start(op)
-
 	if !isLeader {
-		sc.mu.Unlock()
 		reply.WrongLeader = true
 		return
 	}
 
+	sc.mu.Lock()
 	ch := make(chan Res, 1)
 	sc.waitCh[index] = ch
-
 	sc.mu.Unlock()
 
 	timeout := time.After(1 * time.Second)
@@ -320,18 +326,17 @@ func (sc *ShardCtrler) Leave(args *LeaveArgs, reply *LeaveReply) {
 		reply.WrongLeader = false
 		return
 	}
+	sc.mu.Unlock()
 
 	index, _, isLeader := sc.rf.Start(op)
-
 	if !isLeader {
-		sc.mu.Unlock()
 		reply.WrongLeader = true
 		return
 	}
 
+	sc.mu.Lock()
 	ch := make(chan Res, 1)
 	sc.waitCh[index] = ch
-
 	sc.mu.Unlock()
 
 	timeout := time.After(1 * time.Second)
@@ -383,18 +388,17 @@ func (sc *ShardCtrler) Move(args *MoveArgs, reply *MoveReply) {
 		reply.WrongLeader = false
 		return
 	}
+	sc.mu.Unlock()
 
 	index, _, isLeader := sc.rf.Start(op)
-
 	if !isLeader {
-		sc.mu.Unlock()
 		reply.WrongLeader = true
 		return
 	}
 
+	sc.mu.Lock()
 	ch := make(chan Res, 1)
 	sc.waitCh[index] = ch
-
 	sc.mu.Unlock()
 
 	timeout := time.After(1 * time.Second)
@@ -438,43 +442,50 @@ func (sc *ShardCtrler) queryLocked(args *QueryOp) Config{
 }
 
 func (sc *ShardCtrler) Query(args *QueryArgs, reply *QueryReply) {
-	// Your code here.
-	op := Op{OprateType: QUERY, QueryOp: QueryOp{Num: args.Num}, ClientId: args.ClientId, Version: args.Version}
-
+	_, isleader := sc.rf.GetState()
+	if !isleader {
+		reply.WrongLeader = true
+		return
+	}
+	
 	sc.mu.Lock()
-
-	if args.Version <= sc.clientMap[args.ClientId] {
-		sc.mu.Unlock()
-		reply.Config = sc.olDdataMap[args.ClientId]
+	//加速Query操作
+	//shardctrl仅仅执行append config操作，0 < args.Num < len(sc.configs)直接返回结果即可
+	if args.Num >= 0 && args.Num < len(sc.configs) {
+		reply.Config = sc.configs[args.Num]
 		reply.Err = OK
+		sc.mu.Unlock()
 		return
 	}
 
-	index, _, isLeader := sc.rf.Start(op)
-
-	if !isLeader {
+	if args.Version <= sc.clientMap[args.ClientId] {
+		reply.Config = sc.olDdataMap[args.ClientId]
 		sc.mu.Unlock()
+		reply.Err = OK
+		return
+	}
+	sc.mu.Unlock()
+
+	op := Op{OprateType: QUERY, QueryOp: QueryOp{Num: args.Num}, ClientId: args.ClientId, Version: args.Version}
+	index, _, isLeader := sc.rf.Start(op)
+	if !isLeader {
 		reply.WrongLeader = true
 		return
 	}
 
+	sc.mu.Lock()
 	ch := make(chan Res, 1)
 	sc.waitCh[index] = ch
-
 	sc.mu.Unlock()
 
 	timeout := time.After(1 * time.Second)
 	select {
 	case commitRes := <- ch:
-		// Log(dLeader, "S%d: -res3=%v", kv.me, commitRes)
 		commitOp := commitRes.OP
 		if commitRes.ERROR == OK || commitRes.ERROR == ErrRepeatRequest{
 			if commitOp.ClientId == args.ClientId && commitOp.Version == args.Version {
 				reply.Err = OK
-				sc.mu.Lock()
 				reply.Config = commitRes.config
-				// fmt.Printf("S%d:Query res,config=%v\n",sc.me, reply.Config)
-				sc.mu.Unlock()
 			} else {
 				reply.WrongLeader = true
 			}
@@ -511,7 +522,6 @@ func (sc *ShardCtrler) applier() {
 					sc.moveLocked(&op.MoveOP)
 				}
 				sc.clientMap[op.ClientId] = op.Version
-				Log(dLeader,"S%d:operate=%v, groups=%v",sc.me, op.OprateType,sc.configs[len(sc.configs)-1].Groups)
 			} else {
 				res.ERROR = ErrRepeatRequest
 				if op.OprateType == QUERY {

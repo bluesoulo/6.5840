@@ -48,3 +48,16 @@ type GetReply struct {
 	Err   Err
 	Value string
 }
+
+type PullShardArgs struct{
+	Shard int
+	ConfigNum int
+}
+
+type PullShardReply struct{
+	Shard       int
+	ConfigNum   int
+	Data map[string]string
+	ClientMap map[int64]int
+	Err Err
+}

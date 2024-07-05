@@ -1,6 +1,702 @@
-Test (5A): static shards ...
-  ... Passed
-Test (5A): rejection ...
-  ... Passed
-PASS
-ok  	6.5840/shardkv	7.144s
+Test (5B): unreliable 3...
+006922 *SERV S-101-1:pollNewConfig, num=1
+007209 *SERV S-100-2:pollNewConfig, num=1
+007772 *SERV S-102-0:pollNewConfig, num=1
+008026 *SERV S-100-2:pollNewConfig, num=1
+010100 *SERV S-100-2: op = 1, shard=8,kv.dataMap[0] = jwswW
+010868 *SERV S-100-1: op = 1, shard=8,kv.dataMap[0] = jwswW
+010872 *SERV S-100-2: op = 1, shard=9,kv.dataMap[1] = u7a_e
+011005 *SERV S-100-0: op = 1, shard=8,kv.dataMap[0] = jwswW
+011536 *SERV S-100-1: op = 1, shard=9,kv.dataMap[1] = u7a_e
+011541 *SERV S-100-2: op = 1, shard=0,kv.dataMap[2] = M6k2q
+011696 *SERV S-100-0: op = 1, shard=9,kv.dataMap[1] = u7a_e
+012591 *SERV S-100-0: op = 1, shard=0,kv.dataMap[2] = M6k2q
+012682 *SERV S-100-1: op = 1, shard=0,kv.dataMap[2] = M6k2q
+015062 *SERV S-100-2: op = 1, shard=1,kv.dataMap[3] = Zt5C2
+015979 *SERV S-100-0: op = 1, shard=1,kv.dataMap[3] = Zt5C2
+015984 *SERV S-100-2: op = 1, shard=2,kv.dataMap[4] = oBrUz
+016053 *SERV S-100-1: op = 1, shard=1,kv.dataMap[3] = Zt5C2
+016982 *SERV S-100-0: op = 1, shard=2,kv.dataMap[4] = oBrUz
+016985 *SERV S-100-2: op = 1, shard=3,kv.dataMap[5] = NW-ez
+016987 *SERV S-100-1: op = 1, shard=2,kv.dataMap[4] = oBrUz
+018073 *SERV S-100-0: op = 1, shard=3,kv.dataMap[5] = NW-ez
+018097 *SERV S-100-1: op = 1, shard=3,kv.dataMap[5] = NW-ez
+018192 *SERV S-100-2: op = 1, shard=4,kv.dataMap[6] = 37NLt
+019051 *SERV S-100-1: op = 1, shard=4,kv.dataMap[6] = 37NLt
+019169 *SERV S-100-0: op = 1, shard=4,kv.dataMap[6] = 37NLt
+020153 *SERV S-100-2: op = 1, shard=5,kv.dataMap[7] = JSCmt
+021010 *SERV S-100-1: op = 1, shard=5,kv.dataMap[7] = JSCmt
+021044 *SERV S-100-0: op = 1, shard=5,kv.dataMap[7] = JSCmt
+021168 *SERV S-100-2: op = 1, shard=6,kv.dataMap[8] = 3SIiO
+022392 *SERV S-100-0: op = 1, shard=6,kv.dataMap[8] = 3SIiO
+023407 *SERV S-100-1: op = 1, shard=6,kv.dataMap[8] = 3SIiO
+024640 *SERV S-100-2: op = 1, shard=7,kv.dataMap[9] = s3qzj
+025718 *SERV S-100-0: op = 1, shard=7,kv.dataMap[9] = s3qzj
+026519 *SERV S-100-1: op = 1, shard=7,kv.dataMap[9] = s3qzj
+026722 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = 37NLt
+026723 *SERV S-100-2: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_A
+026734 *SERV S-100-2: op = 0, shard=8,kv.dataMap[0] = jwswW
+026735 *SERV S-100-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_A
+026742 *SERV S-100-2: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avu
+026744 *SERV S-100-2: op = 0, shard=3,kv.dataMap[5] = NW-ez
+026864 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUz
+026899 *SERV S-101-1:pollNewConfig, num=2
+027068 *SERV S-100-1: op = 0, shard=4,kv.dataMap[6] = 37NLt
+027069 *SERV S-100-1: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_A
+027077 *SERV S-100-1: op = 0, shard=8,kv.dataMap[0] = jwswW
+027082 *SERV S-100-1: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_A
+027082 *SERV S-100-1: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avu
+027087 *SERV S-100-1: op = 0, shard=3,kv.dataMap[5] = NW-ez
+027088 *SERV S-100-1: op = 0, shard=2,kv.dataMap[4] = oBrUz
+027090 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = 37NLt
+027090 *SERV S-100-0: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_A
+027099 *SERV S-100-0: op = 0, shard=8,kv.dataMap[0] = jwswW
+027100 *SERV S-100-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_A
+027110 *SERV S-100-0: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avu
+027110 *SERV S-100-0: op = 0, shard=3,kv.dataMap[5] = NW-ez
+027120 *SERV S-100-0: op = 0, shard=2,kv.dataMap[4] = oBrUz
+027426 *SERV S-100-2:pollNewConfig, num=2
+027431 *SERV S-102-0:pollNewConfig, num=2
+027433 *SERV S-100-2: op = 0, shard=7,kv.dataMap[9] = s3qzj
+027434 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUz
+027692 *SERV S-100-1: op = 0, shard=7,kv.dataMap[9] = s3qzj
+027693 *SERV S-100-1: op = 0, shard=2,kv.dataMap[4] = oBrUz
+027696 *SERV S-100-2: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avuYNspl
+027705 *SERV S-100-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_A
+027706 *SERV S-100-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmv
+027724 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUz
+027725 *SERV S-100-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqH
+027743 *SERV S-100-0: op = 0, shard=7,kv.dataMap[9] = s3qzj
+027743 *SERV S-100-0: op = 0, shard=2,kv.dataMap[4] = oBrUz
+027747 *SERV S-100-2: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twO
+027747 *SERV S-100-2: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNspl
+027761 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqH
+028045 *SERV S-100-0: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avuYNspl
+028052 *SERV S-100-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_A
+028059 *SERV S-100-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmv
+028059 *SERV S-100-0: op = 0, shard=2,kv.dataMap[4] = oBrUz
+028078 *SERV S-100-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqH
+028078 *SERV S-100-0: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twO
+028079 *SERV S-100-0: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNspl
+028090 *SERV S-100-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqH
+028588 *SERV S-100-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twO
+028764 *SERV S-100-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twO
+028765 *SERV S-100-2: op = 1, shard=4,kv.dataMap[6] = a_7FK
+028766 *SERV S-100-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9
+028778 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2
+029603 *SERV S-101-1:update shardVliad, config.Num=1, shard=7,shardValid=map[7:true],pulldata=map[9:s3qzj]
+029657 *SERV S-101-0:update shardVliad, config.Num=1, shard=7,shardValid=map[7:true],pulldata=map[9:s3qzj]
+029660 *SERV S-101-1:update shardVliad, config.Num=1, shard=8,shardValid=map[7:true 8:true],pulldata=map[0:jwswW]
+029661 *SERV S-101-1:update shardVliad, config.Num=1, shard=9,shardValid=map[7:true 8:true 9:true],pulldata=map[1:u7a_e]
+029748 *SERV S-101-2:update shardVliad, config.Num=1, shard=7,shardValid=map[7:true],pulldata=map[9:s3qzj]
+029851 *SERV S-100-0: op = 1, shard=4,kv.dataMap[6] = a_7FK
+029852 *SERV S-100-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9
+029866 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2
+029998 *SERV S-101-0:update shardVliad, config.Num=1, shard=8,shardValid=map[7:true 8:true],pulldata=map[0:jwswW]
+029999 *SERV S-101-0:update shardVliad, config.Num=1, shard=9,shardValid=map[7:true 8:true 9:true],pulldata=map[1:u7a_e]
+030002 *SERV S-101-1:update shardVliad, config.Num=1, shard=5,shardValid=map[5:true 7:true 8:true 9:true],pulldata=map[7:JSCmt]
+030013 *SERV S-101-2:update shardVliad, config.Num=1, shard=8,shardValid=map[7:true 8:true],pulldata=map[0:jwswW]
+030014 *SERV S-101-2:update shardVliad, config.Num=1, shard=9,shardValid=map[7:true 8:true 9:true],pulldata=map[1:u7a_e]
+030196 *SERV S-101-0:update shardVliad, config.Num=1, shard=5,shardValid=map[5:true 7:true 8:true 9:true],pulldata=map[7:JSCmt]
+030337 *SERV S-101-2:update shardVliad, config.Num=1, shard=5,shardValid=map[5:true 7:true 8:true 9:true],pulldata=map[7:JSCmt]
+030340 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = JSCmt
+030500 *SERV S-101-2: op = 0, shard=5,kv.dataMap[7] = JSCmt
+030504 *SERV S-101-1: op = 0, shard=9,kv.dataMap[1] = u7a_e
+030512 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswW
+030574 *SERV S-101-2: op = 0, shard=9,kv.dataMap[1] = u7a_e
+030578 *SERV S-101-1: op = 0, shard=9,kv.dataMap[1] = u7a_e
+030589 *SERV S-101-2: op = 0, shard=8,kv.dataMap[0] = jwswW
+030648 *SERV S-101-2: op = 0, shard=9,kv.dataMap[1] = u7a_e
+030651 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswW
+030796 *SERV S-101-2: op = 0, shard=8,kv.dataMap[0] = jwswW
+030801 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = s3qzjdULi6
+030802 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+030945 *SERV S-101-2: op = 2, shard=7,kv.dataMap[9] = s3qzjdULi6
+030946 *SERV S-101-2: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+030949 *SERV S-101-1: op = 0, shard=9,kv.dataMap[1] = u7a_e
+031009 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+031010 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswW
+031080 *SERV S-101-2: op = 0, shard=9,kv.dataMap[1] = u7a_e
+031410 *SERV S-101-2: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+031411 *SERV S-101-2: op = 0, shard=8,kv.dataMap[0] = jwswW
+031480 *SERV S-101-1: op = 1, shard=5,kv.dataMap[7] = lusa8
+031481 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaA
+031494 *SERV S-101-1: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTt
+031723 *SERV S-101-0: op = 1, shard=5,kv.dataMap[7] = lusa8
+031724 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaA
+031732 *SERV S-101-0: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTt
+031840 *SERV S-100-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFc
+031841 *SERV S-100-2: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U
+031868 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2
+031869 *SERV S-100-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8
+031888 *SERV S-100-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U
+031993 *SERV S-100-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFc
+031993 *SERV S-100-0: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U
+031994 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2
+031995 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2
+032007 *SERV S-100-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8
+032008 *SERV S-100-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U
+032375 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2
+032414 *SERV S-101-1: op = 0, shard=9,kv.dataMap[1] = u7a_e
+032430 *SERV S-102-0:pollNewConfig, num=3
+032725 *SERV S-101-0: op = 0, shard=9,kv.dataMap[1] = u7a_e
+032730 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTt
+032731 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQ
+032739 *SERV S-101-1: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2
+033003 *SERV S-101-0: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTt
+033003 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQ
+033009 *SERV S-101-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2
+033264 *SERV S-100-2:pollNewConfig, num=3
+033271 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8
+033335 *SERV S-100-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8
+033338 *SERV S-100-2: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+033348 *SERV S-100-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+033542 *SERV S-100-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8
+034110 *SERV S-101-1:update shardVliad, config.Num=1, shard=6,shardValid=map[5:true 6:true 7:true 8:true 9:true],pulldata=map[8:3SIiO]
+034112 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+034376 *SERV S-100-0: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+034377 *SERV S-100-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+034521 *SERV S-100-1: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+034527 *SERV S-100-1: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+034695 *SERV S-102-0:update shardVliad, config.Num=2, shard=4,shardValid=map[4:true],pulldata=map[6:a_7FKmrOa2]
+034723 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+034723 *SERV S-100-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U
+034735 *SERV S-101-1:pollNewConfig, num=3
+034751 *SERV S-102-1:update shardVliad, config.Num=2, shard=4,shardValid=map[4:true],pulldata=map[6:a_7FKmrOa2]
+034755 *SERV S-101-0:update shardVliad, config.Num=1, shard=6,shardValid=map[5:true 6:true 7:true 8:true 9:true],pulldata=map[8:3SIiO]
+034757 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+034825 *SERV S-101-1: op = 1, shard=6,kv.dataMap[8] = UwYUd
+034924 *SERV S-102-2:update shardVliad, config.Num=2, shard=4,shardValid=map[4:true],pulldata=map[6:a_7FKmrOa2]
+035030 *SERV S-102-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2V
+035040 *SERV S-101-1: op = 1, shard=6,kv.dataMap[8] = sX6Yv
+035060 *SERV S-101-0: op = 1, shard=6,kv.dataMap[8] = UwYUd
+035481 *SERV S-100-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+035483 *SERV S-100-1: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U
+035484 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+035687 *SERV S-100-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+035690 *SERV S-100-2: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+035895 *SERV S-101-0: op = 1, shard=6,kv.dataMap[8] = sX6Yv
+035898 *SERV S-101-1: op = 0, shard=6,kv.dataMap[8] = sX6Yv
+035898 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+035982 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPV
+036012 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2V
+036043 *SERV S-102-1: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2V
+036043 *SERV S-102-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2V
+036047 *SERV S-102-0:update shardVliad, config.Num=2, shard=8,shardValid=map[4:true 8:true],pulldata=map[0:jwswWFjoTt]
+036310 *SERV S-101-0: op = 0, shard=6,kv.dataMap[8] = sX6Yv
+036310 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6
+036312 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPV
+036318 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPV
+036444 *SERV S-102-1:update shardVliad, config.Num=2, shard=8,shardValid=map[4:true 8:true],pulldata=map[0:jwswWFjoTt]
+036446 *SERV S-102-0:update shardVliad, config.Num=2, shard=9,shardValid=map[4:true 8:true 9:true],pulldata=map[1:u7a_eCvcO2]
+036978 *SERV S-100-1: op = 2, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+037193 *SERV S-102-1:update shardVliad, config.Num=2, shard=9,shardValid=map[4:true 8:true 9:true],pulldata=map[1:u7a_eCvcO2]
+037200 *SERV S-102-0: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFh
+037201 *SERV S-102-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoId
+037333 *SERV S-100-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+037334 *SERV S-100-2: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+037364 *SERV S-102-1: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFh
+037366 *SERV S-102-1: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoId
+037367 *SERV S-102-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+037375 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPV
+037379 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = s3qzjdULi6csB--
+037379 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCW
+037432 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCWPorp4
+037511 *SERV S-100-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+037511 *SERV S-100-0: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+037513 *SERV S-100-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+037590 *SERV S-100-1: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+037590 *SERV S-100-1: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+037762 *SERV S-102-0:pollNewConfig, num=4
+037765 *SERV S-100-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+037766 *SERV S-100-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+037774 *SERV S-102-1: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+037777 *SERV S-102-0: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ
+037811 *SERV S-100-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+037841 *SERV S-102-1: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ
+037870 *SERV S-100-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+037914 *SERV S-101-1:pollNewConfig, num=4
+038025 *SERV S-100-2:pollNewConfig, num=4
+038032 *SERV S-100-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9
+038042 *SERV S-101-0: op = 2, shard=7,kv.dataMap[9] = s3qzjdULi6csB--
+038043 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCW
+038046 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6csB--
+038059 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCWPorp4
+038061 *SERV S-102-2: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ
+038067 *SERV S-102-0: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ
+038200 *SERV S-100-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9
+038689 *SERV S-101-1:pollNewConfig, num=4
+038753 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6csB--
+039184 *SERV S-102-2: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ
+039296 *SERV S-102-0: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9
+039343 *SERV S-102-0:update shardVliad, config.Num=3, shard=2,shardValid=map[2:true 4:true 8:true 9:true],pulldata=map[4:oBrUzT_aqHkWUc9NyNZ8qzbmc]
+039552 *SERV S-102-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS
+039583 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+039647 *SERV S-102-1: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9
+039648 *SERV S-102-1:update shardVliad, config.Num=3, shard=2,shardValid=map[2:true 4:true 8:true 9:true],pulldata=map[4:oBrUzT_aqHkWUc9NyNZ8qzbmc]
+039702 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPV
+039947 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPV
+039949 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCWPorp4akrvn
+040202 *SERV S-102-1: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS
+040202 *SERV S-102-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+040203 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+040237 *SERV S-102-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS
+040248 *SERV S-102-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+040328 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCWPorp4akrvn
+040329 *SERV S-101-1:update shardVliad, config.Num=3, shard=0,shardValid=map[0:true 5:true 6:true 7:true],pulldata=map[2:M6k2q39J_Aq5twOlvQ6U6oIki]
+040330 *SERV S-101-1:update shardVliad, config.Num=3, shard=1,shardValid=map[0:true 1:true 5:true 6:true 7:true],pulldata=map[3:Zt5C2d_avuYNsplhwhiI]
+040335 *SERV S-101-2: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCWPorp4akrvn
+040351 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+040351 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCWPorp4akrvnx0yC2
+040403 *SERV S-102-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+040407 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+040408 *SERV S-102-0:update shardVliad, config.Num=3, shard=3,shardValid=map[2:true 3:true 4:true 8:true 9:true],pulldata=map[5:NW-ezTPSmvoZgFcbO6M9]
+040532 *SERV S-102-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+040700 *SERV S-101-0:update shardVliad, config.Num=3, shard=0,shardValid=map[0:true 5:true 6:true 7:true],pulldata=map[2:M6k2q39J_Aq5twOlvQ6U6oIki]
+040701 *SERV S-101-0:update shardVliad, config.Num=3, shard=1,shardValid=map[0:true 1:true 5:true 6:true 7:true],pulldata=map[3:Zt5C2d_avuYNsplhwhiI]
+040702 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+040706 *SERV S-101-1: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+040711 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sX6Yv7ftCWPorp4akrvnx0yC2
+040959 *SERV S-101-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+041455 *SERV S-102-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+041456 *SERV S-102-0: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7
+041456 *SERV S-102-1:update shardVliad, config.Num=3, shard=3,shardValid=map[2:true 3:true 4:true 8:true 9:true],pulldata=map[5:NW-ezTPSmvoZgFcbO6M9]
+041596 *SERV S-102-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+041597 *SERV S-102-2:update shardVliad, config.Num=3, shard=3,shardValid=map[2:true 3:true 4:true 8:true 9:true],pulldata=map[5:NW-ezTPSmvoZgFcbO6M9]
+041598 *SERV S-102-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3
+041748 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6csB--
+041827 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6csB--
+042113 *SERV S-101-1: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+042307 *SERV S-101-0: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+042309 *SERV S-101-1: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+042310 *SERV S-101-1: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+042364 *SERV S-101-1: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiIeHDQ6
+042621 *SERV S-102-2: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7
+042622 *SERV S-102-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3
+042623 *SERV S-102-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3
+042625 *SERV S-102-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3Dsyat
+042626 *SERV S-101-0: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+042627 *SERV S-101-0: op = 0, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiI
+042637 *SERV S-102-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-
+042640 *SERV S-101-0: op = 2, shard=1,kv.dataMap[3] = Zt5C2d_avuYNsplhwhiIeHDQ6
+042651 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+042864 *SERV S-102-1: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3
+042865 *SERV S-102-1: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3Dsyat
+042872 *SERV S-102-1: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-
+042872 *SERV S-102-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+042918 *SERV S-101-1: op = 1, shard=1,kv.dataMap[3] = iS3pP
+042919 *SERV S-101-1: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+043052 *SERV S-101-0: op = 1, shard=1,kv.dataMap[3] = iS3pP
+043054 *SERV S-101-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+043055 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+043056 *SERV S-101-1: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+043436 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+043437 *SERV S-101-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+043665 *SERV S-101-1:pollNewConfig, num=5
+043672 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = s3qzjdULi6csB--2xi2Z
+043774 *SERV S-102-0:pollNewConfig, num=5
+043781 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+043822 *SERV S-101-0: op = 2, shard=7,kv.dataMap[9] = s3qzjdULi6csB--2xi2Z
+043952 *SERV S-102-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+043956 *SERV S-102-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+043973 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0gh
+043974 *SERV S-102-0: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-
+043990 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+044007 *SERV S-102-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdm
+044340 *SERV S-102-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmc
+044347 *SERV S-102-1: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0gh
+044348 *SERV S-102-1: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-
+044368 *SERV S-102-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc
+044369 *SERV S-102-1: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdm
+045004 *SERV S-102-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX
+045107 *SERV S-100-2:pollNewConfig, num=5
+045174 *SERV S-102-0:update shardVliad, config.Num=4, shard=0,shardValid=map[0:true 2:true 3:true 4:true 8:true 9:true],pulldata=map[2:M6k2q39J_Aq5twOlvQ6U6oIki]
+045176 *SERV S-102-0:update shardVliad, config.Num=4, shard=1,shardValid=map[0:true 1:true 2:true 3:true 4:true 8:true 9:true],pulldata=map[3:iS3pP]
+045176 *SERV S-102-1: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX
+045189 *SERV S-102-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdm
+045202 *SERV S-102-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd
+045255 *SERV S-102-1:update shardVliad, config.Num=4, shard=0,shardValid=map[0:true 2:true 3:true 4:true 8:true 9:true],pulldata=map[2:M6k2q39J_Aq5twOlvQ6U6oIki]
+045257 *SERV S-102-1:update shardVliad, config.Num=4, shard=1,shardValid=map[0:true 1:true 2:true 3:true 4:true 8:true 9:true],pulldata=map[3:iS3pP]
+045257 *SERV S-102-1: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdm
+045258 *SERV S-102-1: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd
+045266 *SERV S-102-0:update shardVliad, config.Num=4, shard=5,shardValid=map[0:true 1:true 2:true 3:true 4:true 5:true 8:true 9:true],pulldata=map[7:lusa8BfnaAEtVNQYerPVvp2Sj]
+046394 *SERV S-102-1:update shardVliad, config.Num=4, shard=7,shardValid=map[0:true 1:true 2:true 3:true 4:true 5:true 7:true 8:true 9:true],pulldata=map[9:s3qzjdULi6csB--2xi2Z]
+046396 *SERV S-102-1: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+046414 *SERV S-102-1: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-
+046466 *SERV S-102-0:update shardVliad, config.Num=4, shard=7,shardValid=map[0:true 1:true 2:true 3:true 4:true 5:true 7:true 8:true 9:true],pulldata=map[9:s3qzjdULi6csB--2xi2Z]
+046468 *SERV S-102-0: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+046478 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-
+046495 *SERV S-102-0:update shardVliad, config.Num=4, shard=6,shardValid=map[0:true 1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true],pulldata=map[8:sX6Yv7ftCWPorp4akrvnx0yC2]
+046645 *SERV S-102-2:update shardVliad, config.Num=4, shard=7,shardValid=map[0:true 1:true 2:true 3:true 4:true 5:true 7:true 8:true 9:true],pulldata=map[9:s3qzjdULi6csB--2xi2Z]
+046646 *SERV S-102-2: op = 0, shard=0,kv.dataMap[2] = M6k2q39J_Aq5twOlvQ6U6oIki
+046649 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK
+046650 *SERV S-102-0: op = 1, shard=6,kv.dataMap[8] = jiu7-
+046653 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-
+046654 *SERV S-102-2:update shardVliad, config.Num=4, shard=6,shardValid=map[0:true 1:true 2:true 3:true 4:true 5:true 6:true 7:true 8:true 9:true],pulldata=map[8:sX6Yv7ftCWPorp4akrvnx0yC2]
+046743 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK
+046744 *SERV S-102-2: op = 1, shard=6,kv.dataMap[8] = jiu7-
+046746 *SERV S-102-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0gh
+046747 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX
+046754 *SERV S-102-0: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7
+046755 *SERV S-102-0: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6csB--2xi2Z
+046773 *SERV S-102-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+046876 *SERV S-102-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0gh
+046877 *SERV S-102-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX
+046878 *SERV S-102-2: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7
+046879 *SERV S-102-0: op = 1, shard=0,kv.dataMap[2] = -cu9v
+046880 *SERV S-102-0: op = 1, shard=7,kv.dataMap[9] = Doaax
+046894 *SERV S-102-2: op = 0, shard=7,kv.dataMap[9] = s3qzjdULi6csB--2xi2Z
+046895 *SERV S-102-2: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+047023 *SERV S-102-2: op = 1, shard=0,kv.dataMap[2] = -cu9v
+047024 *SERV S-102-2: op = 1, shard=7,kv.dataMap[9] = Doaax
+048279 *SERV S-102-0: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u
+048399 *SERV S-102-2: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u
+048401 *SERV S-102-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+048402 *SERV S-102-0: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u
+048403 *SERV S-102-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0gh
+048455 *SERV S-102-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX
+048456 *SERV S-102-0: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK
+048553 *SERV S-102-0: op = 2, shard=7,kv.dataMap[9] = Doaax18sXE
+048554 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-Dnr
+048760 *SERV S-102-2: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+048760 *SERV S-102-2: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u
+048763 *SERV S-102-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+048771 *SERV S-102-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0gh
+048774 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1
+048775 *SERV S-102-0: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-
+048781 *SERV S-102-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX
+048788 *SERV S-102-2: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK
+048790 *SERV S-100-2:pollNewConfig, num=6
+048794 *SERV S-102-2: op = 2, shard=7,kv.dataMap[9] = Doaax18sXE
+048794 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-Dnr
+048848 *SERV S-101-1:pollNewConfig, num=6
+048852 *SERV S-102-0:pollNewConfig, num=6
+048970 *SERV S-102-2: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2Sj
+048971 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1
+048974 *SERV S-102-0: op = 0, shard=7,kv.dataMap[9] = Doaax18sXE
+048980 *SERV S-102-2: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-
+048986 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4Erh
+049126 *SERV S-102-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd
+049219 *SERV S-102-2: op = 0, shard=7,kv.dataMap[9] = Doaax18sXE
+049221 *SERV S-102-2: op = 2, shard=0,kv.dataMap[2] = -cu9vK4Erh
+049224 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jl
+049749 *SERV S-100-2:pollNewConfig, num=6
+050382 *SERV S-102-2: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd
+050382 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jl
+050640 *SERV S-100-2:pollNewConfig, num=7
+050902 *SERV S-102-0:pollNewConfig, num=7
+051113 *SERV S-101-2:update shardVliad, config.Num=5, shard=5,shardValid=map[5:true],pulldata=map[7:lusa8BfnaAEtVNQYerPVvp2Sj]
+052011 *SERV S-100-2:update shardVliad, config.Num=6, shard=3,shardValid=map[3:true],pulldata=map[5:NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd]
+052012 *SERV S-100-2:update shardVliad, config.Num=6, shard=4,shardValid=map[3:true 4:true],pulldata=map[6:a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX]
+052059 *SERV S-101-0:update shardVliad, config.Num=5, shard=5,shardValid=map[5:true],pulldata=map[7:lusa8BfnaAEtVNQYerPVvp2Sj]
+052060 *SERV S-101-0:update shardVliad, config.Num=5, shard=6,shardValid=map[5:true 6:true],pulldata=map[8:jiu7-]
+052110 *SERV S-101-2:update shardVliad, config.Num=5, shard=6,shardValid=map[5:true 6:true],pulldata=map[8:jiu7-]
+052302 *SERV S-100-1:update shardVliad, config.Num=6, shard=3,shardValid=map[3:true],pulldata=map[5:NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd]
+052302 *SERV S-100-1:update shardVliad, config.Num=6, shard=4,shardValid=map[3:true 4:true],pulldata=map[6:a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX]
+052305 *SERV S-100-2: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd
+052313 *SERV S-100-0:update shardVliad, config.Num=6, shard=3,shardValid=map[3:true],pulldata=map[5:NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd]
+052315 *SERV S-100-0:update shardVliad, config.Num=6, shard=4,shardValid=map[3:true 4:true],pulldata=map[6:a_7FKmrOa2QUl2VJVoIdkrpLc2P1lX]
+052750 *SERV S-100-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd
+052769 *SERV S-100-1: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-Zd
+053162 *SERV S-101-1:update shardVliad, config.Num=5, shard=5,shardValid=map[5:true],pulldata=map[7:lusa8BfnaAEtVNQYerPVvp2Sj]
+053163 *SERV S-101-1:update shardVliad, config.Num=5, shard=6,shardValid=map[5:true 6:true],pulldata=map[8:jiu7-]
+053174 *SERV S-101-1:update shardVliad, config.Num=5, shard=8,shardValid=map[5:true 6:true 8:true],pulldata=map[0:jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u]
+053257 *SERV S-101-0:update shardVliad, config.Num=5, shard=8,shardValid=map[5:true 6:true 8:true],pulldata=map[0:jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u]
+053300 *SERV S-101-2:update shardVliad, config.Num=5, shard=8,shardValid=map[5:true 6:true 8:true],pulldata=map[0:jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u]
+053311 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053325 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053326 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053341 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = jiu7-4eT2j
+053342 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = jiu7-4eT2jM8vmH
+053467 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053470 *SERV S-101-1:update shardVliad, config.Num=5, shard=9,shardValid=map[5:true 6:true 8:true 9:true],pulldata=map[1:u7a_eCvcO2i7FrS5zpm-]
+053472 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053472 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053490 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = jiu7-4eT2j
+053490 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = jiu7-4eT2jM8vmH
+053502 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw
+053569 *SERV S-101-0:update shardVliad, config.Num=5, shard=9,shardValid=map[5:true 6:true 8:true 9:true],pulldata=map[1:u7a_eCvcO2i7FrS5zpm-]
+053572 *SERV S-101-1: op = 1, shard=6,kv.dataMap[8] = sVQ9w
+053604 *SERV S-102-1: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw
+053605 *SERV S-102-0: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jl
+053606 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMn
+053638 *SERV S-101-2: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053648 *SERV S-101-2: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053649 *SERV S-101-2: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFn
+053671 *SERV S-101-2: op = 2, shard=6,kv.dataMap[8] = jiu7-4eT2j
+053672 *SERV S-101-2: op = 2, shard=6,kv.dataMap[8] = jiu7-4eT2jM8vmH
+053696 *SERV S-102-1: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jl
+053697 *SERV S-102-1: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMn
+053699 *SERV S-102-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMn
+053809 *SERV S-101-0: op = 1, shard=6,kv.dataMap[8] = sVQ9w
+054183 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3S
+054421 *SERV S-102-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMn
+054490 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3S
+054493 *SERV S-101-1:update shardVliad, config.Num=5, shard=7,shardValid=map[5:true 6:true 7:true 8:true 9:true],pulldata=map[9:Doaax18sXE]
+055548 *SERV S-102-0: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw
+055549 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh
+055566 *SERV S-101-0:update shardVliad, config.Num=5, shard=7,shardValid=map[5:true 6:true 7:true 8:true 9:true],pulldata=map[9:Doaax18sXE]
+055926 *SERV S-101-1:pollNewConfig, num=7
+056082 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = Doaax18sXEug0pp
+056093 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = Doaax18sXEug0pp
+056102 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+056441 *SERV S-101-2: op = 2, shard=7,kv.dataMap[9] = Doaax18sXEug0pp
+056445 *SERV S-102-1: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw
+056446 *SERV S-102-1: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh
+056449 *SERV S-101-0: op = 2, shard=7,kv.dataMap[9] = Doaax18sXEug0pp
+056460 *SERV S-101-2: op = 0, shard=7,kv.dataMap[9] = Doaax18sXEug0pp
+056461 *SERV S-101-2: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+056470 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = Doaax18sXEug0pp
+056471 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+056599 *SERV S-102-2: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw
+056600 *SERV S-102-2: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh
+056865 *SERV S-100-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3m
+057008 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = Doaax18sXEug0ppcCHFu
+057131 *SERV S-101-2: op = 2, shard=7,kv.dataMap[9] = Doaax18sXEug0ppcCHFu
+057135 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u
+057143 *SERV S-100-1: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3m
+057146 *SERV S-100-2:update shardVliad, config.Num=6, shard=9,shardValid=map[3:true 4:true 9:true],pulldata=map[1:u7a_eCvcO2i7FrS5zpm-]
+057147 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV8
+057249 *SERV S-101-2: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2u
+057252 *SERV S-101-1: op = 1, shard=7,kv.dataMap[9] = Vfvmp
+057377 *SERV S-101-0: op = 2, shard=7,kv.dataMap[9] = Doaax18sXEug0ppcCHFu
+057420 *SERV S-100-1:update shardVliad, config.Num=6, shard=9,shardValid=map[3:true 4:true 9:true],pulldata=map[1:u7a_eCvcO2i7FrS5zpm-]
+057421 *SERV S-100-1: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV8
+057804 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vns
+058504 *SERV S-101-2: op = 1, shard=7,kv.dataMap[9] = Vfvmp
+058876 *SERV S-100-1: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vns
+059145 *SERV S-100-2: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vns
+059152 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7P
+059169 *SERV S-101-1: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4
+059169 *SERV S-101-1: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+059392 *SERV S-100-1: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vns
+059393 *SERV S-100-1: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7P
+059397 *SERV S-100-0: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vns
+059398 *SERV S-100-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7P
+059403 *SERV S-100-2: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7P
+059409 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFX
+059426 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MU
+059510 *SERV S-101-2: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4
+059510 *SERV S-101-2: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+059826 *SERV S-100-0: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7P
+059827 *SERV S-100-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFX
+059836 *SERV S-100-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MU
+060091 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8
+060160 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8
+060162 *SERV S-100-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+060163 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8
+060248 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJq
+060249 *SERV S-101-1: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+060260 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = VfvmpJUTOq
+060429 *SERV S-100-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+060429 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8
+060434 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8
+060690 *SERV S-101-2: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJq
+060690 *SERV S-101-2: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+060718 *SERV S-101-2: op = 2, shard=7,kv.dataMap[9] = VfvmpJUTOq
+061324 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8
+061571 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+061655 *SERV S-101-2: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+061901 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9
+061902 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9K
+061910 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_
+061911 *SERV S-102-0: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_
+061931 *SERV S-102-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9K
+062105 *SERV S-102-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9
+062106 *SERV S-102-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9K
+062107 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_
+062107 *SERV S-102-2: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_
+062107 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvS
+062118 *SERV S-102-2: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9K
+062314 *SERV S-102-1: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9
+062315 *SERV S-102-1: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9K
+062316 *SERV S-102-1: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_
+062335 *SERV S-102-1: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_
+062336 *SERV S-102-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9K
+062418 *SERV S-102-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvS
+062603 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604
+063152 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604
+063178 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_
+063179 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_
+063185 *SERV S-100-2: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MU
+063257 *SERV S-101-1: op = 1, shard=7,kv.dataMap[9] = 3sPlc
+063258 *SERV S-101-1: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+063258 *SERV S-101-1: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+063305 *SERV S-101-0: op = 1, shard=7,kv.dataMap[9] = 3sPlc
+063305 *SERV S-101-0: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+063316 *SERV S-101-0: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVF
+063490 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_
+063491 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_
+063491 *SERV S-100-0: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MU
+063632 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1
+063633 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7X
+063938 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFD
+063959 *SERV S-102-2: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFD
+064064 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_
+064065 *SERV S-100-2: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+064079 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+064174 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4e
+064175 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUt
+064185 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc5
+064185 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjo
+064399 *SERV S-100-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_
+064401 *SERV S-100-1: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+064401 *SERV S-100-2: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+064418 *SERV S-100-1: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+064491 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4e
+064492 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUt
+064497 *SERV S-102-2: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc5
+064505 *SERV S-102-2: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjo
+064527 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_
+064527 *SERV S-100-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+064537 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+064700 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1
+064700 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7X
+064767 *SERV S-101-2: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1
+064767 *SERV S-101-2: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7X
+064804 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+064804 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+064810 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+064815 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVod
+064907 *SERV S-102-0: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjo
+064907 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-D
+065146 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+065147 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+065147 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+065150 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+065165 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVod
+065256 *SERV S-102-2: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjo
+065257 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-D
+065259 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81A
+065285 *SERV S-100-1: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+065287 *SERV S-100-2: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+065375 *SERV S-102-1: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjo
+065375 *SERV S-102-1: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-D
+065385 *SERV S-100-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+065461 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81A
+065618 *SERV S-100-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_A
+065997 *SERV S-102-0: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjo
+065997 *SERV S-100-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbM
+066175 *SERV S-100-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbM
+066178 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+066430 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+066487 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+066491 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+066743 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+067051 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+067053 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvL
+067072 *SERV S-101-1: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVod
+067073 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = 3sPlcKqDU0
+067245 *SERV S-100-2: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbMXWdPo
+067245 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkx
+067248 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81ALD11-
+067393 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+067394 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvL
+067395 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+067407 *SERV S-101-0: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVod
+067408 *SERV S-101-0: op = 2, shard=7,kv.dataMap[9] = 3sPlcKqDU0
+067436 *SERV S-101-2: op = 0, shard=7,kv.dataMap[9] = 3sPlc
+067437 *SERV S-101-2: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvL
+067437 *SERV S-101-2: op = 0, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVod
+067438 *SERV S-101-2: op = 2, shard=7,kv.dataMap[9] = 3sPlcKqDU0
+067456 *SERV S-100-0: op = 2, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbMXWdPo
+067456 *SERV S-100-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkx
+067460 *SERV S-100-2: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkx
+067462 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqoc
+067537 *SERV S-101-0: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+067539 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1
+067546 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzy
+067547 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0
+067592 *SERV S-102-1: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81ALD11-
+067630 *SERV S-102-2: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzy
+067631 *SERV S-102-2: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0
+067635 *SERV S-102-0: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81ALD11-W2p64
+067773 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqoc
+067850 *SERV S-102-1: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzy
+067851 *SERV S-102-1: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0
+068250 *SERV S-101-1: op = 1, shard=7,kv.dataMap[9] = ZtKaX
+068300 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1
+068301 *SERV S-101-0: op = 1, shard=7,kv.dataMap[9] = ZtKaX
+068302 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BI
+068430 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BI
+068433 *SERV S-101-1: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BIHNMo9
+068674 *SERV S-100-0: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkx
+068736 *SERV S-102-1: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81ALD11-W2p64
+068761 *SERV S-102-2: op = 2, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81ALD11-W2p64
+069246 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+069247 *SERV S-100-2: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkx
+069258 *SERV S-100-2: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbMXWdPo
+069258 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkxPjecC
+069272 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+069540 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+069541 *SERV S-100-0: op = 0, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkx
+069549 *SERV S-101-0: op = 2, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BIHNMo9
+069553 *SERV S-100-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbMXWdPo
+069554 *SERV S-100-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkxPjecC
+069566 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+070034 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgr
+070035 *SERV S-102-0: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgrZlBbp
+070047 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfx
+070143 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+070177 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T
+070180 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenD
+070260 *SERV S-102-1: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgr
+070261 *SERV S-102-1: op = 2, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgrZlBbp
+070263 *SERV S-102-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgrZlBbp
+070277 *SERV S-102-1: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfx
+070341 *SERV S-102-0: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfx
+070504 *SERV S-102-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgrZlBbp
+070505 *SERV S-102-1: op = 0, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfx
+070547 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenD
+070550 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0
+070743 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0
+070784 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = ZtKaXh1cGU
+071071 *SERV S-101-0: op = 2, shard=7,kv.dataMap[9] = ZtKaXh1cGU
+071075 *SERV S-101-1: op = 2, shard=7,kv.dataMap[9] = ZtKaXh1cGUxoQV2
+071076 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+071083 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+071242 *SERV S-102-0: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81ALD11-W2p64
+071469 *SERV S-102-1: op = 0, shard=1,kv.dataMap[3] = iS3pPqayi-3R4YK1-DnrURks1n24Jlp33C_Y3604QGt4ewLCUtApa-DcX81ALD11-W2p64
+071472 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfxnUK4J
+071473 *SERV S-102-0: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfxnUK4JvXBjO
+071877 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0
+071983 *SERV S-101-0: op = 2, shard=7,kv.dataMap[9] = ZtKaXh1cGUxoQV2
+071984 *SERV S-101-0: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+071988 *SERV S-101-1: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVkgMLRK
+071989 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVodkVjkW
+071994 *SERV S-101-0: op = 0, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVk
+072007 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BIHNMo9
+072442 *SERV S-102-1: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfxnUK4J
+072443 *SERV S-102-1: op = 2, shard=0,kv.dataMap[2] = -cu9vK4ErhctfOw8-Tvh4WoFDIgJjoMhYzyq1CO0J_kfxnUK4JvXBjO
+072517 *SERV S-101-0: op = 2, shard=8,kv.dataMap[0] = jwswWFjoTtEwoFhnR-YJ8PJW9B9pd7AMY2uY5ui4jdGVkgMLRK
+072518 *SERV S-101-0: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVodkVjkW
+072529 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BIHNMo9
+072613 *SERV S-102-0: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgrZlBbp
+072736 *SERV S-100-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0
+073281 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BIHNMo9
+073376 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = lusa8BfnaAEtVNQYerPVvp2SjSZZFntarJqt7UvLItqocQsPp1er2BIHNMo9
+073512 *SERV S-102-1: op = 0, shard=2,kv.dataMap[4] = oBrUzT_aqHkWUc9NyNZ8qzbmclc0ghFbYMnucZf9-lD9KjCCvSf_Kc55eLgrZlBbp
+073539 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0
+073585 *SERV S-100-2: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbMXWdPo
+073585 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPD
+073586 *SERV S-100-2: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPDQ8m7v
+073595 *SERV S-100-2: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPDQ8m7v
+073596 *SERV S-100-2: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkxPjecCwQG7R
+074335 *SERV S-101-1: op = 2, shard=6,kv.dataMap[8] = sVQ9wTyX3Sa5mVFmWFk1Maq7XnhVodkVjkWtYg8k
+074335 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = ZtKaXh1cGUxoQV2
+074599 *SERV S-100-0: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbMXWdPo
+074600 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPD
+074608 *SERV S-100-1: op = 0, shard=3,kv.dataMap[5] = NW-ezTPSmvoZgFcbO6M9zFpu3DsyatLEjdmZ5-ZdGsH3mhSH_ADuNbMXWdPo
+074609 *SERV S-100-1: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPD
+074610 *SERV S-100-0: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPDQ8m7v
+074611 *SERV S-100-0: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPDQ8m7v
+074620 *SERV S-100-1: op = 2, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPDQ8m7v
+074621 *SERV S-100-1: op = 0, shard=4,kv.dataMap[6] = a_7FKmrOa2QUl2VJVoIdkrpLc2P1lXngxO8ayHP_ibI5T8TenDv_Ks0w4IPDQ8m7v
+074623 *SERV S-100-0: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkxPjecCwQG7R
+074625 *SERV S-100-1: op = 2, shard=9,kv.dataMap[1] = u7a_eCvcO2i7FrS5zpm-dlgV891vnsWhK7PSLFFXD42MUpQQkxPjecCwQG7R
+info: wrote history visualization to /tmp/2426695524.html
+--- FAIL: TestUnreliable3_5B (7.50s)
+    test_test.go:804: history is not linearizable
+FAIL
+exit status 1
+FAIL	6.5840/shardkv	7.528s

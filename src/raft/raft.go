@@ -18,6 +18,7 @@ package raft
 //
 
 import (
+	"github.com/sasha-s/go-deadlock"
 	"bytes"
 	"math/rand"
 	"sort"
@@ -68,7 +69,8 @@ const (
 
 // A Go object implementing a single Raft peer.
 type Raft struct {
-	mu        sync.Mutex          // Lock to protect shared access to this peer's state
+	// mu        sync.Mutex          // Lock to protect shared access to this peer's state
+	mu deadlock.Mutex
 	peers     []*labrpc.ClientEnd // RPC end points of all peers
 	persister *Persister          // Object to hold this peer's persisted state
 	me        int                 // this peer's index into peers[]
@@ -253,7 +255,7 @@ func (rf *Raft) Snapshot(index int, snapshot []byte) {
 		raftstate := rf.serializeState()
 		rf.persister.Save(raftstate, snapshot)
 		
-		Log(dClient, "S%d: has saved a snapshot, rf.lastIncludedIndex=%d, snapsize=%d", rf.me, rf.lastIncludedIndex, len(snapshot))
+		Log(dClient, "S%d: has saved a snapshot, rf.lastIncludedIndex=%d, raftstate=%d", rf.me, rf.lastIncludedIndex, rf.persister.RaftStateSize())
 
 	}
 
@@ -290,7 +292,6 @@ func (rf *Raft) InstallSnapshot(args *InstallSnapshotArgs, reply *InstallSnapsho
 		return
 	}
 	
-	Log(dClient, "S%d:InstallSnapshot,args.Term=%d, rf.currentTerm=%d,args.LastIncludedIndex=%d,rf.lastIncludedIndex=%d.",rf.me, args.Term,rf.currentTerm,args.LastIncludedIndex,rf.lastIncludedIndex)
 	if args.Term < rf.currentTerm || args.LastIncludedIndex <= rf.lastIncludedIndex{	
 		return
 	}
@@ -678,7 +679,7 @@ func (rf *Raft) Start(command interface{}) (int, int, bool) {
 	rf.nextIndex[rf.me] = rf.nextIndex[rf.me] + 1
 	rf.matchIndex[rf.me] = rf.matchIndex[rf.me] + 1
 	
-	Log(dLeader, "S%d has saved a log entry. index=%d", rf.me, rf.nextIndex[rf.me] - 1)
+	Log(dLeader, "S%d has saved a log entry. index=%d, log=%v", rf.me, rf.nextIndex[rf.me] - 1, command)
 
 	//每当有新日志到来时加速发送心跳
 	defer func() {

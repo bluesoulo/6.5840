@@ -1,13 +1,17 @@
 package shardkv
 
+import (
+	// "github.com/sasha-s/go-deadlock"
+	"bytes"
+	"sync"
+	"sync/atomic"
+	"time"
 
-import "6.5840/labrpc"
-import "6.5840/raft"
-import "sync"
-import "6.5840/labgob"
-import "time"
-import "bytes"
-import "6.5840/shardctrler"
+	"6.5840/labgob"
+	"6.5840/labrpc"
+	"6.5840/raft"
+	"6.5840/shardctrler"
+)
 
 type OPType int
 const (
@@ -37,6 +41,7 @@ type Res struct {
 
 type ShardKV struct {
 	mu           sync.Mutex
+	// mu deadlock.Mutex
 	me           int
 	rf           *raft.Raft
 	applyCh      chan raft.ApplyMsg
@@ -59,18 +64,30 @@ type ShardKV struct {
     waitCh map[int]chan Res
 
 	persister *raft.Persister
-	//记录Raft中提交的日志，被应用到状态机的Log index
-	lastAppliedIndex int
+
+	dead      int32
+	//当前的config
+	curConfig shardctrler.Config
+	//分片的有效性
+	shardValid map[int]bool
+	//cfg num -> (shard -> db)
+	toOutShards map[int]map[int]map[string]string
+	//"shard->config number"
+	comeInShards    map[int]int     
 }
 
 func (kv *ShardKV) checkWroneShardLocked(key string) bool{
 	shard := key2shard(key)
-	config := kv.mck.Query(-1)
-	return config.Shards[shard] != kv.gid
+	return kv.curConfig.Num == 0 || kv.curConfig.Shards[shard] != kv.gid
 }
 
 
 func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
+	_, isleader := kv.rf.GetState()
+	if !isleader {
+		reply.Err = ErrWrongLeader
+		return
+	}
 	// Your code here.
 	op := Op{OprateType:GET, Key:args.Key, ClientId: args.Id, Version: args.Version}
 	kv.mu.Lock()
@@ -88,15 +105,15 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		kv.mu.Unlock()
 		return
 	}
+	kv.mu.Unlock()
 
 	index, _, isLeader := kv.rf.Start(op)
-
 	if !isLeader {
-		kv.mu.Unlock()
 		reply.Err = ErrWrongLeader
 		return
 	}
 
+	kv.mu.Lock()
 	ch := make(chan Res, 1)
 	kv.waitCh[index] = ch
 	kv.mu.Unlock()
@@ -110,16 +127,15 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 			
 			if commitOp.ClientId == op.ClientId && commitOp.Version == op.Version {
 				reply.Err = OK
-				kv.mu.Lock()
 				reply.Value = commitRes.Value
-				kv.mu.Unlock()
 			} else {
-
 				reply.Err = ErrWrongLeader
 			}
 		} else if commitRes.ERROR == ErrNoKey {
 			reply.Err = ErrNoKey
 			reply.Value = ""
+		} else if commitRes.ERROR == ErrWrongGroup {
+			reply.Err = ErrWrongGroup
 		}
 	case <- timeout:
 		kv.mu.Lock()
@@ -131,10 +147,20 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 }
 
 func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
+	_, isleader := kv.rf.GetState()
+	if !isleader {
+		reply.Err = ErrWrongLeader
+		return
+	}
 	// Your code here.
 	op := Op{Key:args.Key,Value: args.Value, ClientId: args.Id, Version: args.Version}
-	kv.mu.Lock()
+	if args.Op == "Put" {
+		op.OprateType = PUT
+	} else {
+		op.OprateType = APPEND
+	}
 
+	kv.mu.Lock()
 	//检查到来的请求是否当前的group
 	if kv.checkWroneShardLocked(args.Key) {
 		kv.mu.Unlock()
@@ -142,26 +168,21 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 		return
 	}
 
-	if args.Op == "Put" {
-		op.OprateType = PUT
-	} else {
-		op.OprateType = APPEND
-	}
-
 	if op.Version <= kv.clientMap[op.ClientId] {
 		kv.mu.Unlock()
 		reply.Err = OK
 		return
 	}
+	kv.mu.Unlock()
 
+	//写日志不要占用锁
 	index, _, isLeader := kv.rf.Start(op)
-
 	if !isLeader {
-		kv.mu.Unlock()
 		reply.Err = ErrWrongLeader
 		return
 	}
-
+	
+	kv.mu.Lock()
 	ch := make(chan Res, 1)
 	kv.waitCh[index] = ch
 	kv.mu.Unlock()
@@ -176,6 +197,8 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 			} else {
 				reply.Err = ErrWrongLeader
 			}
+		} else if commitRes.ERROR == ErrWrongGroup{
+			reply.Err = ErrWrongGroup
 		} else {
 			reply.Err = ErrWrongLeader
 		}
@@ -194,176 +217,297 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 func (kv *ShardKV) Kill() {
 	kv.rf.Kill()
 	// Your code here, if desired.
+	atomic.StoreInt32(&kv.dead, 1)
+}
+
+func (kv *ShardKV) killed() bool {
+	z := atomic.LoadInt32(&kv.dead)
+	return z == 1
+}
+
+func (kv *ShardKV) updateConfigChange(cfg shardctrler.Config) {
+	kv.mu.Lock()
+    defer kv.mu.Unlock()
+    if cfg.Num <= kv.curConfig.Num { //only consider newer config
+        return
+    }
+    oldCfg := kv.curConfig
+	toOutShard := kv.shardValid
+
+    kv.shardValid, kv.curConfig = make(map[int]bool), cfg
+    for shard, gid := range cfg.Shards {
+        if gid != kv.gid {continue}
+        if  toOutShard[shard] || oldCfg.Num == 0 {
+            kv.shardValid[shard] = true
+            delete(toOutShard, shard)
+        } else {
+            kv.comeInShards[shard] = oldCfg.Num
+        }
+    }
+    if len(toOutShard) > 0 { // prepare data that needed migration
+        kv.toOutShards[oldCfg.Num] = make(map[int]map[string]string)
+        for shard := range toOutShard {
+            outDb := make(map[string]string)
+            for k, v := range kv.dataMap {
+                if key2shard(k) == shard {
+                    outDb[k] = v
+                    delete(kv.dataMap, k)
+                }
+            }
+            kv.toOutShards[oldCfg.Num][shard] = outDb
+        }
+    }
 }
 
 
-func (kv *ShardKV) applier() {
-	for {
-		applyMsg := <- kv.applyCh
-		
-		if applyMsg.CommandValid {
-			op := applyMsg.Command.(Op)
-			res := Res{OP: op, Value: ""}
-			
-			kv.mu.Lock()
-			
-			//屏蔽重复请求
-			if kv.clientMap[op.ClientId] < op.Version {
-				res.ERROR = OK
-				if op.OprateType == PUT {
-					kv.dataMap[op.Key] = op.Value
-				} else if op.OprateType == APPEND {
-					kv.dataMap[op.Key] = kv.dataMap[op.Key] + op.Value
-				} else {
-					value, exists := kv.dataMap[op.Key]
-					if exists {
-						kv.olDdataMap[op.ClientId] = value
-						res.Value = value
-					} else {
-						kv.olDdataMap[op.ClientId] = ""
-						res.ERROR = ErrNoKey
-					}
-				}
+func (kv *ShardKV) updateMapAfterPullShard(reply PullShardReply) {
+	kv.mu.Lock()
+	defer kv.mu.Unlock()
+	if reply.ConfigNum != kv.curConfig.Num - 1 {
+		return
+	}
+	
+	delete(kv.comeInShards, reply.Shard)
 
-				//执行该操作之后更新对应的版本号
-				kv.clientMap[op.ClientId] = op.Version				
+	if _, ok := kv.shardValid[reply.Shard]; !ok{
+		for k, v := range(reply.Data) {
+			kv.dataMap[k] = v
+		}
+		for id, seq := range(reply.ClientMap) {
+			kv.clientMap[id] = max(seq, kv.clientMap[id])
+		}
+
+		kv.shardValid[reply.Shard] = true
+
+		Log(dSERVER, "S-%v-%d:update shardVliad, config.Num=%v, shard=%v,shardValid=%v,pulldata=%v", kv.gid,kv.me, reply.ConfigNum, reply.Shard, kv.shardValid,reply.Data)
+	}
+	
+}
+
+func (kv *ShardKV) performOpOnMachine(applyMsg raft.ApplyMsg) {
+	op := applyMsg.Command.(Op)
+	res := Res{OP: op, Value: ""}
+	kv.mu.Lock()
+	if !kv.shardValid[key2shard(op.Key)] {
+		res.ERROR = ErrWrongGroup
+	} else {
+		//屏蔽重复请求
+		if kv.clientMap[op.ClientId] < op.Version {
+			res.ERROR = OK
+			if op.OprateType == PUT {
+				kv.dataMap[op.Key] = op.Value
+			} else if op.OprateType == APPEND {
+				kv.dataMap[op.Key] = kv.dataMap[op.Key] + op.Value
 			} else {
-				res.ERROR = ErrRepeatRequest
-				if op.OprateType != PUT && op.OprateType != APPEND {
-					res.Value = kv.olDdataMap[op.ClientId]
+				value, exists := kv.dataMap[op.Key]
+				if exists {
+					kv.olDdataMap[op.ClientId] = value
+					res.Value = value
+				} else {
+					kv.olDdataMap[op.ClientId] = ""
+					res.ERROR = ErrNoKey
 				}
 			}
-			//状态机记录最大被应用的logIndex
-			kv.lastAppliedIndex = applyMsg.CommandIndex
-			//放入日志Index对应的channel中
-			// Log(dLeader, "S%d: -2res=%v, kv.waitCh[%d]=%v", kv.me, res,applyMsg.CommandIndex, kv.waitCh[applyMsg.CommandIndex])
-			if ch, ok := kv.waitCh[applyMsg.CommandIndex]; ok {
-				ch <- res
-				// Log(dSERVER, "S%d:delete kv.waitCh =%v", kv.me, kv.waitCh)
-				delete(kv.waitCh, applyMsg.CommandIndex)
+			Log(dSERVER, "S-%v-%d: op = %d, shard=%v,kv.dataMap[%v] = %v", kv.gid, kv.me, op.OprateType, key2shard(op.Key),op.Key, kv.dataMap[op.Key])
+			//执行该操作之后更新对应的版本号
+			kv.clientMap[op.ClientId] = op.Version				
+		} else {
+			res.ERROR = ErrRepeatRequest
+			if op.OprateType == GET {
+				res.Value = kv.olDdataMap[op.ClientId]
+			}
+		}
+	}				
+	//放入日志Index对应的channel中
+	if ch, ok := kv.waitCh[applyMsg.CommandIndex]; ok {
+		ch <- res
+		delete(kv.waitCh, applyMsg.CommandIndex)
+	}
+
+	kv.mu.Unlock()
+}
+
+func (kv *ShardKV) needSnapShot() bool {
+    kv.mu.Lock()
+    defer kv.mu.Unlock()
+    threshold := 10
+    return kv.maxraftstate > 0 &&
+        kv.maxraftstate - kv.persister.RaftStateSize() < kv.maxraftstate/threshold
+}
+
+func (kv *ShardKV) doSnapShot(index int) {
+	w := new(bytes.Buffer)
+	e := labgob.NewEncoder(w)
+	kv.mu.Lock()
+
+	e.Encode(kv.dataMap)
+	e.Encode(kv.clientMap)
+	e.Encode(kv.olDdataMap)
+	e.Encode(kv.toOutShards)
+	e.Encode(kv.comeInShards)
+	e.Encode(kv.shardValid)
+	e.Encode(kv.curConfig)
+	kv.mu.Unlock()
+
+	// Log(dInfo, "S-%v-%d: need do snapshot! index=%v, kv.RaftStateSize=%v", kv.gid, kv.me, index, kv.persister.RaftStateSize())
+	kv.rf.Snapshot(index, w.Bytes())
+}
+
+func (kv *ShardKV) applier() {
+	for kv.killed() == false {
+		applyMsg := <- kv.applyCh
+		if applyMsg.CommandValid {
+			if cfg, ok := applyMsg.Command.(shardctrler.Config); ok {
+				kv.updateConfigChange(cfg)
+			} else if reply, ok := applyMsg.Command.(PullShardReply); ok {
+				kv.updateMapAfterPullShard(reply)
+			} else {
+				kv.performOpOnMachine(applyMsg)
 			}
 
-			kv.mu.Unlock()
+			if kv.needSnapShot() {
+				go kv.doSnapShot(applyMsg.CommandIndex)
+			}
 		} else if applyMsg.SnapshotValid {
+			// Log(dInfo, "S-%v-%d: read snapshot! applyMsg.SnapshotIndex=%v", kv.gid, kv.me, applyMsg.SnapshotIndex)
 			//处理Follower InstallSnapshot的情况
-			dataMap, clientMap, olDdataMap := kv.readSnapshotData(applyMsg.Snapshot)
-			
-			kv.mu.Lock()
-			if dataMap != nil {				
-				kv.dataMap = dataMap
-				
-			}
-			if clientMap != nil {
-				kv.clientMap = clientMap
-			}
-			if olDdataMap != nil {
-				kv.olDdataMap = olDdataMap
-			}
-
-			kv.mu.Unlock()
+			kv.readSnapshotData(applyMsg.Snapshot)
 		}
 	}
 }
 
-func (kv *ShardKV) readSnapshotData(data[] byte) (map[string]string, map[int64]int, map[int64]string) {
-	if data == nil || len(data) < 1 { // bootstrap without any state?
-		return nil, nil, nil
-	}
-	r := bytes.NewBuffer(data)
-	d := labgob.NewDecoder(r)
+
+func (kv *ShardKV) readSnapshotData(data[] byte) {
+	
+	kv.mu.Lock()
+	defer kv.mu.Unlock()
 
 	var dataMap map[string]string
 	var clientMap map[int64]int
 	var olDdataMap map[int64]string
 
-	if d.Decode(&dataMap) != nil || d.Decode(&clientMap) != nil || d.Decode(&olDdataMap) != nil{
-		return nil, nil, nil
-	} else {
-		return dataMap, clientMap, olDdataMap
-	}
-}
-
-
-func (kv *ShardKV) readPersist(data []byte) ([]raft.LogItem, int){
+	var shardValid map[int]bool
+	var comeInShards map[int]int
+	var toOutShards map[int]map[int]map[string]string
+	curConfig := shardctrler.Config{}
 	if data == nil || len(data) < 1 { // bootstrap without any state?
-		return nil, -1
+		return 
 	}
 	r := bytes.NewBuffer(data)
 	d := labgob.NewDecoder(r)
-	var currentTerm int
-	var votedFor int
-	var log []raft.LogItem
-	var lastIncludedIndex int
-	var lastIncludedTerm int
-	
-	if d.Decode(&currentTerm) != nil ||
-	   d.Decode(&votedFor) != nil ||
-	   d.Decode(&lastIncludedIndex) != nil ||
-	   d.Decode(&lastIncludedTerm) != nil ||
-	   d.Decode(&log) != nil {
-		return nil, -1
+
+	if d.Decode(&dataMap) != nil || 
+	   d.Decode(&clientMap) != nil || 
+	   d.Decode(&olDdataMap) != nil ||
+	   d.Decode(&toOutShards) != nil ||
+	   d.Decode(&comeInShards) != nil ||
+	   d.Decode(&shardValid) != nil ||
+	   d.Decode(&curConfig) != nil {
+		Log(dError, "readSnapShot ERROR for server %v", kv.me)
 	} else {
-		return log, lastIncludedIndex
-	}
+		kv.dataMap = dataMap
+		kv.clientMap = clientMap
+		kv.olDdataMap = olDdataMap
+		kv.toOutShards = toOutShards
+		kv.comeInShards = comeInShards
+		kv.shardValid = shardValid
+		kv.curConfig = curConfig
+	} 
 }
 
 
-func (kv *ShardKV) detecter(){
-	for  {
-		if kv.maxraftstate > 0 && kv.persister.RaftStateSize() >= kv.maxraftstate {
-			raftState := kv.persister.ReadRaftState()
-			log, lastIncludedIndex := kv.readPersist(raftState)
 
-			dataMap, clientMap, olDdataMap := kv.readSnapshotData(kv.persister.ReadSnapshot())
-
-			if dataMap == nil {
-				dataMap = make(map[string]string)
-			}
-			if clientMap == nil {
-				clientMap = make(map[int64]int)
-			}
-			if olDdataMap == nil {
-				olDdataMap = make(map[int64]string)
-			}
-
-			kv.mu.Lock()
-			lastAppliedIndex := kv.lastAppliedIndex 
-			kv.mu.Unlock()
-
-
-			logIndex := lastAppliedIndex - lastIncludedIndex
-			//读取lastAppliedIndex需要上锁，可能在等待上锁的过程中lastAppliedIndex增大，使得出现了log不包含的元素
-			if logIndex >= len(log) {
-				logIndex = len(log) - 1
-			}
-
-			for i := 1; i <= logIndex; i++ {
-
-				op := log[i].Command.(Op)
-				
-				if clientMap[op.ClientId] < op.Version {
-					clientMap[op.ClientId] = op.Version
-					if op.OprateType == PUT {
-						dataMap[op.Key] = op.Value
-					} else if op.OprateType == APPEND {
-						dataMap[op.Key] = dataMap[op.Key] + op.Value
-					} else {
-						olDdataMap[op.ClientId] = dataMap[op.Key]
-					}
-				}
-
-			}
-			w := new(bytes.Buffer)
-			e := labgob.NewEncoder(w)
-			e.Encode(dataMap)
-			e.Encode(clientMap)
-			e.Encode(olDdataMap)
-
-			//这里不能直接使用lastAppliedIndex，因为我们最终并不是切割了lastAppliedIndex - lastIncludedIndex
-			kv.rf.Snapshot(lastIncludedIndex + logIndex, w.Bytes())
-		}
-		time.Sleep(200 * time.Millisecond)
+func (kv *ShardKV) PullShardData(args *PullShardArgs, reply *PullShardReply) {
+	
+	if _, isleader := kv.rf.GetState(); !isleader{
+		reply.Err = ErrWrongLeader
+		return
 	}
+
+	kv.mu.Lock()
+	defer kv.mu.Unlock()
+
+	if args.ConfigNum >= kv.curConfig.Num {
+		// Log(dSERVER, "S-%v-%d: 2-pull shard data, args.Num=%v, shard=%v,curConfig.Num=%v", kv.gid, kv.me, args.Num, args.Shard,kv.curConfig.Num)
+		reply.Err = ErrWrongGroup
+		return
+	}
+
+
+	data := make(map[string]string)
+	clientMap := make(map[int64]int)
+
+	for k, v := range(kv.toOutShards[args.ConfigNum][args.Shard]) {
+		data[k] = v
+	}
+
+	for k,v := range(kv.clientMap) {
+		clientMap[k] = v
+	}
+
+	reply.ConfigNum = args.ConfigNum
+	reply.Shard = args.Shard
+	reply.Data = data
+	reply.ClientMap = clientMap 
+	reply.Err = OK
+
+	// Log(dSERVER, "S-%v-%d: 2-pull shard data, oldNum=%v, shard=%v,data=%v", kv.gid, kv.me, reply.ConfigNum, reply.Shard, reply.Data)
+
+}
+
+func (kv *ShardKV) pollNewConfig() {
+	for kv.killed() == false {
+		_, isleader := kv.rf.GetState()
+		
+		kv.mu.Lock()
+		if isleader && len(kv.comeInShards) == 0 {
+			num := kv.curConfig.Num
+			config := kv.mck.Query(num + 1)
+
+			if config.Num == num + 1{
+				Log(dSERVER, "S-%v-%d:pollNewConfig, num=%v", kv.gid, kv.me, num+1)
+				kv.rf.Start(config)
+			}
+		} 
+		kv.mu.Unlock()
+		time.Sleep(50 * time.Millisecond)
+	}
+}
+
+func (kv *ShardKV) pollShardData() {
+	for kv.killed() == false {
+		_, isleader := kv.rf.GetState()
+		kv.mu.Lock()	
+		if isleader && len(kv.comeInShards) > 0 {
+			var wg sync.WaitGroup
+			for shard, num := range(kv.comeInShards) {
+				wg.Add(1)
+				conf := kv.mck.Query(num)
+				servers := conf.Groups[conf.Shards[shard]]
+				args := PullShardArgs{Shard: shard, ConfigNum: conf.Num}
+				// Log(dSERVER, "S-%v-%d:pull shard request, oldNum=%v, shard=%v", kv.gid, kv.me,num, shard)
+				go func (){
+					for _, server := range servers {
+						reply := PullShardReply{}
+						ck := kv.make_end(server)
+						success := ck.Call("ShardKV.PullShardData", &args, &reply)
+						if success && reply.Err == OK {
+							kv.rf.Start(reply)
+							break
+						}
+					}
+					wg.Done()
+				}()
+			}
+			//注意这里释放锁的时机
+			kv.mu.Unlock()
+			wg.Wait()
+		} else {
+			kv.mu.Unlock()
+		}
+		time.Sleep(35 * time.Millisecond)
+	}
+	
 }
 
 
@@ -397,6 +541,9 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	// call labgob.Register on structures you want
 	// Go's RPC library to marshall/unmarshall.
 	labgob.Register(Op{})
+	labgob.Register(shardctrler.Config{})
+	labgob.Register(PullShardArgs{})
+	labgob.Register(PullShardReply{})
 
 	kv := new(ShardKV)
 	kv.me = me
@@ -419,22 +566,16 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	kv.olDdataMap = make(map[int64]string)
 	kv.waitCh = make(map[int]chan Res)
 
+	kv.comeInShards = make(map[int]int)
+	kv.toOutShards = make(map[int]map[int]map[string]string)
+	kv.shardValid = make(map[int]bool)
+	
 	kv.persister = persister
-	kv.lastAppliedIndex = 0
-
-	dataMap, clientMap, olDdataMap := kv.readSnapshotData(persister.ReadSnapshot())
-	if dataMap != nil {
-		kv.dataMap = dataMap
-	}
-	if clientMap != nil {
-		kv.clientMap = clientMap
-	}
-	if olDdataMap != nil {
-		kv.olDdataMap = olDdataMap
-	}
+	kv.readSnapshotData(persister.ReadSnapshot())
 
 	go kv.applier()
-	go kv.detecter()
+	go kv.pollNewConfig()
+	go kv.pollShardData()
 
 	return kv
 }
