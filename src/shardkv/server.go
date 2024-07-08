@@ -6,6 +6,7 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+	"strconv"
 
 	"6.5840/labgob"
 	"6.5840/labrpc"
@@ -18,6 +19,7 @@ const (
 	GET OPType = iota
 	PUT 
 	APPEND
+	GC
 )
 
 type Op struct {
@@ -56,8 +58,6 @@ type ShardKV struct {
 	
 	//kv map
 	dataMap map[string]string
-	//保存某一个client 最后一次get的结果
-	olDdataMap map[int64]string
 	// client id 和 version 的映射
 	clientMap map[int64]int
 	// 跟踪客户端等待的请求结果
@@ -73,7 +73,9 @@ type ShardKV struct {
 	//cfg num -> (shard -> db)
 	toOutShards map[int]map[int]map[string]string
 	//"shard->config number"
-	comeInShards    map[int]int     
+	comeInShards    map[int]int
+	//cfg num -> (shard -> bool)
+	garbageShards map[int]map[int]bool
 }
 
 func (kv *ShardKV) checkWroneShardLocked(key string) bool{
@@ -100,12 +102,7 @@ func (kv *ShardKV) Get(args *GetArgs, reply *GetReply) {
 		return
 	}
 
-	// if args.Version <= kv.clientMap[args.Id] {
-	// 	reply.Err = OK
-	// 	reply.Value = kv.olDdataMap[args.Id]
-	// 	kv.mu.Unlock()
-	// 	return
-	// }
+
 	kv.mu.Unlock()
 
 	index, _, isLeader := kv.rf.Start(op)
@@ -211,6 +208,43 @@ func (kv *ShardKV) PutAppend(args *PutAppendArgs, reply *PutAppendReply) {
 	}
 }
 
+func (kv *ShardKV) garbageCollect(op Op) Err{
+	_, isleader := kv.rf.GetState()
+	if !isleader {
+		return ErrWrongLeader
+	}
+
+	index, _, isLeader := kv.rf.Start(op)
+	if !isLeader {
+		return ErrWrongLeader
+	}
+
+	kv.mu.Lock()
+	ch := make(chan Res, 1)
+	kv.waitCh[index] = ch
+	kv.mu.Unlock()
+
+	timeout := time.After(1 * time.Second)
+	select {
+	case commitRes := <- ch:
+		commitOp := commitRes.OP
+		if commitRes.ERROR == OK || commitRes.ERROR == ErrRepeatRequest {
+			if commitOp.ClientId == op.ClientId && commitOp.Version == op.Version {
+				return OK
+			} else {
+				return ErrWrongLeader
+			}
+		} else {
+			return ErrWrongLeader
+		}
+	case <- timeout:
+		kv.mu.Lock()
+		delete(kv.waitCh, index)
+		kv.mu.Unlock()
+		return  ErrWrongLeader
+	}
+}
+
 // the tester calls Kill() when a ShardKV instance won't
 // be needed again. you are not required to do anything
 // in Kill(), but it might be convenient to (for example)
@@ -248,14 +282,18 @@ func (kv *ShardKV) updateConfigChange(cfg shardctrler.Config) {
     if len(toOutShard) > 0 { // prepare data that needed migration
         kv.toOutShards[oldCfg.Num] = make(map[int]map[string]string)
         for shard := range toOutShard {
+			readyKeys := make([]string, 0)
             outDb := make(map[string]string)
             for k, v := range kv.dataMap {
                 if key2shard(k) == shard {
+					readyKeys = append(readyKeys, k)
                     outDb[k] = v
                     delete(kv.dataMap, k)
+					// Log(dSERVER, "S-%v-%d:delete old data, config.Num=%v, shard=%v,key=%v,value=%v", kv.gid,kv.me, oldCfg.Num, shard, k, v)
                 }
             }
             kv.toOutShards[oldCfg.Num][shard] = outDb
+			Log(dSERVER, "S-%v-%d: ready data, config.Num=%v, shard=%v,keys=%v", kv.gid,kv.me, oldCfg.Num, shard,readyKeys)
         }
     }
 }
@@ -280,45 +318,75 @@ func (kv *ShardKV) updateMapAfterPullShard(reply PullShardReply) {
 
 		kv.shardValid[reply.Shard] = true
 
-		Log(dSERVER, "S-%v-%d:update shardVliad, config.Num=%v, shard=%v,shardValid=%v,pulldata=%v", kv.gid,kv.me, reply.ConfigNum, reply.Shard, kv.shardValid,reply.Data)
+		if _, ok := kv.garbageShards[reply.ConfigNum]; !ok {
+			kv.garbageShards[reply.ConfigNum] = make(map[int]bool)
+		}
+		kv.garbageShards[reply.ConfigNum][reply.Shard] = true
 	}
-	
+	Log(dSERVER, "S-%v-%d:update data, config.Num=%v, shardValid=%v,shard=%v", kv.gid,kv.me, reply.ConfigNum, kv.shardValid,reply.Shard)
+}
+
+func (kv *ShardKV) getInfo2OutShards () map[int][]int{
+	configNums := make(map[int][]int)
+	for num,shards := range(kv.toOutShards) {
+		configNums[num] = make([]int, 0)
+		for shard := range(shards) {
+			if len(kv.toOutShards[num][shard]) > 0 {
+				configNums[num] = append(configNums[num], shard)
+			}
+		}
+	}
+	return configNums
+}
+
+func (kv *ShardKV) gcLocked(configNum int, shard int) {
+
+	if _, ok := kv.toOutShards[configNum]; ok {
+		delete(kv.toOutShards[configNum], shard)
+		if len(kv.toOutShards[configNum]) == 0 {
+			delete(kv.toOutShards, configNum)
+		}
+	}
+	// outShardsInfo := kv.getInfo2OutShards()
+	Log(dClient, "S-%v-%d: gc toOutShards configNum=%v, shard=%v", kv.gid,kv.me,configNum,shard,)
 }
 
 func (kv *ShardKV) performOpOnMachine(applyMsg raft.ApplyMsg) {
 	op := applyMsg.Command.(Op)
 	res := Res{OP: op, Value: ""}
+
 	kv.mu.Lock()
-	if !kv.shardValid[key2shard(op.Key)] {
-		res.ERROR = ErrWrongGroup
+	if op.OprateType == GC {
+		cfgNum,_ := strconv.Atoi(op.Key)
+		kv.gcLocked(cfgNum, op.Version)
 	} else {
-		//屏蔽重复请求
-		if kv.clientMap[op.ClientId] < op.Version {
-			res.ERROR = OK
-			if op.OprateType == PUT {
-				kv.dataMap[op.Key] = op.Value
-			} else if op.OprateType == APPEND {
-				kv.dataMap[op.Key] = kv.dataMap[op.Key] + op.Value
-			} else {
-				value, exists := kv.dataMap[op.Key]
-				if exists {
-					kv.olDdataMap[op.ClientId] = value
-					res.Value = value
-				} else {
-					kv.olDdataMap[op.ClientId] = ""
-					res.ERROR = ErrNoKey
-				}
-			}
-			Log(dSERVER, "S-%v-%d: op = %d, shard=%v,kv.dataMap[%v] = %v", kv.gid, kv.me, op.OprateType, key2shard(op.Key),op.Key, kv.dataMap[op.Key])
-			//执行该操作之后更新对应的版本号
-			kv.clientMap[op.ClientId] = op.Version				
+		if !kv.shardValid[key2shard(op.Key)] {
+			res.ERROR = ErrWrongGroup
 		} else {
-			res.ERROR = ErrRepeatRequest
-			// if op.OprateType == GET {
-			// 	res.Value = kv.olDdataMap[op.ClientId]
-			// }
+			//屏蔽重复请求
+			if kv.clientMap[op.ClientId] < op.Version {
+				res.ERROR = OK
+				if op.OprateType == PUT {
+					kv.dataMap[op.Key] = op.Value
+				} else if op.OprateType == APPEND {
+					kv.dataMap[op.Key] = kv.dataMap[op.Key] + op.Value
+				} else {
+					value, exists := kv.dataMap[op.Key]
+					if exists {
+						res.Value = value
+					} else {
+						res.ERROR = ErrNoKey
+					}
+				}
+				Log(dSERVER, "S-%v-%d: op = %d, shard=%v,kv.dataMap[%v] = %v", kv.gid, kv.me, op.OprateType, key2shard(op.Key),op.Key, kv.dataMap[op.Key])
+				//执行该操作之后更新对应的版本号
+				kv.clientMap[op.ClientId] = op.Version				
+			} else {
+				res.ERROR = ErrRepeatRequest
+			}
 		}
-	}				
+	}
+					
 	//放入日志Index对应的channel中
 	if ch, ok := kv.waitCh[applyMsg.CommandIndex]; ok {
 		ch <- res
@@ -343,10 +411,10 @@ func (kv *ShardKV) doSnapShot(index int) {
 
 	e.Encode(kv.dataMap)
 	e.Encode(kv.clientMap)
-	e.Encode(kv.olDdataMap)
 	e.Encode(kv.toOutShards)
 	e.Encode(kv.comeInShards)
 	e.Encode(kv.shardValid)
+	e.Encode(kv.garbageShards)
 	e.Encode(kv.curConfig)
 	kv.mu.Unlock()
 
@@ -385,11 +453,11 @@ func (kv *ShardKV) readSnapshotData(data[] byte) {
 
 	var dataMap map[string]string
 	var clientMap map[int64]int
-	var olDdataMap map[int64]string
 
 	var shardValid map[int]bool
 	var comeInShards map[int]int
 	var toOutShards map[int]map[int]map[string]string
+	var garbageShards map[int]map[int]bool
 	curConfig := shardctrler.Config{}
 	if data == nil || len(data) < 1 { // bootstrap without any state?
 		return 
@@ -399,19 +467,19 @@ func (kv *ShardKV) readSnapshotData(data[] byte) {
 
 	if d.Decode(&dataMap) != nil || 
 	   d.Decode(&clientMap) != nil || 
-	   d.Decode(&olDdataMap) != nil ||
 	   d.Decode(&toOutShards) != nil ||
 	   d.Decode(&comeInShards) != nil ||
 	   d.Decode(&shardValid) != nil ||
+	   d.Decode(&garbageShards) != nil ||
 	   d.Decode(&curConfig) != nil {
 		Log(dError, "readSnapShot ERROR for server %v", kv.me)
 	} else {
 		kv.dataMap = dataMap
 		kv.clientMap = clientMap
-		kv.olDdataMap = olDdataMap
 		kv.toOutShards = toOutShards
 		kv.comeInShards = comeInShards
 		kv.shardValid = shardValid
+		kv.garbageShards = garbageShards
 		kv.curConfig = curConfig
 	} 
 }
@@ -429,7 +497,6 @@ func (kv *ShardKV) PullShardData(args *PullShardArgs, reply *PullShardReply) {
 	defer kv.mu.Unlock()
 
 	if args.ConfigNum >= kv.curConfig.Num {
-		// Log(dSERVER, "S-%v-%d: 2-pull shard data, args.Num=%v, shard=%v,curConfig.Num=%v", kv.gid, kv.me, args.Num, args.Shard,kv.curConfig.Num)
 		reply.Err = ErrWrongGroup
 		return
 	}
@@ -452,8 +519,29 @@ func (kv *ShardKV) PullShardData(args *PullShardArgs, reply *PullShardReply) {
 	reply.ClientMap = clientMap 
 	reply.Err = OK
 
-	// Log(dSERVER, "S-%v-%d: 2-pull shard data, oldNum=%v, shard=%v,data=%v", kv.gid, kv.me, reply.ConfigNum, reply.Shard, reply.Data)
+	Log(dSERVER, "S-%v-%d: pull shard data, oldNum=%v, shard=%v", kv.gid, kv.me, reply.ConfigNum, reply.Shard)
+}
 
+func (kv *ShardKV) GarbageCollect(args *GarbageCollectArgs, reply *GarbageCollectReply) {
+	if _, isleader := kv.rf.GetState(); !isleader{
+		reply.Err = ErrWrongLeader
+		return
+	}
+
+	kv.mu.Lock()
+	if _, ok := kv.toOutShards[args.ConfigNum]; !ok {
+		kv.mu.Unlock()
+		return
+	}
+	if _, ok := kv.toOutShards[args.ConfigNum][args.Shard]; !ok {
+		kv.mu.Unlock()
+		return
+	}
+	kv.mu.Unlock()
+
+	op := Op{GC,strconv.Itoa(args.ConfigNum),"",nrand(),args.Shard}
+
+	reply.Err =  kv.garbageCollect(op)
 }
 
 func (kv *ShardKV) pollNewConfig() {
@@ -486,7 +574,7 @@ func (kv *ShardKV) pollShardData() {
 				conf := kv.mck.Query(num)
 				servers := conf.Groups[conf.Shards[shard]]
 				args := PullShardArgs{Shard: shard, ConfigNum: conf.Num}
-				// Log(dSERVER, "S-%v-%d:pull shard request, oldNum=%v, shard=%v", kv.gid, kv.me,num, shard)
+				Log(dSERVER, "S-%v-%d:pull shard request, oldNum=%v, shard=%v", kv.gid, kv.me,num, shard)
 				go func (){
 					for _, server := range servers {
 						reply := PullShardReply{}
@@ -509,6 +597,48 @@ func (kv *ShardKV) pollShardData() {
 		time.Sleep(35 * time.Millisecond)
 	}
 	
+}
+
+func (kv *ShardKV) garbageCollecter() {
+	for kv.killed() == false {
+		_, isleader := kv.rf.GetState()
+		kv.mu.Lock()
+		if isleader && len(kv.garbageShards) > 0 {
+			var wg sync.WaitGroup
+			for num, shards := range(kv.garbageShards) {
+				conf := kv.mck.Query(num)
+				for shard := range(shards) {
+					wg.Add(1)
+					args := GarbageCollectArgs{Shard: shard, ConfigNum: num}
+					servers := conf.Groups[conf.Shards[shard]]
+					// Log(dSERVER, "S-%v-%d:garbage collect request, oldNum=%v, shard=%v", kv.gid, kv.me,num, shard)
+					go func () {
+						for _, server := range servers {
+							reply := GarbageCollectReply{}
+							ck := kv.make_end(server)
+							success := ck.Call("ShardKV.GarbageCollect", &args, &reply)
+							if success && reply.Err == OK {
+								//使用写入Raft， 然后再删除garbageShards？
+								kv.mu.Lock()
+								delete(kv.garbageShards[args.ConfigNum], args.Shard)
+								if len (kv.garbageShards[args.ConfigNum]) == 0 {
+									delete(kv.garbageShards, args.ConfigNum)
+								}
+								kv.mu.Unlock()
+								break
+							}
+						}
+						wg.Done()
+					}()
+				}
+			}
+			kv.mu.Unlock()
+			wg.Wait()
+		} else {
+			kv.mu.Unlock()
+		}
+		time.Sleep(100 * time.Millisecond)
+	}
 }
 
 
@@ -545,6 +675,8 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	labgob.Register(shardctrler.Config{})
 	labgob.Register(PullShardArgs{})
 	labgob.Register(PullShardReply{})
+	labgob.Register(GarbageCollectArgs{})
+	labgob.Register(GarbageCollectReply{})
 
 	kv := new(ShardKV)
 	kv.me = me
@@ -564,12 +696,12 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 
 	kv.dataMap = make(map[string]string)
 	kv.clientMap = make(map[int64]int)
-	kv.olDdataMap = make(map[int64]string)
 	kv.waitCh = make(map[int]chan Res)
 
 	kv.comeInShards = make(map[int]int)
 	kv.toOutShards = make(map[int]map[int]map[string]string)
 	kv.shardValid = make(map[int]bool)
+	kv.garbageShards = make(map[int]map[int]bool)
 	
 	kv.persister = persister
 	kv.readSnapshotData(persister.ReadSnapshot())
@@ -577,6 +709,6 @@ func StartServer(servers []*labrpc.ClientEnd, me int, persister *raft.Persister,
 	go kv.applier()
 	go kv.pollNewConfig()
 	go kv.pollShardData()
-
+	go kv.garbageCollecter()
 	return kv
 }

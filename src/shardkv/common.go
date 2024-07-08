@@ -61,3 +61,14 @@ type PullShardReply struct{
 	ClientMap map[int64]int
 	Err Err
 }
+
+type GarbageCollectArgs struct {
+	Shard int
+	ConfigNum int
+}
+
+type GarbageCollectReply struct {
+	Shard       int
+	ConfigNum   int
+	Err Err
+}

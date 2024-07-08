@@ -492,7 +492,6 @@ func (sc *ShardCtrler) Query(args *QueryArgs, reply *QueryReply) {
 		}
 	case <- timeout:
 		sc.mu.Lock()
-		// Log(dDrop, "S%d:time out! delete index=%d", kv.me, index)
 		delete(sc.waitCh, index)
 		sc.mu.Unlock()
 		reply.WrongLeader = true

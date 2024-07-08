@@ -1,20 +1,209 @@
-Test (5B): join then leave ...
-  ... Passed
-Test (5B): snapshots, join, and leave ...
-  ... Passed
-Test (5B): servers miss configuration changes...
-  ... Passed
-Test (5B): concurrent puts and configuration changes...
-  ... Passed
-Test (5B): more concurrent puts and configuration changes...
-  ... Passed
-Test (5B): concurrent configuration change and restart...
-  ... Passed
-Test (5B): unreliable 1...
-  ... Passed
-Test (5B): unreliable 2...
-  ... Passed
-Test (5B): unreliable 3...
+Test: unaffected shard access (challenge 2) ...
+006185 *SERV S-102-1:pollNewConfig, num=1
+006227 *SERV S-101-0:pollNewConfig, num=1
+006233 *SERV S-100-0:pollNewConfig, num=1
+008516 *SERV S-100-0: op = 1, shard=8,kv.dataMap[0] = 100
+008789 *SERV S-100-1: op = 1, shard=8,kv.dataMap[0] = 100
+008792 *SERV S-100-0: op = 1, shard=9,kv.dataMap[1] = 100
+009320 *SERV S-100-1: op = 1, shard=9,kv.dataMap[1] = 100
+009324 *SERV S-100-0: op = 1, shard=0,kv.dataMap[2] = 100
+011466 *SERV S-100-1: op = 1, shard=0,kv.dataMap[2] = 100
+013444 *SERV S-100-0: op = 1, shard=1,kv.dataMap[3] = 100
+013584 *SERV S-100-1: op = 1, shard=1,kv.dataMap[3] = 100
+013588 *SERV S-100-0: op = 1, shard=2,kv.dataMap[4] = 100
+013663 *SERV S-100-2: op = 1, shard=1,kv.dataMap[3] = 100
+014712 *SERV S-100-2: op = 1, shard=2,kv.dataMap[4] = 100
+014813 *SERV S-100-1: op = 1, shard=2,kv.dataMap[4] = 100
+016703 *SERV S-100-0: op = 1, shard=3,kv.dataMap[5] = 100
+017092 *SERV S-100-2: op = 1, shard=3,kv.dataMap[5] = 100
+017095 *SERV S-100-0: op = 1, shard=4,kv.dataMap[6] = 100
+017205 *SERV S-100-1: op = 1, shard=3,kv.dataMap[5] = 100
+017449 *SERV S-100-1: op = 1, shard=4,kv.dataMap[6] = 100
+017453 *SERV S-100-0: op = 1, shard=5,kv.dataMap[7] = 100
+017486 *SERV S-100-2: op = 1, shard=4,kv.dataMap[6] = 100
+017814 *SERV S-100-1: op = 1, shard=5,kv.dataMap[7] = 100
+017816 *SERV S-100-0: op = 1, shard=6,kv.dataMap[8] = 100
+017825 *SERV S-100-2: op = 1, shard=5,kv.dataMap[7] = 100
+018330 *SERV S-100-1: op = 1, shard=6,kv.dataMap[8] = 100
+019250 *SERV S-100-2: op = 1, shard=6,kv.dataMap[8] = 100
+019251 *SERV S-100-2: op = 1, shard=7,kv.dataMap[9] = 100
+019266 *SERV S-100-1: op = 1, shard=7,kv.dataMap[9] = 100
+019394 *SERV S-100-0: op = 1, shard=7,kv.dataMap[9] = 100
+019806 *SERV S-102-1:pollNewConfig, num=2
+019980 *SERV S-101-0:pollNewConfig, num=2
+020086 *SERV S-100-0:pollNewConfig, num=2
+020215 *SERV S-100-0: ready data, config.Num=1, shard=6,keys=[8]
+020216 *SERV S-100-0: ready data, config.Num=1, shard=8,keys=[0]
+020217 *SERV S-100-0: ready data, config.Num=1, shard=9,keys=[1]
+020217 *SERV S-100-0: ready data, config.Num=1, shard=5,keys=[7]
+020218 *SERV S-100-0: ready data, config.Num=1, shard=7,keys=[9]
+020614 *SERV S-101-0:pull shard request, oldNum=1, shard=5
+021190 *SERV S-100-2: ready data, config.Num=1, shard=5,keys=[7]
+021192 *SERV S-100-2: ready data, config.Num=1, shard=7,keys=[9]
+021192 *SERV S-100-2: ready data, config.Num=1, shard=6,keys=[8]
+021193 *SERV S-100-2: ready data, config.Num=1, shard=8,keys=[0]
+021193 *SERV S-100-2: ready data, config.Num=1, shard=9,keys=[1]
+021393 *SERV S-101-0:pull shard request, oldNum=1, shard=6
+021412 *SERV S-100-1: ready data, config.Num=1, shard=5,keys=[7]
+021413 *SERV S-100-1: ready data, config.Num=1, shard=6,keys=[8]
+021413 *SERV S-100-1: ready data, config.Num=1, shard=8,keys=[0]
+021414 *SERV S-100-1: ready data, config.Num=1, shard=7,keys=[9]
+021414 *SERV S-100-1: ready data, config.Num=1, shard=9,keys=[1]
+021473 *SERV S-101-0:pull shard request, oldNum=1, shard=7
+021739 *SERV S-101-0:pull shard request, oldNum=1, shard=8
+021809 *SERV S-101-0:pull shard request, oldNum=1, shard=9
+021979 *SERV S-100-0: pull shard data, oldNum=1, shard=5
+021981 *SERV S-100-0: pull shard data, oldNum=1, shard=6
+021983 *SERV S-100-0: pull shard data, oldNum=1, shard=7
+021984 *SERV S-100-0: pull shard data, oldNum=1, shard=9
+022081 *SERV S-101-0:update data, config.Num=1, shardValid=map[6:true],shard=6
+022082 *SERV S-101-0:update data, config.Num=1, shardValid=map[5:true 6:true],shard=5
+022089 *SERV S-101-0:update data, config.Num=1, shardValid=map[5:true 6:true 7:true],shard=7
+022091 *SERV S-101-0:update data, config.Num=1, shardValid=map[5:true 6:true 7:true 9:true],shard=9
+023129 *SERV S-101-1:update data, config.Num=1, shardValid=map[6:true],shard=6
+023130 *SERV S-101-1:update data, config.Num=1, shardValid=map[5:true 6:true],shard=5
+023145 *SERV S-101-1:update data, config.Num=1, shardValid=map[5:true 6:true 7:true],shard=7
+023146 *SERV S-101-1:update data, config.Num=1, shardValid=map[5:true 6:true 7:true 9:true],shard=9
+023169 *SERV S-101-0:pull shard request, oldNum=1, shard=8
+023300 *SERV S-101-2:update data, config.Num=1, shardValid=map[6:true],shard=6
+023302 *SERV S-101-2:update data, config.Num=1, shardValid=map[5:true 6:true],shard=5
+023304 *SERV S-101-2:update data, config.Num=1, shardValid=map[5:true 6:true 7:true],shard=7
+023327 *SERV S-101-2:update data, config.Num=1, shardValid=map[5:true 6:true 7:true 9:true],shard=9
+023741 *SERV S-100-0: pull shard data, oldNum=1, shard=8
+023828 *SERV S-101-0:update data, config.Num=1, shardValid=map[5:true 6:true 7:true 8:true 9:true],shard=8
+024106 *CLNT S-100-0: gc toOutShards configNum=1, shard=7
+024107 *CLNT S-100-0: gc toOutShards configNum=1, shard=9
+024119 *CLNT S-100-0: gc toOutShards configNum=1, shard=5
+024956 *SERV S-101-2:update data, config.Num=1, shardValid=map[5:true 6:true 7:true 8:true 9:true],shard=8
+025022 *SERV S-101-1:update data, config.Num=1, shardValid=map[5:true 6:true 7:true 8:true 9:true],shard=8
+025152 *CLNT S-100-2: gc toOutShards configNum=1, shard=7
+025153 *CLNT S-100-2: gc toOutShards configNum=1, shard=9
+025154 *CLNT S-100-2: gc toOutShards configNum=1, shard=5
+025325 *CLNT S-100-1: gc toOutShards configNum=1, shard=7
+025326 *CLNT S-100-1: gc toOutShards configNum=1, shard=9
+025333 *CLNT S-100-1: gc toOutShards configNum=1, shard=5
+026065 *CLNT S-100-0: gc toOutShards configNum=1, shard=6
+026067 *CLNT S-100-0: gc toOutShards configNum=1, shard=8
+026934 *CLNT S-100-1: gc toOutShards configNum=1, shard=6
+026935 *CLNT S-100-1: gc toOutShards configNum=1, shard=8
+027040 *CLNT S-100-2: gc toOutShards configNum=1, shard=6
+027041 *CLNT S-100-2: gc toOutShards configNum=1, shard=8
+030628 *SERV S-100-0: op = 1, shard=3,kv.dataMap[5] = 101
+030868 *SERV S-100-1: op = 1, shard=3,kv.dataMap[5] = 101
+030874 *SERV S-100-0: op = 1, shard=4,kv.dataMap[6] = 101
+030967 *SERV S-100-2: op = 1, shard=3,kv.dataMap[5] = 101
+031842 *SERV S-100-1: op = 1, shard=4,kv.dataMap[6] = 101
+031897 *SERV S-100-2: op = 1, shard=4,kv.dataMap[6] = 101
+032853 *SERV S-101-0: op = 1, shard=5,kv.dataMap[7] = 101
+033220 *SERV S-101-2: op = 1, shard=5,kv.dataMap[7] = 101
+033778 *SERV S-101-0: op = 1, shard=6,kv.dataMap[8] = 101
+034026 *SERV S-101-2: op = 1, shard=6,kv.dataMap[8] = 101
+034030 *SERV S-101-0: op = 1, shard=7,kv.dataMap[9] = 101
+034542 *SERV S-101-0:pollNewConfig, num=3
+034664 *SERV S-102-2:pollNewConfig, num=3
+034699 *SERV S-101-2: op = 1, shard=7,kv.dataMap[9] = 101
+035770 *SERV S-101-0:pull shard request, oldNum=2, shard=2
+035936 *SERV S-101-0:pull shard request, oldNum=2, shard=3
+036137 *SERV S-101-0:pull shard request, oldNum=2, shard=4
+036414 *SERV S-101-0:pull shard request, oldNum=2, shard=0
+036594 *SERV S-101-0:pull shard request, oldNum=2, shard=1
+038444 *SERV S-101-0:pull shard request, oldNum=2, shard=3
+039390 *SERV S-101-0:pull shard request, oldNum=2, shard=4
+039469 *SERV S-101-0:pull shard request, oldNum=2, shard=0
+039528 *SERV S-101-0:pull shard request, oldNum=2, shard=1
+039663 *SERV S-101-0:pull shard request, oldNum=2, shard=2
+041415 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+041550 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+041603 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+041767 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+041780 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+044103 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+044352 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+044565 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+044641 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+044834 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+045039 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = 100
+045040 *LEAD S1: -res3={{0 0  1909227227726649814 1} 100 OK}
+045889 *SERV S-101-2: op = 0, shard=8,kv.dataMap[0] = 100
+046053 *SERV S-101-0: op = 0, shard=8,kv.dataMap[0] = 100
+047189 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+047442 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+047622 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+047776 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+047803 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+047854 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = 100
+047856 *LEAD S1: -res3={{0 0  1566005029997650426 1} 100 OK}
+048127 *SERV S-101-0: op = 0, shard=8,kv.dataMap[0] = 100
+048131 *SERV S-101-1: op = 1, shard=8,kv.dataMap[0] = 100-1
+049347 *SERV S-101-0: op = 1, shard=8,kv.dataMap[0] = 100-1
+050036 *SERV S-101-1: op = 0, shard=8,kv.dataMap[0] = 100-1
+050037 *LEAD S1: -res3={{0 0  4087015233475099779 1} 100-1 OK}
+050268 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+050958 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+051141 *SERV S-101-2: op = 0, shard=8,kv.dataMap[0] = 100-1
+051278 *SERV S-101-0: op = 0, shard=8,kv.dataMap[0] = 100-1
+051542 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+051717 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+051869 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+052038 *SERV S-101-1: op = 0, shard=9,kv.dataMap[1] = 100
+052039 *LEAD S1: -res3={{0 1  2924071546669826883 1} 100 OK}
+052401 *SERV S-101-2: op = 0, shard=9,kv.dataMap[1] = 100
+052403 *SERV S-101-1: op = 1, shard=9,kv.dataMap[1] = 100-1
+052471 *SERV S-101-0: op = 0, shard=9,kv.dataMap[1] = 100
+052920 *SERV S-101-0: op = 1, shard=9,kv.dataMap[1] = 100-1
+052923 *SERV S-101-1: op = 0, shard=9,kv.dataMap[1] = 100-1
+052925 *LEAD S1: -res3={{0 1  3643476829993754764 1} 100-1 OK}
+052965 *SERV S-101-2: op = 1, shard=9,kv.dataMap[1] = 100-1
+053151 *SERV S-101-2: op = 0, shard=9,kv.dataMap[1] = 100-1
+053252 *SERV S-101-0: op = 0, shard=9,kv.dataMap[1] = 100-1
+053257 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = 101
+053259 *LEAD S1: -res3={{0 7  2517776947657268376 1} 101 OK}
+054855 *SERV S-101-0: op = 0, shard=5,kv.dataMap[7] = 101
+054908 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+054958 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+055019 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+055965 *SERV S-101-0: op = 1, shard=5,kv.dataMap[7] = 101-1
+055979 *SERV S-101-2: op = 1, shard=5,kv.dataMap[7] = 101-1
+056123 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+056354 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+056424 *SERV S-101-1: op = 1, shard=5,kv.dataMap[7] = 101-1
+056561 *SERV S-101-1: op = 0, shard=5,kv.dataMap[7] = 101-1
+056563 *LEAD S1: -res3={{0 7  3176963275736310010 1} 101-1 OK}
+056895 *SERV S-101-2: op = 0, shard=5,kv.dataMap[7] = 101-1
+056899 *SERV S-101-1: op = 0, shard=6,kv.dataMap[8] = 101
+056901 *LEAD S1: -res3={{0 8  2613622343034799023 1} 101 OK}
+058404 *SERV S-101-2: op = 0, shard=6,kv.dataMap[8] = 101
+058408 *SERV S-101-1: op = 1, shard=6,kv.dataMap[8] = 101-1
+058782 *SERV S-101-2: op = 1, shard=6,kv.dataMap[8] = 101-1
+058787 *SERV S-101-1: op = 0, shard=6,kv.dataMap[8] = 101-1
+058788 *LEAD S1: -res3={{0 8  4523486446563946792 1} 101-1 OK}
+058954 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+059050 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+059280 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+059390 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+059656 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+059817 *SERV S-101-2: op = 0, shard=6,kv.dataMap[8] = 101-1
+060607 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 101
+060608 *LEAD S1: -res3={{0 9  4044593979172253839 1} 101 OK}
+060816 *SERV S-101-2: op = 0, shard=7,kv.dataMap[9] = 101
+060821 *SERV S-101-1: op = 1, shard=7,kv.dataMap[9] = 101-1
+061947 *SERV S-101-2: op = 1, shard=7,kv.dataMap[9] = 101-1
+063010 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+063118 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+063296 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+064299 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+064555 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+065155 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 101-1
+065157 *LEAD S1: -res3={{0 9  4013495462267240 1} 101-1 OK}
+065919 *SERV S-101-1:pull shard request, oldNum=2, shard=0
+066021 *SERV S-101-2: op = 0, shard=7,kv.dataMap[9] = 101-1
+066137 *SERV S-101-0: op = 0, shard=7,kv.dataMap[9] = 101-1
+066968 *SERV S-101-1:pull shard request, oldNum=2, shard=1
+067246 *SERV S-101-1:pull shard request, oldNum=2, shard=2
+069209 *SERV S-101-1:pull shard request, oldNum=2, shard=3
+069337 *SERV S-101-1:pull shard request, oldNum=2, shard=4
+069615 *SERV S-101-1: op = 0, shard=7,kv.dataMap[9] = 101-1
+069616 *LEAD S1: -res3={{0 9  2897241122498645495 1} 101-1 OK}
   ... Passed
 PASS
-ok  	6.5840/shardkv	76.233s
+ok  	6.5840/shardkv	7.990s
